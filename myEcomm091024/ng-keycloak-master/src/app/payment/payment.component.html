@@ -1,0 +1,116 @@
+<br>
+<div class="card border" >
+  <div class="card-header text-center" style="font-size: 30px; border: 1px; color: blueviolet; "><b>Summary of your order</b></div>
+  <div class="card-body row " *ngIf="orderService.order.customer">
+        <div class="col-md-6 border">
+              <div class="form-group ">
+                <label>Name  :</label>
+                <label>{{orderService.order.customer.name}}</label>
+              </div>
+              <div class="form-group">
+                <label>Adress :</label>
+                <label>{{orderService.order.customer.adress}}</label>
+              </div>
+              <div class="form-group">
+                <label>Phone     :</label>
+                <label>{{orderService.order.customer.mobile}}</label>
+              </div>
+
+        </div>
+        <div class="col-md-6 border">
+              <div class="form-group">
+                <label>Email          :</label>
+                <label>{{orderService.order.customer.email}}</label>
+              </div>
+              <div class="form-group">
+                <label>Order number   :</label>
+                <label>{{orderService.order.id}}</label>
+              </div>
+              <div class="form-group">
+                <label>Order Date     :</label>
+                <label>{{orderService.order.date}}</label>
+              </div>
+        </div>
+
+  </div>
+  <div class="card-body border">
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>ID</th>
+        <th>Designation</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+      <tr *ngFor="let p of orderService.order.products">
+        <td>{{p.product!.id}}</td>
+        <td>{{p.product!.name!}}</td>
+        <td>{{p.quantity|number:'0.2'}}</td>
+        <td>{{p.price|number:'0.2'}}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Total:</td>
+        <td>{{orderService.getTotal()|number:'0.2'}}</td>
+      </tr>
+    </table>
+<!--
+    <button class="btn btn-success" (click)="onOrder()" *ngIf="!orderService.order.id">Confirmer la commande</button>
+    <button class="btn btn-success" type="submit" *ngIf="orderService.order.id">Pay Order</button>
+-->
+  </div>
+</div>
+
+
+<br>
+<div class="card col-md-10">
+  <div class="card-header" style="font-size: 30px; border: 1px; color: green; "><b>Payment form</b></div>
+  <div class="card-body">
+    <div class="col-md-10" *ngIf="currentOrder">
+     <!-- <form #f="ngForm" (ngSubmit)="onPayOrder({data : f.value})">-->
+      <form #f="ngForm" (ngSubmit)="onPayOrder({data : f.value}, {customer: orderService.order.customer}
+                                             , {order: {customerId:orderService.order.customer,
+                                                date:orderService.order.date, totalAmont: orderService.order.totalAmount}},
+                                                {orderItems: orderService.order.products})">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Amount:</label>
+                  <input type="text" name="totalAmount" ngModel class="form-control" [(ngModel)]="currentOrder.totalAmount" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Payment date:</label>
+                  <input type="text" name="paymentDate" ngModel class="form-control" [(ngModel)]="paymentDate" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Payment order:</label>
+                  <input type="text" name="orderId" ngModel class="form-control" [(ngModel)]="currentOrder.id" readonly>
+                </div>
+            </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Card type:</label>
+              <select name="cardType" ngModel class="form-control">
+                <option value="Visa">Visa</option>
+                <option value="Cmi">Cmi</option>
+                <option value="Cmi">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Card Number:</label>
+              <input type="text" name="cardNumber" ngModel class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Code Verif:</label>
+              <input type="text" name="codeVerif" ngModel class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 130px" *ngIf="pay" disabled>Pay</button>
+        <button type="submit" class="btn btn-primary" style="width: 130px" *ngIf="!pay" >Pay</button>
+
+      </form>
+    </div>
+  </div>
+</div>

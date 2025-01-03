@@ -1,0 +1,408 @@
+<div *ngIf="currentProduct ; else elseBlock" >
+  <div class="container" *ngIf="mode==0">
+    <div class="card-heading col-12" style="background-color: crimson">
+      <div class="row ">
+          <div class="col-8 fw-bold text-white" > Nameee : {{currentProduct.name}}</div>
+
+          <div class="col-2" *ngIf="isAdmin()">
+              <button class="btn btn-warning" (click)="onEditProduct(currentProduct)">Edit Product</button>
+          </div>
+          <div class="col-2" *ngIf="isAdmin()">
+              <button class="btn btn-danger" (click)="onDeleteProduct(currentProduct.id)">Delete Product</button>
+          </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row border">
+
+      <div class="col-md-5">
+        <img class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
+        <div *ngIf="isAdmin()">
+          <button *ngIf="!editPhoto" (click)="onEditPhoto({p : currentProduct})">
+            Change picture Edit
+          </button>
+          <span *ngIf="editPhoto">
+            <input type="file" (change)="onSelectedFile({event : $event})">
+            <button class="btn btn-success btn-sm" (click)="uploadPhoto()">
+              <span class="btn btn-success">Upload</span>
+            </button>
+            {{progress}}
+          </span>
+        </div>
+
+        <div>
+          <span *ngIf="currentProduct.promotion">
+                <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
+          </span>
+          <span *ngIf="currentProduct.selected">
+                <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
+              </span>
+          <span *ngIf="currentProduct.available">
+                <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
+              </span>
+        </div>
+        <div>
+          <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(currentProduct)">
+            <label class="control-label">Quantité:</label>
+            <input type="number" name="quantity" [(ngModel)]="currentProduct.quantity" ngModel style="width: 40px" >
+            <button>
+              <img src="assets/images/caddy.png">
+            </button>
+        </form>
+    </div>
+
+        </div>
+      <div class="col-md-7 border">
+<!--
+          <div class="panel panel-default" style="min-height: 320px">
+-->
+            <div class="panel-body">
+              <label>Price : {{currentProduct.price|number:'0.00'}}</label>
+            </div><br>
+            <div class="panel-body">
+              Description :{{currentProduct.description}}
+            </div>
+            <div class="panel-body">
+              Stock :{{currentProduct.stock}}
+            </div>
+<!--
+          </div>
+-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="mode==1">
+    <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
+      <div class="form-group">
+        <label class="control-label">Id:</label>
+        <input type="text" name="id" ngModel [(ngModel)]="currentProduct.id" class="form-control">
+      </div>  
+      <div>
+        <label class="control-label">NameUpdate:</label>
+        <input type="text" name="name" ngModel [(ngModel)]="currentProduct.name" class="form-control">
+      </div>
+	  
+	  <div class="form-group">
+		  <img name="photoName" [(ngModel)]="currentProduct.photoName" class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
+	 	 <input type="file" name="photoName" ngModel [(ngModel)]="currentProduct.photoName" class="form-control" >
+	  </div>
+	  
+      <div class="col-sm-10" *ngIf="categories">
+        <label for="inputCategory" class="control-label">Select category:</label>
+
+        <select name="category" id="inputCategory"  ngModel  [(ngModel)]="selectedCategory"  style="width: 40%" required>
+			<option *ngIf="selectedCategory"  [value]="selectedCategory">{{selectedCategory.name}}</option>
+          <option *ngFor="let category of categories._embedded.categories" [ngValue]="category" >{{category.name}}</option>
+        </select>
+		<br>
+<!--		Selected value is {{selectedCategory.id}}-->
+
+<!--
+        <span class="help-block" *ngIf="category.invalid && category.dirty">Category is required</span>
+-->
+      </div>
+      <div class="form-group" >
+        <label class="control-label">Description:</label>
+        <textarea  name="description" ngModel [(ngModel)]="currentProduct.description" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Stock:</label>
+        <input type="number" name="stock" ngModel [(ngModel)]="currentProduct.stock" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">Price:</label>
+        <input type="number" name="currentPrice" ngModel [(ngModel)]="currentProduct.price" class="form-control">
+      </div>
+      
+	  
+	  <div class="row">   
+	  	
+	  		  Promotion:
+	  		<!--  <section title="Promotion">-->
+	  		    <!-- .slideTwo -->
+	  			
+	  		    <div class="slideTwo"  style=" margin-left: 10px">  
+	  		       <input type="checkbox" ngModel value="false" id="slideTwo" name="promotion" [(ngModel)]="currentProduct.promotion"   />
+	  		       <label for="slideTwo" ></label>
+	  		    </div>
+	  		    <!-- end .slideTwo -->
+	  		<!--  </section>-->
+	  		  		 
+	  		
+	  		  Selection:
+	  		  <!--<section title="Selection">-->
+	  		  
+	  		    <div class="roundedOne" style=" margin-left: 10px">
+	  		        <input type="checkbox" ngModel value="false" id="roundedOne" name="selected" [(ngModel)]="currentProduct.selected"  />
+	  		        <label for="roundedOne"></label>
+	  		    </div>
+	  			
+	  			Available:
+	  						
+	  			<div class="squaredFour" style=" margin-left: 10px">
+	  			    <input type="checkbox" ngModel value="valse" id="squaredFour" name="available" [(ngModel)]="currentProduct.available"  />
+	  			    <label for="squaredFour"></label>
+	  			</div>
+	  	</div>    
+     
+	
+	  		<button class="btn btn-success btn-sm float-end" type="submit" >Updateee</button>
+	  		
+    </form>
+  </div>
+</div>
+
+<ng-template #elseBlock >
+  <br><br>
+
+  <div class="container border fw-bold" >
+
+      <form #f="ngForm" (ngSubmit)="onAddProduct( f.value)">
+
+        <div class="form-group">
+          <label class="control-label">NameAdd:</label>
+          <input type="text" name="name" ngModel class="form-control">
+
+        </div>
+        <br>
+        <div class="col-sm-10" *ngIf="categories">
+          <label for="inputCategory" class="control-label">Select category:</label>
+
+          <select name="category" id="inputCategory" ngModel  style="width: 100%" required>
+            <option *ngFor="let category of categories._embedded.categories" [ngValue]="category">{{category.name}}</option>
+          </select>
+
+<!--
+          <span class="help-block" *ngIf="category.invalid && category.dirty">Category is required</span>
+-->
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label class="control-label">Photo:</label>
+          <input type="file" name="photoName" ngModel class="form-control" (change)="onSelectedFile({event : $event})">
+          <!--<button class="btn btn-success btn-sm" (click)="uploadPhotoAdd()">
+            <span class="btn btn-success">Upload for adddd</span>
+          </button>-->
+          {{progress}}
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Description:</label>
+          <textarea name="description"  ngModel class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Price:</label>
+         <input type="number" name="currentPrice" ngModel class="form-control">
+        </div>
+		<div class="form-group">
+		       <label class="control-label">Stock:</label>
+		       <input type="number" name="stock" ngModel  class="form-control">
+		     </div>
+        <br>
+        <div class="row">
+			
+			<!--<div class="flex align-items-center">
+				   <p-checkbox ngModel label="Promotion" name="promotion" value="None" />
+			</div>
+			<div class="flex align-items-center">
+				   <p-checkbox ngModel label="Selection" name="selection" value="None" />
+			</div>
+			<div class="flex align-items-center">
+			      <p-checkbox ngModel label="Available" name="available" value="None" />
+			</div>
+			-->
+			
+			
+		
+		          <!--<div class="slideTwo"  style=" margin-left: +30px">
+		            <label class="control-label"  style=" margin-left: +30px">Promotion:</label>
+					<input type="checkbox" ngModel  id="slideTwo"  name="promotion"  style=" margin-left: 00px"/>
+					<label for="slideTwo" style=" margin-left: 200px"></label>
+		          </div>
+				  <br>
+				  
+		          <div class="roundedOne  col-sm-3">
+		            <label class="control-label" style=" margin-left: -950px">Selection:</label>
+		            <input type="checkbox" ngModel value="false" id="roundedOne" name="selected" />
+		            <label for="roundedOne"></label>
+		          </div>
+				  <br>
+		          <div class="squaredOne  "  >
+		            <label class="control-label" >Available:</label>
+		            <input type="checkbox" ngModel value="false" id="squaredOne" name="available"  />
+		            <label for="squaredOne" ></label>
+				  </div>	-->
+          
+        </div>
+		
+		<!-- 11112024-->
+		
+		
+		  
+		 <!-- <section title=".slideOne">
+		     .slideOne 
+		    <div class="slideOne"> 
+				
+		      <input type="checkbox" value="None" id="slideOne" name="check" checked />
+		      <label for="slideOne"></label>
+		    </div>
+		     end .slideOne 
+		  </section>-->
+		
+    <div class="row">   
+	
+		  Promotion:
+		<!--  <section title="Promotion">-->
+		    <!-- .slideTwo -->
+			
+		    <div class="slideTwo"  style=" margin-left: 10px">  
+		       <input type="checkbox" ngModel value="false" id="slideTwo" name="promotion" checked  />
+		       <label for="slideTwo" ></label>
+		    </div>
+		    <!-- end .slideTwo -->
+		<!--  </section>-->
+		  		 
+		
+		  Selection:
+		  <!--<section title="Selection">-->
+		  
+		    <div class="roundedOne" style=" margin-left: 10px">
+		        <input type="checkbox" ngModel value="false" id="roundedOne" name="selected" checked />
+		        <label for="roundedOne"></label>
+		    </div>
+			
+			Available:
+						
+			<div class="squaredFour" style=" margin-left: 10px">
+			    <input type="checkbox" ngModel value="valse" id="squaredFour" name="available" checked />
+			    <label for="squaredFour"></label>
+			</div>
+	</div>    
+		 <!-- </section>-->
+	<!--	  
+		<section title=".slideThree">
+			     .slideThree 
+			    <div class="slideThree">  
+			      <input type="checkbox" value="None" id="slideThree" name="check" checked />
+			      <label for="slideThree"></label>
+			    </div>
+			     end .slideThree 
+			  </section> 
+		  <section title=".roundedTwo">
+		     .roundedTwo 
+		    <div class="roundedTwo">
+		      <input type="checkbox" value="None" id="roundedTwo" name="check" checked />
+		      <label for="roundedTwo"></label>
+		    </div>
+		     end .roundedTwo 
+		  </section>
+		  
+		  <section title=".squaredOne">
+		     .squaredOne 
+		    <div class="squaredOne">
+		      <input type="checkbox" value="None" id="squaredOne" name="check" checked />
+		      <label for="squaredOne"></label>
+		    </div>
+		     end .squaredOne 
+		  </section>
+		  
+		  <section title=".squaredTwo">
+		     .squaredTwo 
+		    <div class="squaredTwo">
+		      <input type="checkbox" value="None" id="squaredTwo" name="check" checked />
+		      <label for="squaredTwo"></label>
+		    </div>
+		     end .squaredTwo 
+		  </section>
+		  
+		  <section title=".squaredThree">
+		     .squaredThree 
+		    <div class="squaredThree">
+		      <input type="checkbox" value="None" id="squaredThree" name="check" checked />
+		      <label for="squaredThree"></label>
+		    </div>
+		     end .squaredThree 
+		  </section>
+		  
+		  <section title=".squaredFour">
+		     .squaredFour 
+		    <div class="squaredFour">
+		      <input type="checkbox" value="None" id="squaredFour" name="check" checked />
+		      <label for="squaredFour"></label>
+		    </div>
+		     end .squaredFour 
+		  </section>-->
+		  
+		
+		
+		
+        <br>
+        <button class="btn btn-success col-md-2" type="submit">Add Product</button>
+        <br>
+
+      </form>
+	  
+    <br>
+  </div>
+</ng-template>
+          <!--<h1>CSS3 Checkbox Styles</h1>
+
+          &lt;!&ndash; Slide ONE &ndash;&gt;
+          <div class="slideOne">
+            <input type="checkbox" value="None" id="slideOne" name="check" />
+            <label for="slideOne"></label>
+          </div>
+
+          &lt;!&ndash; Slide TWO &ndash;&gt;
+          <div class="slideTwo">
+            <input type="checkbox" value="None" id="slideTwo2" name="check" />
+            <label for="slideTwo2"></label>
+          </div>
+
+          &lt;!&ndash; Slide THREE &ndash;&gt;
+          <div class="slideThree">
+            <input type="checkbox" value="None" id="slideThree" name="check" />
+            <label for="slideThree"></label>
+          </div>
+
+          &lt;!&ndash; Rounded ONE &ndash;&gt;
+          <div class="roundedOne">
+            <input type="checkbox" value="None" id="roundedOne1" name="check" />
+            <label for="roundedOne"></label>
+          </div>
+
+          &lt;!&ndash; Rounded TWO &ndash;&gt;
+          <div class="roundedTwo">
+            <input type="checkbox" value="None" id="roundedTwo" name="check" />
+            <label for="roundedTwo"></label>
+          </div>
+
+          &lt;!&ndash; Squared ONE &ndash;&gt;
+          <div class="squaredOne">
+            <input type="checkbox" value="None" id="squaredOne1" name="check" />
+            <label for="squaredOne1"></label>
+          </div>
+
+          &lt;!&ndash; Squared TWO &ndash;&gt;
+          <div class="squaredTwo">
+            <input type="checkbox" value="None" id="squaredTwo" name="check" />
+            <label for="squaredTwo"></label>
+          </div>
+
+          &lt;!&ndash; Squared THREE &ndash;&gt;
+          <div class="squaredThree">
+            <input type="checkbox" value="None" id="squaredThree" name="check" />
+            <label for="squaredThree"></label>
+          </div>
+
+          &lt;!&ndash; Squared FOUR &ndash;&gt;
+          <div class="squaredFour">
+            <input type="checkbox" value="None" id="squaredFour" name="check" />
+            <label for="squaredFour"></label>
+          </div>
+-->
+
+
+

@@ -1,0 +1,99 @@
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+    <div class="container-fluid">
+      <span class="navbar-brand" style="font-size: 30px; border: 1px; color: red; ">E-commerce</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+<!--        <span class="navbar-toggler-icon"></span>-->
+      </button>
+
+      <li class="collapse navbar-collapse" id="navbarsExample04">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active clickable" aria-current="page" style="font-size: 20px" (click)="onSelectedProducts()">Selection</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active clickable" style="font-size: 20px" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown04">
+              <li><a class="dropdown-item clickable"  (click)="onProductsPromo()" >Promotions</a></li>
+              <li><a class="dropdown-item clickable"  (click)="onProductsDispo()">Availables</a></li>
+              <div *ngIf="authService.hasRoleIn(['ADMIN'])">
+                <li><a class="dropdown-item clickable"  (click)="onAddProduct()">Add product</a></li>
+              </div>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active clickable" style="font-size: 20px" routerLink="/caddy">Caddies</a>
+          </li>
+          <li class="nav-item" *ngIf="authService.hasRoleIn(['ADMIN'])">
+            <a class="nav-link active clickable" style="font-size: 20px" aria-current="page" routerLink="customer" >Customers</a>
+          </li>
+
+        </ul>
+        <ul class=" nav navbar-nav ">
+          <li>
+            <a routerLink="/caddy">
+                <span class="badge" style="font-size: 20px">{{caddyService.currentCaddyName}} :::::
+                  {{caddyService.getCurrentCaddy().items.size}}
+                  </span>
+              <img class="img-circle img-thumbnail img-rounded" src="assets/images/caddy.png">
+            </a>
+          </li>
+        </ul>
+
+            <form>
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-md-8">
+                <input class="form-control" #sr type="text" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="col-md-2">
+
+                <a (click)="onSearch(sr.value)"  class="btn-light clickable fw-bold" style="color:brown;font-size: 20px;">
+                  Search
+                </a>
+                </div>
+              </div>
+            </form>
+
+
+        <ul *ngIf="!loggedIn" >
+          <li>
+            <a (click)="login()"class="btn-success">
+              <span class="btn-success  clickable " style="font-size: 22px; width: 488px; border: chartreuse">Sign in</span>
+            </a>
+          </li>
+
+        </ul>
+        <ul *ngIf="loggedIn" >
+          <li class="nav-item dropdown" style="color:aqua;">
+            <a class="nav-link dropdown-toggle fw-bold" style="font-size: 20px" href="#" id="navbardrop" data-bs-toggle="dropdown" >
+              <span>{{ this.authService.userName }}</span></a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item border clickable fw-bold" style="font-size: 20px" (click)="logout()">Logout</a>
+              <!--*ngIf="authService.hasRoleIn(['ADMIN'])"-->
+              <a class="dropdown-item fw-bold" style="font-size: 20px" (click)="managedAccount()">Manage account</a>
+            </div>
+          </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<div class="row">
+    <div class="col-md-2">
+      <span class="fw-bold" style="font-size: 24px; color: blue">Categories</span>
+      <ul class="list-group fw-bold" *ngIf="categories" style="font-size: 20px">
+        <li [ngClass]="currentCategorie==c?'active':''"  (click)="getProductsByCat(c)" class="list-group-item clickable" *ngFor="let c of categories._embedded.categories">
+          {{c.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="row col-md-9">
+      <router-outlet>
+
+      </router-outlet>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+
+<div *ngIf="products" >
+  <div ><h2><span class="border  " style="color: brown">
+    Category:   </span> <span class="border " style="color:chartreuse">{{title}}</span></h2>
+  </div><br>
+  <div class="row">
+    <div class="col-md-3" *ngFor="let p of products._embedded.products">
+        <div class="card ">
+
+          <div style="width:auto; height: 40px" class="card-header">{{p.name}}</div>
+
+            <div class="card-body" *ngIf="authService.hasRoleIn(['ADMIN']) ; else elseBlock">
+                <img height="100" class="img-thumbnail img-rounded btn" (click)="onProductDetails(p)" [src]="this.host+'/api/product/photoProduct/'+p.id+'?ts='+getTS()"/>
+                
+                <div *ngIf="authService.hasRoleIn(['ADMIN'])">
+                      <div>
+                          <p> <button class="btn btn-warning" (click)="onEditPhoto(p)">
+                           Change picture
+                          </button>
+                          </p>
+                          <p *ngIf="editPhoto && currentProduct==p">
+                            <input type="file" (change)="onSelectedFile($event)">
+                            <button class="btn btn-success" (click)="uploadPhoto()">Upload</button>
+                            {{progress}}
+                          </p>
+                      </div>
+                </div>
+
+                <div>
+                    {{p.description}}
+                </div>
+				<!--<div>
+				   <label>Catagory : {{p.category_id}}</label>
+				</div>-->
+                <div>
+                  <label>Price : {{p.price|number:'0.2'}}</label>
+                </div>
+                <div>
+                      <span *ngIf="p.promotion">
+                        <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
+                      </span>
+                      <span *ngIf="p.selected">
+                        <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
+                      </span>
+                      <span *ngIf="p.available">
+                        <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
+                      </span>
+                </div>
+				
+				<div *ngIf="authService.hasRoleIn(['ADMIN'])" class="card-group">
+				                      
+				                          <label class="control-label">Stock: {{p.stock}}</label>
+			    </div>
+				
+                <div *ngIf!="authService.hasRoleIn(['ADMIN'])" class="card-group">
+                      <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)">
+                          <label class="control-label">Quantity:</label>
+                          <input type="number" name="quantity" *ngIf="p.quantity<=p.stock" [(ngModel)]="p.quantity" ngModel style="width: 40px">
+                        <!--<label type="number"  style="width: 40px">{{p.stock}}</label>
+                        <label class="control-label">articles seulment</label>-->
+                        <span style="color: red" *ngIf="p.stock<6"> remaining articles {{p.stock}}</span>
+                        <button>
+                          <img  src="assets/images/caddy.png">
+                            Add to caddy
+                          </button>
+                      </form>
+                </div>
+            </div>
+            <ng-template #elseBlock >
+              
+                <img height="100" class="img-thumbnail img-rounded" [src]="this.host+'/api/product/photoProduct/'+p.id+'?ts='+getTS()">
+                
+                <div>
+                    {{p.description}}
+                </div>
+                <div>
+                  <label>Price : {{p.price|number:'0.2'}}</label>
+                </div>
+                <div>
+                      <span *ngIf="p.promotion">
+                        <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
+                      </span>
+                      <span *ngIf="p.selected">
+                        <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
+                      </span>
+                      <span *ngIf="p.available">
+                        <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
+                      </span>
+                </div>
+                <div *ngIf="authService.hasRoleIn(['USER'])" class="card-group">
+                      <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)" id="form" novalidate >
+                          <label class="control-label">Quantity:</label>
+                          <input type="number" name="quantity"  [(ngModel)]="p.quantity" ngModel style="width: 40px" max={{p.stock}} required>
+						  <div *ngIf="p.quantity>=p.stock" class="alert alert-warning">
+						    <strong>Warning!</strong> You have exceeded the available stock limit!!!
+						  </div>
+                        <!--<label type="number"  style="width: 40px">{{p.stock}}</label>
+                        <label class="control-label">articles seulment</label>-->
+                        <span style="color: red" *ngIf="p.stock<6">remaininggg articles {{p.stock}}</span>
+                        <button>
+                          <img  src="assets/images/caddy.png">
+                            Add to caddy
+                          </button>
+                      </form>
+					 
+                </div>
+            
+            </ng-template>
+
+            
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--<div *ngIf="products">
+  <div><h3>{{title}}</h3></div>
+  <div *ngFor="let p of products._embedded.products">
+    <div class="row-cols-md-6">
+      <div class="card card-group heigted">
+        <div class="card-header">{{p.name}}</div>
+        <div class="card-body">
+          <img class="img-thumbnail img-rounded btn" (click)="onProductDetails(p)" [src]="this.catService.host+'/photoProduct/'+p.id+'?ts='+getTS()"/>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->

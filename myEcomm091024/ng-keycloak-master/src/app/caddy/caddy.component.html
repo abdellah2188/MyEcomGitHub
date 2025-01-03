@@ -1,0 +1,47 @@
+<br>
+<div class="card ">
+  <div class="card-body border">
+    <ul class="nav nav-pills">
+      <li>
+          <button (click)="onAddCaddy()" class="btn btn-danger border"><b>Add caddy</b></button>
+      </li>
+      <li [ngClass]="c.name==caddyService.currentCaddyName?'active':''" class="border btn btn-lg list-group-item clickable" *ngFor="let c of caddyService.listCaddies">
+        <a  (click)="onSelectCaddy(c)" class="text-center btn  btn-warning border">{{c.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card card-group" *ngIf="caddy!=null">
+  <div class="card-header " ><b>{{caddy.name}}</b> </div>
+  <div class="card-body">
+    <table class="table border-3 border" >
+      <tr class="border-0">
+        <th>ID</th><th>Name</th><th>Quantity</th><th>Unit Price</th><th>Price</th>
+      </tr>
+      <tr  *ngFor="let item of caddy['items']|keyvalue">
+<!--
+      <tr *ngFor="let item of caddyService.getCurrentCaddy().items.values()">
+-->
+        <td *ngIf="item.value.product">{{item.value.product!.id}}</td>
+        <td *ngIf="item.value.product">{{item.value.product!.name}}</td>
+        <td> {{item.value.quantity|number}} </td>
+        <td>{{item.value.price|number:'0.2'}}</td>
+        <td >
+          {{item.value.quantity|number}}*{{item.value.price|number:'0.2'}}
+        </td>
+
+        <td>
+          <button class="btn btn-danger" style="color:black" (click)="onRemoveProductFromCaddy(item.value)">Delete </button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">Total</td>
+        <td>{{getTotal()|number:'0.2'}}</td>
+      </tr>
+
+    </table>
+    <button class="btn btn-success" (click)="onNewOrder()">Order</button>
+  </div>
+
+</div>

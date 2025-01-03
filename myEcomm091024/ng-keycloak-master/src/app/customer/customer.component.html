@@ -1,0 +1,93 @@
+<!--
+<pre>{{ customers | json }}</pre>
+-->
+
+<div  class="offset-3 col-md-6 justify-content-center card-body border" *ngIf="mode==0">
+
+  <form #f="ngForm" (ngSubmit)="onSaveCustomer(f.value)" >
+         <div class="text-center fw-bold" style="font-size: 30px; color: blueviolet">Personal informations</div>
+         <div class=" row-cols-auto">
+           <label class="control-label fw-bold" style="color:cadetblue">First Name:</label>
+           <input type="text" name="firstName" ngModel class="form-control" [(ngModel)]="authService.firstName">
+         </div>
+		 <div class=" row-cols-auto">
+		            <label class="control-label fw-bold" style="color:cadetblue">Last Name:</label>
+		            <input type="text" name="lastName" ngModel class="form-control" [(ngModel)]="authService.lastName">
+		          </div>
+          <div class="form-group">
+            <label class="control-label fw-bold" style="color:cadetblue">User name:</label>
+            <input type="text" name="username" ngModel class="form-control" [(ngModel)]="authService.userName">
+          </div>
+        <div class="form-group">
+          <label class="control-label fw-bold" style="color:cadetblue">Email:</label>
+          <input type="text" name="email" ngModel class="form-control" [(ngModel)]="authService.email">
+        </div>
+       <div class="form-group" >
+            <label class="control-label fw-bold" style="color:cadetblue">Phone number:</label>
+            <input  type="text" name="mobile" ngModel class="form-control" [(ngModel)]=authService.mobile!>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label fw-bold" style="color:cadetblue">Adress:</label>
+            <input type="text" name="adress" ngModel class="form-control" [(ngModel)]="authService.adress!">
+        </div>
+        <button type="submit" class="btn btn-primary fw-bold" style="width: 100px">Next</button>
+
+  </form>
+</div>
+<div class="panel {{panelStyle}}" *ngIf="mode==1">
+  <div class="panel-heading" style="color: red">Summary of your order  </div>
+  <div class="panel-body" >
+    <div class="col-md-5">
+      <div class="form-group">
+        <label>Name :</label>
+        <label>{{orderService.order.customer!.name!}}</label>
+      </div>
+      <div class="form-group">
+        <label>Adress :</label>
+        <label>{{orderService.order.customer!.adress!}}</label>
+      </div>
+      <div class="form-group">
+        <label>Phone :</label>
+        <label>{{orderService.order.customer!.mobile!}}</label>
+      </div>
+      <div class="form-group">
+        <label>Email :</label>
+        <label>{{orderService.order.customer!.email!}}</label>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group">
+        <label>Order number :</label>
+        <label>{{orderService.order.id}}</label>
+      </div>
+      <div class="form-group">
+        <label>Order Date :</label>
+        <label>{{orderService.order.date}}</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped" *ngIf="orderService.order.products">
+      <tr>
+        <th>ID</th>
+        <th>Designationnnnn</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+      <tr *ngFor="let p of orderService.order.products">
+        <td>{{p.product!.id}}</td>
+        <td>{{p.product!.name}}</td>
+        <td>{{p.quantity|number:'0.2'}}</td>
+        <td>{{p.price|number:'0.2'}}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Total:</td>
+        <td>{{orderService.getTotal()|number:'0.2'}}</td>
+      </tr>
+    </table>
+    <button class="btn btn-success" (click)="onOrder()" *ngIf="!orderService.order.id">Confirm order</button>
+    <button class="btn btn-success" (click)="onPayOrder()" *ngIf="orderService.order.id">Pay Order</button>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/api-gateway-service/api-gateway-service.iml" filepath="$PROJECT_DIR$/api-gateway-service/api-gateway-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/configuration-server/configuration-server.iml" filepath="$PROJECT_DIR$/configuration-server/configuration-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customer-service/customer-service.iml" filepath="$PROJECT_DIR$/customer-service/customer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inventory-service/inventory-service.iml" filepath="$PROJECT_DIR$/inventory-service/inventory-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-service/notification-service.iml" filepath="$PROJECT_DIR$/notification-service/notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/order-serviceb/order-serviceb.iml" filepath="$PROJECT_DIR$/order-serviceb/order-serviceb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/payment-service/payment-service.iml" filepath="$PROJECT_DIR$/payment-service/payment-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/product-serviceb/product-serviceb.iml" filepath="$PROJECT_DIR$/product-serviceb/product-serviceb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/springboot-microservices-project-masterB.iml" filepath="$PROJECT_DIR$/.idea/springboot-microservices-project-masterB.iml" />
+    </modules>
+  </component>
+</project>
