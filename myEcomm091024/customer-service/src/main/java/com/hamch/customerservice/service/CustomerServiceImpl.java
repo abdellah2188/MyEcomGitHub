@@ -78,9 +78,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 	@Override
-	public List<Customer> findByUserNameOrEmailOrMobile(String username, String email, String mobile) {
+	public List<CustomerDTO> findByUserNameOrEmailOrMobile(String username, String email, String mobile) {
 		
-		return customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile);
+		List<Customer> customers= customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile);
+		return customerMapper.fromListCustomers(customers);
 		
 	}
 

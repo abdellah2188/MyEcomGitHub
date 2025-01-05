@@ -64,7 +64,7 @@ public class CustomerController {
 
     @GetMapping(path="/{username}/{email}/{mobile}")
     //@ResponseStatus(HttpStatus.OK)
-    public List<Customer> customerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
+    public List<CustomerDTO> customerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
         System.out.println("CCCCCCBBBBB"+ customerRepository.findByUserNameOrEmailOrMobile( username, email, mobile));
 
       //  return  customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);

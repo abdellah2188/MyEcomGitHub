@@ -25,7 +25,7 @@ public interface CustomerService {
     
     void deleteCustomer(Long id)throws CustomerNotFoundException;
 
-	List<Customer> findByUserNameOrEmailOrMobile(String username, String email, String mobile);
+	List<CustomerDTO> findByUserNameOrEmailOrMobile(String username, String email, String mobile);
     
     
 }

@@ -135,12 +135,23 @@ public class CustomerServiceImplTest {
 		  String email="xxxx@gmail.com";
 		  String mobile ="1111111";
 		  
-		  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
-		  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+		  
+		  List<Customer> customers = List.of(
+				  Customer.builder().firstName("yxxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+				  Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() ); 
+				  
+		  List<CustomerDTO> expected = List.of(
+				 // CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+				  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
+				 
+		  
+		  
+	//	  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
+	//	  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
 	  
-		  Mockito.when(customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile)).thenReturn(customer);
-		  Mockito.when(customerMapper.fromCustomer(customer)).thenReturn(expected);
-		  CustomerDTO result = underTest.findCustomerByUserName(username);
+		  Mockito.when(customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile)).thenReturn(customers);
+		  Mockito.when(customerMapper.fromListCustomers(customers)).thenReturn(expected);
+		  List<CustomerDTO> result = underTest.findByUserNameOrEmailOrMobile(username, email, mobile);
 		  
 		  AssertionsForClassTypes.assertThat(expected).usingRecursiveComparison().isEqualTo(result); 
 	  }
