@@ -2,7 +2,7 @@ package com.hamch.customerservice.controller;
 
 import com.hamch.customerservice.dto.CustomerDTO;
 import com.hamch.customerservice.entities.Customer;
-import com.hamch.customerservice.repository.CustomerRepository;
+//import com.hamch.customerservice.repository.CustomerRepository;
 import com.hamch.customerservice.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200")
 public class CustomerController {
     @Autowired
-    private  CustomerRepository customerRepository;
+ //   private  CustomerRepository customerRepository;
     private CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -42,11 +42,6 @@ public class CustomerController {
         return customerRepository.findAll();
     }*/
     @PostMapping("/add")
-    //public Customer save(@RequestBody Customer customer){
-    //    System.out.println("vvvvvvvvvvvvvvvv");
-
-   //     return  customerRepository.save(customer);
-   // }
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO saveCustomer(@RequestBody @Valid CustomerDTO customerDTO){
         return customerService.saveNewCustomer(customerDTO);
@@ -65,7 +60,7 @@ public class CustomerController {
     @GetMapping(path="/{username}/{email}/{mobile}")
     //@ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> customerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
-        System.out.println("CCCCCCBBBBB"+ customerRepository.findByUserNameOrEmailOrMobile( username, email, mobile));
+      //  System.out.println("CCCCCCBBBBB"+ customerRepository.findByUserNameOrEmailOrMobile( username, email, mobile));
 
       //  return  customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
         return customerService.findByUserNameOrEmailOrMobile(username, email, mobile);
