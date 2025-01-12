@@ -12,6 +12,8 @@ import lombok.ToString;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 
@@ -21,13 +23,20 @@ import java.io.Serializable;
 public class Customer  {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty @Size(min = 3)
     private String firstName;
+    @NotEmpty @Size(min = 3)
     private String lastName;
-  //  @Column(unique=true)
-    private String email;
+  
+    @NotEmpty @Size(min = 10)
     private String adress;
+//  @Column(unique=true)
+    @NotEmpty @Size(min = 7)
+    private String email;
   //  @Column(unique=true)
+    @NotEmpty @Size(min = 7)
     private String mobile;
    // @Column(unique=true)
+    @NotEmpty @Size(min = 3)
     private String userName;
 }

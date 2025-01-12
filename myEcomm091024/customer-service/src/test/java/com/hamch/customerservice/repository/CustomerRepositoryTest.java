@@ -31,7 +31,7 @@ import com.hamch.customerservice.repository.CustomerRepository;
 
 
 @DataJpaTest
-@ContextConfiguration(classes = {CustomerServiceApplication.class})
+//@ContextConfiguration(classes = {CustomerServiceApplication.class})
 @RunWith(SpringRunner.class)
 @TestPropertySource("classpath:application-test.properties")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -44,11 +44,11 @@ class CustomerRepositoryTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		System.out.println("-----------------------------------------------");
+		System.out.println("-----------------kkkkk------------------------------");
         customerRepository.save(Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
         customerRepository.save(Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
         customerRepository.save(Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build());
-        System.out.println("-----------------------------------------------");
+        System.out.println("-----------------llllll------------------------------");
 	}
 	
 	@Test

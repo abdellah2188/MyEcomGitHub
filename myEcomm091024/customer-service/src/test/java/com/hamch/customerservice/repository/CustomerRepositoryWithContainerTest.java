@@ -34,7 +34,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 // @Slf4j
 @Testcontainers
 //@ActiveProfiles("test")
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = {CustomerServiceApplication.class})
 //@Configuration
 @DataJpaTest
