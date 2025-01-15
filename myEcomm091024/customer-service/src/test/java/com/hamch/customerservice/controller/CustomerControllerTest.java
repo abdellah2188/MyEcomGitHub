@@ -90,7 +90,7 @@ class CustomerControllerTest {
 		  
 		  String keyword="x";
 		  Mockito.when(customerService.searchCustomers(keyword)).thenReturn(customersDTO);
-	        System.out.println("HHHHHHHHHHHH"+ customersDTO);
+	     //   System.out.println("HHHHHHHHHHHH"+ customersDTO);
 
 		  mockMvc.perform(MockMvcRequestBuilders.get("/api/customer/search?keyword="+keyword)) 
 		  		 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -139,7 +139,7 @@ class CustomerControllerTest {
 	  @Test 
 	  void shouldGetCustomerByUserName() throws Exception { 
 		  String username="XXX";
-		  System.out.println("ssssssss" + customers.get(0));
+		  //System.out.println("ssssssss" + customers.get(0));
 
 		  Mockito.when(customerService.findCustomerByUserName(username)).thenReturn(customers.get(0)); 
 		  

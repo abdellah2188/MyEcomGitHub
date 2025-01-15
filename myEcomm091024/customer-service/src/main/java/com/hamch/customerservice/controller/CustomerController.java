@@ -32,7 +32,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();
-        System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
+      //  System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
 
     	return customerService.getAllCustomers(); 
     }
@@ -66,7 +66,7 @@ public class CustomerController {
     @GetMapping(path="/{username}")
     //@ResponseStatus(HttpStatus.OK)
     public Long getCustomerByUsername(@PathVariable("username") String username ) {
-        System.out.println(username+"c"+ customerService.findCustomerByUserName(username));
+        //System.out.println(username+"c"+ customerService.findCustomerByUserName(username));
 
         //return  customerRepository.findByUsername( username).getId();
         return customerService.findCustomerByUserName(username).getId();
