@@ -39,10 +39,10 @@ class CustomerMapperTest {
                CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
                CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
         );
-        System.out.println("EEEEE"+ expected);
+     //   System.out.println("EEEEE"+ expected);
         
         List<CustomerDTO> result = customerMapper.fromListCustomers(givenCustomers);
-        System.out.println("RRRRR"+ result);
+      //  System.out.println("RRRRR"+ result);
         AssertionsForClassTypes.assertThat(expected).usingRecursiveComparison().isEqualTo(result);
     }
     @Test

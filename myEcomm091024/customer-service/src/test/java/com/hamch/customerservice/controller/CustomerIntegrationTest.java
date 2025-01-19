@@ -2,6 +2,7 @@ package com.hamch.customerservice.controller;
 
 import com.hamch.customerservice.entities.Customer;
 import com.hamch.customerservice.repository.CustomerRepository;
+import com.hamch.customerservice.CustomerServiceApplication;
 import com.hamch.customerservice.dto.CustomerDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,15 +19,19 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -39,8 +44,11 @@ import java.util.stream.Collectors;
 
 @Testcontainers
 @SpringBootTest (webEnvironment = WebEnvironment.RANDOM_PORT)
-
+@Import(CustomerController.class)
+@ContextConfiguration(classes = {CustomerServiceApplication.class})
 @Transactional
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource("classpath:application-test.properties")
 public class CustomerIntegrationTest {
 	
 		
@@ -52,9 +60,9 @@ public class CustomerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Container
-    @ServiceConnection
-    private static PostgreSQLContainer postgreSQLContainer=new PostgreSQLContainer("postgres:16");
+ //   @Container
+  //  @ServiceConnection
+  //  private static PostgreSQLContainer postgreSQLContainer=new PostgreSQLContainer("postgres:16");
 
     static List<CustomerDTO> customers;
     
@@ -72,7 +80,7 @@ public class CustomerIntegrationTest {
     static void setup(@Autowired CustomerRepository customerRepository) {
         //System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGG");
 
-    	postgreSQLContainer.start();
+    //	postgreSQLContainer.start();
     	
     	 customerRepository.save(new Customer(null,"xxxxx11","xxxxx","addddrrrsssxxxx","xxxx@gmail.com","1111111","XXX"));
          customerRepository.save(new Customer(null,"yyyyy22","yyyyy","addddrrrsssyyyy","yyyy@gmail.com","2222222","YYY")); 
@@ -91,7 +99,7 @@ public class CustomerIntegrationTest {
     
     @AfterAll
     static void terminate() {
-    	postgreSQLContainer.stop();
+    	//postgreSQLContainer.stop();
     }
 
     @BeforeEach

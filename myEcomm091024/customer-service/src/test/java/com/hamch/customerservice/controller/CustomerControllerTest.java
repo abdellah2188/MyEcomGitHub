@@ -3,10 +3,12 @@ package com.hamch.customerservice.controller;
 import com.hamch.customerservice.CustomerServiceApplication;
 import com.hamch.customerservice.dto.CustomerDTO;
 import com.hamch.customerservice.exceptions.CustomerNotFoundException;
+import com.hamch.customerservice.repository.CustomerRepository;
 //import com.hamch.customerservice.exceptions.CustomerNotFoundException;
 import com.hamch.customerservice.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,7 +30,7 @@ import java.util.List;
 @ActiveProfiles("test")
 @WebMvcTest(CustomerController.class)
 //@DataJpaTest
-@ContextConfiguration(classes = {CustomerServiceApplication.class})
+//@ContextConfiguration(classes = {CustomerServiceApplication.class})
 @Import(CustomerController.class)
 class CustomerControllerTest {
 	
@@ -39,14 +41,15 @@ class CustomerControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    List<CustomerDTO> customers;
+  //  List<CustomerDTO> customers;
+    static List<CustomerDTO> customers;
 
-    @BeforeEach
-    void setUp() {
-        this.customers = List.of(
+    @BeforeAll
+    static void setUp() {
+        customers = List.of(
                 CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
-                CustomerDTO.builder().id(2L).firstName("xyyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
-                CustomerDTO.builder().id(3L).firstName("xzzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
+                CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
+                CustomerDTO.builder().id(3L).firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
         );
     }
 

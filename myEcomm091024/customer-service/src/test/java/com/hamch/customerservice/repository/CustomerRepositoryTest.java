@@ -10,6 +10,7 @@ import java.util.Optional;
 //import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ import com.hamch.customerservice.repository.CustomerRepository;
 @DataJpaTest
 //@ContextConfiguration(classes = {CustomerServiceApplication.class})
 @RunWith(SpringRunner.class)
-@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application-test.properties")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CustomerRepositoryTest {
 	
@@ -41,14 +42,14 @@ class CustomerRepositoryTest {
 	private CustomerRepository customerRepository;
 	
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@BeforeAll
+	static void setUp(@Autowired CustomerRepository customerRepository2) throws Exception {
 		
-		System.out.println("-----------------kkkkk------------------------------");
-        customerRepository.save(Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
-        customerRepository.save(Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
-        customerRepository.save(Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build());
-        System.out.println("-----------------llllll------------------------------");
+	//	System.out.println("-----------------kkkkk------------------------------");
+        customerRepository2.save(Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
+        customerRepository2.save(Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
+        customerRepository2.save(Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build());
+     //   System.out.println("-----------------llllll------------------------------");
 	}
 	
 	@Test
@@ -56,9 +57,9 @@ class CustomerRepositoryTest {
         String givenEmail="xxxx@gmail.com";
         Customer expected=Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
         Customer result = customerRepository.findByEmail(givenEmail);
-        System.out.println("MMMMMMMMMMMMM"+ expected);
+      //  System.out.println("MMMMMMMMMMMMM"+ expected);
 
-        System.out.println("MMMMMMMMMMMMM"+ result);
+     //   System.out.println("MMMMMMMMMMMMM"+ result);
         assertThat(result).isNotNull();;
         assertThat(expected).usingRecursiveComparison().ignoringFields("id").isEqualTo(result);
     }
@@ -68,7 +69,7 @@ class CustomerRepositoryTest {
         String givenUsername="ZZZ";
         Customer expected=Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build();
         Customer result = customerRepository.findByUserName(givenUsername);
-        System.out.println("ZZZZZZZZZZZZZZZZZ"+ result);
+      //  System.out.println("ZZZZZZZZZZZZZZZZZ"+ result);
         assertThat(result).isNotNull();
         assertThat(expected).usingRecursiveComparison().ignoringFields("id").isEqualTo(result);
     }
@@ -83,7 +84,7 @@ class CustomerRepositoryTest {
         		Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
         );
         List<Customer> result = customerRepository.findByUserNameOrEmailOrMobile(givenUsername, givenEmail, givenMobile);
-        System.out.println("LLLLLLLLLLLLLLL"+ result);
+      //  System.out.println("LLLLLLLLLLLLLLL"+ result);
         assertThat(result).isNotNull();
         assertThat(expected).usingRecursiveComparison().ignoringFields("id").isEqualTo(result);
     }

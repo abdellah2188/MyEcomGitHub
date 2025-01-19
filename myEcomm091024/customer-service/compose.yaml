@@ -7,5 +7,5 @@ services:
       - 'POSTGRES_USER=postgres'
     ports:
       - '5432:5432'
-	  
- spring:datasource:hikari.max-lifetime:600000
+  
+ #spring:datasource:hikari.max-lifetime:600000

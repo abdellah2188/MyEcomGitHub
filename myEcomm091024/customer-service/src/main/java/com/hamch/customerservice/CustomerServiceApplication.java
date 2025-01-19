@@ -28,9 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Slf4j
-//@Profile("!test")
+@Profile("!test")
 @EnableJpaRepositories
-@Configurable
+//@Configurable
 public class CustomerServiceApplication  {
 
 	@Autowired

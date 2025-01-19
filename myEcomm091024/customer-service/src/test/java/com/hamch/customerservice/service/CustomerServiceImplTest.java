@@ -175,13 +175,13 @@ public class CustomerServiceImplTest {
 		  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
 		 
 		  Mockito.when(customerRepository.findByFirstNameContainingIgnoreCase(keyword)).thenReturn(customers);
-		  System.out.println("rrrrrr" + customerRepository.findByFirstNameContainingIgnoreCase(keyword));
+		//  System.out.println("rrrrrr" + customerRepository.findByFirstNameContainingIgnoreCase(keyword));
 		  Mockito.when(customerMapper.fromListCustomers(customers)).thenReturn(expected); 
 		  
 		  List<CustomerDTO> result = underTest.searchCustomers(keyword);
 		  
-		  System.out.println("PPPPPP" + expected);
-		  System.out.println("RRRRRR" + result);
+		 // System.out.println("PPPPPP" + expected);
+		//  System.out.println("RRRRRR" + result);
 		  AssertionsForClassTypes.assertThat(expected).usingRecursiveComparison().isEqualTo(result);
 	  }
 	  
