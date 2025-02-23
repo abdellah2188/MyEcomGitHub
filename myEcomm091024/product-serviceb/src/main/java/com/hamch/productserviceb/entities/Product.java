@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 //import org.springframework.data.annotation.Id;
 import lombok.ToString;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 //@Document(value = "product")

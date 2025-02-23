@@ -1,0 +1,12 @@
+com\hamch\productserviceb\ProductServicebApplication.class
+com\hamch\productserviceb\controller\CategoryController.class
+com\hamch\productserviceb\controller\ProductController.class
+com\hamch\productserviceb\repository\CategoryRepository.class
+com\hamch\productserviceb\repository\ProductRepository.class
+com\hamch\productserviceb\entities\Category$CategoryBuilder.class
+com\hamch\productserviceb\services\ICrudService.class
+com\hamch\productserviceb\entities\Category.class
+com\hamch\productserviceb\services\impl\CategoryService.class
+com\hamch\productserviceb\entities\Product.class
+com\hamch\productserviceb\services\impl\ProductService.class
+com\hamch\productserviceb\entities\Product$ProductBuilder.class

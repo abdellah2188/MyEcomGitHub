@@ -4,7 +4,7 @@ import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.CategoryRepository;
 import com.hamch.productserviceb.repository.ProductRepository;
-import net.bytebuddy.utility.RandomString;
+//import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.CommandLineRunner;
@@ -27,8 +27,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.EntityManager;
-import javax.persistence.metamodel.Type;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.metamodel.Type;
 
 @SpringBootApplication
 @EnableDiscoveryClient
