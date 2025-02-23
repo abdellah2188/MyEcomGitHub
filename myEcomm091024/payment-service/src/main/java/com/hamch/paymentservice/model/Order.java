@@ -2,9 +2,10 @@ package com.hamch.paymentservice.model;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+
+import jakarta.persistence.*;
 
 @Data
 public class Order {

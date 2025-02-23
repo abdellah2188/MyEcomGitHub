@@ -1,0 +1,6 @@
+com\hamch\paymentservice\model\Order.class
+com\hamch\paymentservice\controller\PaymentController.class
+com\hamch\paymentservice\entities\Payment.class
+com\hamch\paymentservice\repository\PaymentRepository.class
+com\hamch\paymentservice\PaymentServiceApplication.class
+com\hamch\junit\Rational.class

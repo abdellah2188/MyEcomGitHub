@@ -2,13 +2,16 @@
 package com.hamch.paymentservice.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hamch.paymentservice.model.Order;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
 import java.util.Date;
+
+//import org.springframework.data.annotation.Id;
 
 @Entity
 @Data
