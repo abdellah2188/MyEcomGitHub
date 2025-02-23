@@ -3,10 +3,7 @@ package com.hamch.orderserviceb.model;
 import com.hamch.orderserviceb.entities.Order;
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Data
