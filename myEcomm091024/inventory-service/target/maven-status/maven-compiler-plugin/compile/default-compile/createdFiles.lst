@@ -1,0 +1,8 @@
+com\hamch\inventoryservice\InventoryServiceApplication.class
+com\hamch\inventoryservice\repository\InventoryRepository.class
+com\hamch\repository\InventoryRepository.class
+com\hamch\inventoryservice\controller\InventoryRestController.class
+com\hamch\inventoryservice\model\Inventory.class
+com\hamch\InventoryServiceApplication.class
+com\hamch\controller\InventoryRestController.class
+com\hamch\model\Inventory.class
