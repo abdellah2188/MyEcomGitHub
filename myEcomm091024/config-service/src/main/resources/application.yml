@@ -9,10 +9,7 @@ spring:
         enabled: true
       server:
         git:
-           username: abdellah.ha@gmail.com
-           password: H@mch2188@
-           uri: https://github.com/abdellah2188/EcommConfig.git
-          
-    consul: 
+          uri: https://github.com/Ismailharik/rental-cars-config.git
+    consul:
       port: ${CONSUL_PORT:8500}
       host: ${CONSUL_HOST:localhost}
