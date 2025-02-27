@@ -1,2 +1,4 @@
 com\hamch\NotificationServiceApplication.class
+com\programming\techie\notificationservice\EmailSender.class
 com\hamch\EmailSender.class
+com\programming\techie\notificationservice\NotificationServiceApplication.class

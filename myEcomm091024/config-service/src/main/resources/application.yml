@@ -1,0 +1,18 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      server:
+        git:
+           username: abdellah.ha@gmail.com
+           password: H@mch2188@
+           uri: https://github.com/abdellah2188/EcommConfig.git
+          
+    consul: 
+      port: ${CONSUL_PORT:8500}
+      host: ${CONSUL_HOST:localhost}
