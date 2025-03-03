@@ -1,4 +1,7 @@
 
+docker system prune -a   
+
+
 springboot 3.2.1   ----> mockito < 5.0.0
 
 
