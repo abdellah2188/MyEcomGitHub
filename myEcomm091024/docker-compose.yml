@@ -1,34 +1,43 @@
-version: '3'
+version: '3.9'
 services:
-#  mysql:
-#    image: mysql
-#    container_name: cn-mysql
-#    environment:
-#      MYSQL_DATABASE: inventory-service
-#      MYSQL_USER: root
-#      MYSQL_ALLOW_EMPTY_PASSWORD:
-#      MYSQL_ROOT_PASSWORD:
-#    ports:
-#           - '3316:3306' # Host port:Container port
-#    #volumes:
-#       #- mysql-data:/var/lib/mysql
+
+  docker-mysql:
+    image: mysql:8.0.31
+    container_name: cn-mysql
+    environment:
+      - MYSQL_PASSWORD= root
+      - MYSQL_ROOT_PASSWORD=root
+     
+    ports:
+      - 3307:3306
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
+        interval: 10s
+        retries: 10
+    restart: always
+    networks:
+      - net-mysql
+
   discovery:
     image: hashicorp/consul:latest
     container_name: discovery
     environment:
         - CONUL_BIND_INTERFACE=eth0
-    #volumes:
-     #   - consul_data:/consul/data
+    volumes:
+        - consul_data:/consul/data
     ports:
        - '8500:8500'
-    #networks:
-     #  - micros
-    #healthcheck:
-     #   test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-      #  interval: 20s
-       # retries: 4
-#    restart: always
-
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8500/health" ]
+        interval: 10s
+        retries: 10
+    restart: always
+    depends_on:
+      - docker-mysql
+           #condition: service_healthy
+    networks:
+          - net-mysql
+  
   config-service:
      build: ./config-service
      container_name: config-service
@@ -38,16 +47,17 @@ services:
      environment:
         - CONSUL_HOST=discovery
         - CONSUL_PORT=8500
-
+     networks:
+       - net-mysql 
      healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
         interval: 10s
         retries: 10
      depends_on:
-        - discovery
-           #condition: service_healthy
-     #networks:
-      #  - micros     
+         discovery:
+            condition: service_started
+    # networks:
+    #   - micros     
 
   inventory-service:
      build: ./inventory-service
@@ -59,15 +69,19 @@ services:
        - CONSUL_PORT=8500
        - CONFIG_SERVICE_URL=config-service
        - CONFIG_SERVICE_PORT=8888
+       - MYSQLHOST=docker-mysql  
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-service?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
 #     healthcheck:
 #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
 #       interval: 10s
 #       retries: 4
+     networks:
+       - net-mysql 
      depends_on:
         config-service:
-            condition: service_healthy
-     #networks:
-      # - micros
+          condition: service_healthy
+volumes:
+   consul_data:
 #  customer-service:
 #    #image: im-customer-service
 #    build: ./customer-service
@@ -169,9 +183,5 @@ services:
 #     depends_on:
 #        config-service:
 #           condition: service_healthy
-  #networks:
-   #  micros:
-    #    driver: bridge
-
-  #volumes:
-   # dbvol:
+networks:
+   net-mysql:
