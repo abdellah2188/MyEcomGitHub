@@ -2,7 +2,7 @@ server:
   port: 8888
 spring:
   application:
-    name: config-server
+    name: config-service
   cloud:
     config:
       discovery:
@@ -13,12 +13,12 @@ spring:
     consul:
       port: ${CONSUL_PORT:8500}
       host: ${CONSUL_HOST:localhost}
-      config: 
-        - name=config-server
-        - enabled=true
-        - watch:
-            - enabled=false
-        - format=properties            
+      #config: 
+      #  - name=config-server
+       # - enabled=true
+       # - watch:
+        #    - enabled=false
+        #- format=properties            
 management:
     endpoints:
        - web:
