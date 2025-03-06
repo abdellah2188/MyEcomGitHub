@@ -72,7 +72,7 @@ services:
        - DOCKER_MYSQL=docker-mysql
        - MYSQL_PW=root
        - SPRING_PROFILES_ACTIVE=docker  
-       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-ser?createDatabaseIfNotExist=true
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3307/inventory-ser?createDatabaseIfNotExist=true
 #     healthcheck:
 #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
 #       interval: 10s
