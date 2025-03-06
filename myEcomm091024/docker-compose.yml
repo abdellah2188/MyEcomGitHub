@@ -69,9 +69,10 @@ services:
        - CONSUL_PORT=8500
        - CONFIG_SERVICE_URL=config-service
        - CONFIG_SERVICE_PORT=8888
-       - MYSQLHOST=cn-mysql
+       - DOCKER_MYSQL=docker-mysql
+       - MYSQL_PW=root
        - SPRING_PROFILES_ACTIVE=docker  
-       - SPRING_DATA_SOURCE_URL=jdbc:mysql://cn-mysql:3306/inventory-service?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-ser?createDatabaseIfNotExist=true
 #     healthcheck:
 #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
 #       interval: 10s
