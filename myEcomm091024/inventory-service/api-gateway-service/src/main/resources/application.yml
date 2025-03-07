@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+#      routes:
+#        - id: product-serviceb
+#          uri: http://product-serviceb
+#          predicates:
+#            - Path=/api/product
+#          metadata:
+#            cors: true
+#            allowedOrigins: "http://localhost:4200"
+#            allowedMethods:
+#              - GET
+#              - POST
+#            allowedHeaders: '*'
+#            maxAge: 30
+
+
