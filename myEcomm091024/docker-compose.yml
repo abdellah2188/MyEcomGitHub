@@ -1,15 +1,14 @@
 #version: '3.9'
 services:
-
   docker-mysql:
     image: mysql
     container_name: cn-mysql
     environment:
-      - MYSQL_PASSWORD= root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
       - MYSQL_ROOT_PASSWORD=root
-     
     ports:
-      - 3307:3306
+      - '3306:3306'
     healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
         interval: 10s
@@ -26,14 +25,16 @@ services:
     volumes:
         - consul_data:/consul/data
     ports:
-       - '8501:8501'
+        - '8400:8400'
+        - '8500:8500'
+        - '8600:8600'
     healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:8501/health" ]
         interval: 10s
         retries: 10
     restart: always
     depends_on:
-       - docker-mysql
+       - rabbitmq
            #condition: service_started
     networks:
           - net-mysql
@@ -43,20 +44,20 @@ services:
      container_name: config-service
      image: im-config-service
      ports:
-        - "8888:8888"
+        - "8889:8889"
      environment:
         - CONSUL_HOST=discovery
-        - CONSUL_PORT=8501
+        - CONSUL_PORT=8500
+        - CONFIG_SERVICE_PORT=8889
      networks:
        - net-mysql 
      healthcheck:
-        test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+        test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
         interval: 10s
         retries: 10
      depends_on:
          - discovery
-         - rabbitmq
-           # condition: service_healthy
+             # condition: service_healthy
     # networks:
     #   - micros     
   rabbitmq:
@@ -66,6 +67,8 @@ services:
     ports:
       - 5673:5672
       - 15673:15672
+    depends_on:
+      - docker-mysql
 
   inventory-service:
      build: ./inventory-service
@@ -74,19 +77,20 @@ services:
      environment:
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
-       - CONSUL_PORT=8501
+       - CONSUL_PORT=8500
        - CONFIG_SERVICE_URL=config-service
-       - CONFIG_SERVICE_PORT=8888
+       - CONFIG_SERVICE_PORT=8889
        - DOCKER_MYSQL=docker-mysql
-       - MYSQL_PW=root
-       - SPRING_PROFILES_ACTIVE=docker  
+       - MYSQL_PW  =root
+       - MYSQL_USER=root
+       #- SPRING_PROFILES_ACTIVE=docker  
        - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-ser?createDatabaseIfNotExist=true
        - RABBITMQ_HOST=rabbitmq
        - RABBITMQ_PW=5673
-#     healthcheck:
-#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-#       interval: 10s
-#       retries: 4
+     healthcheck:
+       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+       interval: 10s
+       retries: 4
      networks:
        - net-mysql 
      depends_on:
