@@ -1,14 +1,14 @@
 #version: '3.9'
 services:
-
   docker-mysql:
     image: mysql
     container_name: cn-mysql
     environment:
+      #- MYSQL_USER=root
+      #- MYSQL_PASSWORD=root
       - MYSQL_ROOT_PASSWORD=root
-     
     ports:
-      - 3307:3306
+      - '3307:3306'
     healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
         interval: 10s
@@ -25,18 +25,21 @@ services:
     volumes:
         - consul_data:/consul/data
     ports:
-       - '8500:8500'
+        - '8400:8400'
+        - '8500:8500'
+        - '8600:8600'
     healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:8500/health" ]
         interval: 10s
         retries: 10
     restart: always
     depends_on:
-       - docker-mysql
-           #condition: service_started
+       rabbitmq:
+           condition: service_started
     networks:
-          - net-mysql
-          - consul
+       - net-mysql
+       - net-consul
+  
   config-service:
      build: ./config-service
      container_name: config-service
@@ -46,36 +49,38 @@ services:
      environment:
         - CONSUL_HOST=discovery
         - CONSUL_PORT=8500
-        - CONFIG_PORT=8889
+        - CONFIG_SERVICE_PORT=8889
      networks:
-       - net-mysql
-       - consul 
+        - net-mysql 
+        - net-consul
      healthcheck:
         test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
         interval: 10s
         retries: 10
      depends_on:
-         - discovery
-        # - rabbitmq
-            #condition: service_healthy
+        discovery:
+           condition: service_started
     # networks:
     #   - micros     
   rabbitmq:
     image: rabbitmq:management
     restart: always
-    container_name: cn-rabbitmq
+    container_name: rabbitmq
+    environment:
+       RABBITMQ_DEFAULT_USER: guest
+       RABBITMQ_DEFAULT_PASS: guest
+       RABBITMQ_DEFAULT_VHOST: /
     ports:
-      - 5673:5672
-      - 15673:15672
+      - 5672:5672
+      - 15672:15672
+    depends_on:
+      - docker-mysql
     networks:
-      - net-rabbit
-    #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
-   
+        - net-rabbitmq
   inventory-service:
      build: ./inventory-service
      #image: im-inventory-service
      container_name: cn-inventory-service
-     command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'
      environment:
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
@@ -84,22 +89,22 @@ services:
        - CONFIG_SERVICE_PORT=8889
        - DOCKER_MYSQL=docker-mysql
        - MYSQL_PW=root
+       - MYSQL_USR=root
        #- SPRING_PROFILES_ACTIVE=docker  
        - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-service?createDatabaseIfNotExist=true
        - RABBITMQ_HOST=rabbitmq
-       - RABBITMQ_PW=5673
+       - RABBITMQ_PORT=5672
      healthcheck:
        test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
        interval: 10s
        retries: 4
      networks:
-       - net-mysql
-       - consul 
-       #- net-rabbit   
+       - net-mysql 
+       - net-rabbitmq
+       - net-consul
      depends_on:
         config-service:
             condition: service_healthy
-        
              
 volumes:
    consul_data:
@@ -206,8 +211,5 @@ volumes:
 #           condition: service_healthy
 networks:
    net-mysql:
-      driver: bridge
-   consul:
-      driver: bridge
-   net-rabbit:
-      driver: bridge	  
+   net-rabbitmq:
+   net-consul:
