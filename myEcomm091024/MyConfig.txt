@@ -1,3 +1,4 @@
+docker exec fe2 consul members
 
 docker exec -it 423 bash
  
