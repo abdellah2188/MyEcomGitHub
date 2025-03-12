@@ -105,44 +105,61 @@ services:
         config-service:
             condition: service_healthy
         
-             
+  customer-service:
+     build: ./customer-service
+     container_name: cn-customer-service
+     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     environment:
+       - JAVA_TOOL_OPTIONS=
+       - CONSUL_HOST=discovery
+       - CONSUL_PORT=8500
+       - CONFIG_SERVICE_URL=config-service
+       - CONFIG_SERVICE_PORT=8889
+       - DOCKER_MYSQL=docker-mysql
+       - MYSQL_PW=root
+       - MYSQL_USR=root
+       #- SPRING_PROFILES_ACTIVE=docker  
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/customer-service?createDatabaseIfNotExist=true
+       - RABBITMQ_HOST=rabbitmq
+       - RABBITMQ_PW=5672
+#     healthcheck:
+#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#       interval: 10s
+#       retries: 4
+     networks:
+       - net-micros
+
+  product-service:
+        build: ./product-serviceb
+        container_name: cn-product-service
+        command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+        environment:
+          - JAVA_TOOL_OPTIONS=
+          - CONSUL_HOST=discovery
+          - CONSUL_PORT=8500
+          - CONFIG_SERVICE_URL=config-service
+          - CONFIG_SERVICE_PORT=8889
+          - DOCKER_MYSQL=docker-mysql
+          - MYSQL_PW=root
+          - MYSQL_USR=root
+          #- SPRING_PROFILES_ACTIVE=docker  
+          - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/product-serviceb?createDatabaseIfNotExist=true
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_PW=5672
+   #     healthcheck:
+   #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+   #       interval: 10s
+   #       retries: 4
+        networks:
+          - net-micros
+   
+   
+   
+   
 volumes:
    consul_data:
-#  customer-service:
-#    #image: im-customer-service
-#    build: ./customer-service
-#    container_name: cn-customer-service
-#    #restart: always
-#    environment:
-#        - JAVA_TOOL_OPTIONS=
-#        - CONSUL_HOST=discovery 
-#        - CONSUL_PORT=8500
-#        - CONFIG_SERVICE_URL=config-service
-#        - CONFIG_SERVICE_PORT=8888
-##    healthcheck:
-##        test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-##        interval: 10s
-##        retries: 4
-#    depends_on:
-#       config-service:
-#          condition: service_started
-#  product-serviceb:
-#    build: ./product-serviceb
-#    #image: im-product-serviceb
-#    container_name: cn-product-serviceb
-#    environment:
-#        - JAVA_TOOL_OPTIONS=
-#        - CONSUL_HOST=discovery
-#        - CONSUL_PORT=8500
-#        - CONFIG_SERVICE_URL=config-service
-#        - CONFIG_SERVICE_PORT=8888
-##    healthcheck:
-##        test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-##        interval: 10s
-##        retries: 4
-#    depends_on:
-#       config-service:
-#          condition: service_healthy
+
+
 #  order-serviceb:
 #     build: ./order-serviceb
 #     #image: im-order-serviceb
