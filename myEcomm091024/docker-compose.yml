@@ -6,8 +6,7 @@ services:
     container_name: cn-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    volumes:
-      - B:/Java091024/MySql:/var/lib/mysql
+     
     ports:
       - 3307:3306
     healthcheck:
@@ -17,14 +16,16 @@ services:
     restart: always
     networks:
       - net-micros
-      
+    volumes:
+      - D:/Java091024/MYSQL_DATA:/var/lib/mysql
+
   discovery:
     image: hashicorp/consul:latest
     container_name: discovery
     environment:
         - CONUL_BIND_INTERFACE=eth0
     volumes:
-        - consul_data:/consul/data
+        - D:\Java091024\CONSUL_DATA:/consul/data
     ports:
        - '8501:8500'
     healthcheck:
@@ -96,15 +97,15 @@ services:
        - RABBITMQ_HOST=rabbitmq
        - RABBITMQ_PW=5672
 #     healthcheck:
-#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#       test: [ "CMD", "curl", "-f", "http://localhost" ]
 #       interval: 10s
-#       retries: 4
+#       retries: 10
      networks:
        - net-micros
        
      depends_on:
-        config-service:
-            condition: service_healthy
+        product-service:
+            condition: service_started
         
   customer-service:
      build: ./customer-service
@@ -130,7 +131,7 @@ services:
      networks:
        - net-micros
      depends_on:
-        config-service:
+        api-gateway-service:
           condition: service_healthy
    
   product-service:
@@ -150,14 +151,14 @@ services:
           - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/product-service?createDatabaseIfNotExist=true
           - RABBITMQ_HOST=rabbitmq
           - RABBITMQ_PW=5672
-   #     healthcheck:
-   #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-   #       interval: 10s
-   #       retries: 4
+#        healthcheck:
+#          test: [ "CMD", "curl", "-f", "http://localhost:0000/actuator/health" ]
+#          interval: 10s
+#          retries: 4
         networks:
           - net-micros
         depends_on:
-           config-service:
+           api-gateway-service:
              condition: service_healthy
    
   order-service:
@@ -184,9 +185,9 @@ services:
          networks:
            - net-micros
          depends_on:
-            config-service:
-              condition: service_healthy
- 
+            inventory-service:
+              condition: service_started
+
   payment-service:
            build: ./payment-service
            container_name: cn-payment-service
@@ -211,7 +212,7 @@ services:
            networks:
              - net-micros
            depends_on:
-              config-service:
+              api-gateway-service:
                 condition: service_healthy
 
   notification-service:
@@ -238,7 +239,7 @@ services:
            networks:
              - net-micros
            depends_on:
-              config-service:
+              api-gateway-service:
                 condition: service_healthy
      
   api-gateway-service:
@@ -258,10 +259,10 @@ services:
              #- SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/notification-service?createDatabaseIfNotExist=true
              - RABBITMQ_HOST=rabbitmq
              - RABBITMQ_PW=5672
-      #     healthcheck:
-      #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-      #       interval: 10s
-      #       retries: 4
+           healthcheck:
+             test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+             interval: 10s
+             retries: 4
            networks:
              - net-micros
            depends_on:
@@ -269,9 +270,8 @@ services:
                 condition: service_healthy
        
 volumes:
-   mysql_data:
-   consul_data:
-
+   CONSUL_DAT:
+   MYSQL_DATA:
 
 networks:
    net-micros:
