@@ -1,3 +1,5 @@
+ng generate @angular/core:control-flow
+
 docker volume inspect myecomm091024_consul_data 
 
 docker exec fe2 consul members
