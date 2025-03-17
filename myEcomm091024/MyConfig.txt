@@ -1,3 +1,12 @@
+1.npm install -g @angular/cli
+2.npm install    @angular/cli
+3.nmp i
+4.ng update @angular/core @angular/cli --forde --allow-dirty
+5.ng update
+
+
+
+
 ng generate @angular/core:control-flow
 
 docker volume inspect myecomm091024_consul_data 
