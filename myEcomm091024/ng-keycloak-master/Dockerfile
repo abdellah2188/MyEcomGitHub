@@ -1,19 +1,20 @@
+
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
 FROM node:latest as build
 
 # Set the working directory
-WORKDIR /usr/local/app
-
+WORKDIR B:/Java091024/ANGULAR_DIR
+COPY package.json package-lock.json ./
 # Add the source code to app
-COPY ./ /usr/local/app/
+COPY ./ B:/Java091024/ANGULAR_DIR
 
 # Install all the dependencies
 RUN npm install
 
 # Generate the build of the application
-RUN npm run build
+RUN ng build
 
 
 # Stage 2: Serve app with nginx server
@@ -22,7 +23,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/angular-front-end/browser /usr/share/nginx/html
+COPY --from=build B:/Java091024/ANGULAR_DIR/dist/ng-keycloak-master/browser /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8001
