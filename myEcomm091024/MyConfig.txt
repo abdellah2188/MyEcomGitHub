@@ -5,7 +5,7 @@
 5.ng update
 
 
-
+spring.jpa.defer-datasource-initialization=true  data.sql after
 
 ng generate @angular/core:control-flow
 
