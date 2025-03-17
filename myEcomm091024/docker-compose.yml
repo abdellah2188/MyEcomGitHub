@@ -17,7 +17,7 @@ services:
     networks:
       - net-micros
     volumes:
-      - D:/Java091024/MYSQL_DATA:/var/lib/mysql
+      - B:/Java091024/MYSQL_DATA:/var/lib/mysql
 
   discovery:
     image: hashicorp/consul:latest
@@ -25,7 +25,7 @@ services:
     environment:
         - CONUL_BIND_INTERFACE=eth0
     volumes:
-        - D:\Java091024\CONSUL_DATA:/consul/data
+        - B:\Java091024\CONSUL_DATAD:/consul/data
     ports:
        - '8501:8500'
     healthcheck:
@@ -42,7 +42,7 @@ services:
   config-service:
      build: ./config-service
      container_name: config-service
-     image: im-config-service
+     #image: im-config-service
      command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
      ports:
         - "8889:8889"
@@ -269,16 +269,16 @@ services:
               config-service:
                 condition: service_healthy
        
-  Front-angular:
-    build: ./ng-key
-    container_name: front-send-angular
+  front-angular:
+    build: ./ng-keycloak-master
+    container_name: cn-front-angular
     ports:
-      - '8000:8000'
+      - '4201:4200'
     expose:
-      - '8000'
+      - '4201'
 
 volumes:
-   CONSUL_DAT:
+   CONSUL_DATAD:
    MYSQL_DATA:
 
 networks:
