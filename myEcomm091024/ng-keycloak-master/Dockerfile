@@ -2,19 +2,20 @@
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:latest as build
+FROM node:latest AS build
 
 # Set the working directory
 WORKDIR B:/Java091024/ANGULAR_DIR
 COPY package.json package-lock.json ./
 # Add the source code to app
-COPY ./ B:/Java091024/ANGULAR_DIR
+COPY ./ B:/Java091024/ANGULAR_DIR/
 
+RUN npm install -g @angular/cli
 # Install all the dependencies
 RUN npm install
 
 # Generate the build of the application
-RUN ng build
+RUN npm run build
 
 
 # Stage 2: Serve app with nginx server
