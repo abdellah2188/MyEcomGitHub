@@ -273,9 +273,9 @@ services:
     build: ./ng-keycloak-master
     container_name: cn-front-angular
     ports:
-      - '4201:4200'
+      - '82:80'
     expose:
-      - '4201'
+      - '82'
 
 volumes:
    CONSUL_DATAD:
