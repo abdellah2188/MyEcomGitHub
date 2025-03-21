@@ -1,5 +1,29 @@
 #version: '3.9'
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: cn-keycloak
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 7080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_LOG_LEVEL: info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+    command: ["start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm"]
+    volumes: # Ignore if you don't have realm-export.json to migrate data
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+    ports:
+      - "7080:7080"
+      - "7443:7443"
+    networks:
+      - net-micros
 
   docker-mysql:
     image: mysql
@@ -78,61 +102,61 @@ services:
       - net-micros
     #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
    
-  inventory-service:
-     build: ./inventory-service
-     #image: im-inventory-service
-     container_name: cn-inventory-service
-     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-     environment:
-       - JAVA_TOOL_OPTIONS=
-       - CONSUL_HOST=discovery
-       - CONSUL_PORT=8500
-       - CONFIG_SERVICE_URL=config-service
-       - CONFIG_SERVICE_PORT=8889
-       - DOCKER_MYSQL=docker-mysql
-       - MYSQL_PW=root
-       - MYSQL_USR=root
-       #- SPRING_PROFILES_ACTIVE=docker  
-       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-service?createDatabaseIfNotExist=true
-       - RABBITMQ_HOST=rabbitmq
-       - RABBITMQ_PW=5672
-#     healthcheck:
-#       test: [ "CMD", "curl", "-f", "http://localhost" ]
-#       interval: 10s
-#       retries: 10
-     networks:
-       - net-micros
-       
-     depends_on:
-        product-service:
-            condition: service_started
-        
-  customer-service:
-     build: ./customer-service
-     container_name: cn-customer-service
-     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-     environment:
-       - JAVA_TOOL_OPTIONS=
-       - CONSUL_HOST=discovery
-       - CONSUL_PORT=8500
-       - CONFIG_SERVICE_URL=config-service
-       - CONFIG_SERVICE_PORT=8889
-       - DOCKER_MYSQL=docker-mysql
-       - MYSQL_PW=root
-       - MYSQL_USR=root
-       #- SPRING_PROFILES_ACTIVE=docker  
-       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/customer-service?createDatabaseIfNotExist=true
-       - RABBITMQ_HOST=rabbitmq
-       - RABBITMQ_PW=5672
-#     healthcheck:
-#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-#       interval: 10s
-#       retries: 4
-     networks:
-       - net-micros
-     depends_on:
-        api-gateway-service:
-          condition: service_healthy
+#  inventory-service:
+#     build: ./inventory-service
+#     #image: im-inventory-service
+#     container_name: cn-inventory-service
+#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#     environment:
+#       - JAVA_TOOL_OPTIONS=
+#       - CONSUL_HOST=discovery
+#       - CONSUL_PORT=8500
+#       - CONFIG_SERVICE_URL=config-service
+#       - CONFIG_SERVICE_PORT=8889
+#       - DOCKER_MYSQL=docker-mysql
+#       - MYSQL_PW=root
+#       - MYSQL_USR=root
+#       #- SPRING_PROFILES_ACTIVE=docker  
+#       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/inventory-service?createDatabaseIfNotExist=true
+#       - RABBITMQ_HOST=rabbitmq
+#       - RABBITMQ_PW=5672
+##     healthcheck:
+##       test: [ "CMD", "curl", "-f", "http://localhost" ]
+##       interval: 10s
+##       retries: 10
+#     networks:
+#       - net-micros
+#       
+#     depends_on:
+#        product-service:
+#            condition: service_started
+#        
+#  customer-service:
+#     build: ./customer-service
+#     container_name: cn-customer-service
+#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#     environment:
+#       - JAVA_TOOL_OPTIONS=
+#       - CONSUL_HOST=discovery
+#       - CONSUL_PORT=8500
+#       - CONFIG_SERVICE_URL=config-service
+#       - CONFIG_SERVICE_PORT=8889
+#       - DOCKER_MYSQL=docker-mysql
+#       - MYSQL_PW=root
+#       - MYSQL_USR=root
+#       #- SPRING_PROFILES_ACTIVE=docker  
+#       - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/customer-service?createDatabaseIfNotExist=true
+#       - RABBITMQ_HOST=rabbitmq
+#       - RABBITMQ_PW=5672
+##     healthcheck:
+##       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+##       interval: 10s
+##       retries: 4
+#     networks:
+#       - net-micros
+#     depends_on:
+#        api-gateway-service:
+#          condition: service_healthy
    
   product-service:
         build: ./product-serviceb
@@ -161,86 +185,86 @@ services:
            api-gateway-service:
              condition: service_healthy
    
-  order-service:
-         build: ./order-serviceb
-         container_name: cn-order-service
-         command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-         environment:
-           - JAVA_TOOL_OPTIONS=
-           - CONSUL_HOST=discovery
-           - CONSUL_PORT=8500
-           - CONFIG_SERVICE_URL=config-service
-           - CONFIG_SERVICE_PORT=8889
-           - DOCKER_MYSQL=docker-mysql
-           - MYSQL_PW=root
-           - MYSQL_USR=root
-           #- SPRING_PROFILES_ACTIVE=docker  
-           - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/order-service?createDatabaseIfNotExist=true
-           - RABBITMQ_HOST=rabbitmq
-           - RABBITMQ_PW=5672
-    #     healthcheck:
-    #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-    #       interval: 10s
-    #       retries: 4
-         networks:
-           - net-micros
-         depends_on:
-            inventory-service:
-              condition: service_started
-
-  payment-service:
-           build: ./payment-service
-           container_name: cn-payment-service
-           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-           environment:
-             - JAVA_TOOL_OPTIONS=
-             - CONSUL_HOST=discovery
-             - CONSUL_PORT=8500
-             - CONFIG_SERVICE_URL=config-service
-             - CONFIG_SERVICE_PORT=8889
-             - DOCKER_MYSQL=docker-mysql
-             - MYSQL_PW=root
-             - MYSQL_USR=root
-             #- SPRING_PROFILES_ACTIVE=docker  
-             - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/payment-service?createDatabaseIfNotExist=true
-             - RABBITMQ_HOST=rabbitmq
-             - RABBITMQ_PW=5672
-      #     healthcheck:
-      #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-      #       interval: 10s
-      #       retries: 4
-           networks:
-             - net-micros
-           depends_on:
-              api-gateway-service:
-                condition: service_healthy
-
-  notification-service:
-           build: ./notification-service
-           container_name: cn-notification-service
-           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-           environment:
-             - JAVA_TOOL_OPTIONS=
-             - CONSUL_HOST=discovery
-             - CONSUL_PORT=8500
-             #- CONFIG_SERVICE_URL=config-service
-             #- CONFIG_SERVICE_PORT=8889
-             #- DOCKER_MYSQL=docker-mysql
-             #- MYSQL_PW=root
-             #- MYSQL_USR=root
-             #- SPRING_PROFILES_ACTIVE=docker  
-             #- SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/notification-service?createDatabaseIfNotExist=true
-             - RABBITMQ_HOST=rabbitmq
-             - RABBITMQ_PW=5672
-      #     healthcheck:
-      #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-      #       interval: 10s
-      #       retries: 4
-           networks:
-             - net-micros
-           depends_on:
-              api-gateway-service:
-                condition: service_healthy
+#  order-service:
+#         build: ./order-serviceb
+#         container_name: cn-order-service
+#         command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#         environment:
+#           - JAVA_TOOL_OPTIONS=
+#           - CONSUL_HOST=discovery
+#           - CONSUL_PORT=8500
+#           - CONFIG_SERVICE_URL=config-service
+#           - CONFIG_SERVICE_PORT=8889
+#           - DOCKER_MYSQL=docker-mysql
+#           - MYSQL_PW=root
+#           - MYSQL_USR=root
+#           #- SPRING_PROFILES_ACTIVE=docker  
+#           - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/order-service?createDatabaseIfNotExist=true
+#           - RABBITMQ_HOST=rabbitmq
+#           - RABBITMQ_PW=5672
+#    #     healthcheck:
+#    #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#    #       interval: 10s
+#    #       retries: 4
+#         networks:
+#           - net-micros
+#         depends_on:
+#            inventory-service:
+#              condition: service_started
+#
+#  payment-service:
+#           build: ./payment-service
+#           container_name: cn-payment-service
+#           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#           environment:
+#             - JAVA_TOOL_OPTIONS=
+#             - CONSUL_HOST=discovery
+#             - CONSUL_PORT=8500
+#             - CONFIG_SERVICE_URL=config-service
+#             - CONFIG_SERVICE_PORT=8889
+#             - DOCKER_MYSQL=docker-mysql
+#             - MYSQL_PW=root
+#             - MYSQL_USR=root
+#             #- SPRING_PROFILES_ACTIVE=docker  
+#             - SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/payment-service?createDatabaseIfNotExist=true
+#             - RABBITMQ_HOST=rabbitmq
+#             - RABBITMQ_PW=5672
+#      #     healthcheck:
+#      #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#      #       interval: 10s
+#      #       retries: 4
+#           networks:
+#             - net-micros
+#           depends_on:
+#              api-gateway-service:
+#                condition: service_healthy
+#
+#  notification-service:
+#           build: ./notification-service
+#           container_name: cn-notification-service
+#           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#           environment:
+#             - JAVA_TOOL_OPTIONS=
+#             - CONSUL_HOST=discovery
+#             - CONSUL_PORT=8500
+#             #- CONFIG_SERVICE_URL=config-service
+#             #- CONFIG_SERVICE_PORT=8889
+#             #- DOCKER_MYSQL=docker-mysql
+#             #- MYSQL_PW=root
+#             #- MYSQL_USR=root
+#             #- SPRING_PROFILES_ACTIVE=docker  
+#             #- SPRING_DATA_SOURCE_URL=jdbc:mysql://docker-mysql:3306/notification-service?createDatabaseIfNotExist=true
+#             - RABBITMQ_HOST=rabbitmq
+#             - RABBITMQ_PW=5672
+#      #     healthcheck:
+#      #       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#      #       interval: 10s
+#      #       retries: 4
+#           networks:
+#             - net-micros
+#           depends_on:
+#              api-gateway-service:
+#                condition: service_healthy
      
   api-gateway-service:
            build: ./api-gateway-service
@@ -273,9 +297,9 @@ services:
     build: ./ng-keycloak-master
     container_name: cn-front-angular
     ports:
-      - '82:80'
+      - '4200:80'
     expose:
-      - '82'
+      - '4200'
 
 volumes:
    CONSUL_DATAD:
