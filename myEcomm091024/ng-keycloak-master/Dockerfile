@@ -1,9 +1,10 @@
 
 
+
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:latest as build
+FROM node:latest AS build
 
 # Set the working directory
 #WORKDIR B:/Java091024/ANGULAR_DIR
@@ -24,9 +25,10 @@ RUN ng build
 
 # Use official nginx image as the base image
 FROM nginx:latest
-
+#COPY --from=build ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/src/app/dist/ng-keycloak /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/ng-keycloak/browser /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
