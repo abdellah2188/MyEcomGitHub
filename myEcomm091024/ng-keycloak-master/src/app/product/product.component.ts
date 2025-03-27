@@ -13,9 +13,10 @@ import {ItemProduct} from "../model/item-product.model";
 import {AuthService} from "../auth/service/auth.service";
 //import { CheckboxModule } from 'primeng/checkbox';
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+    selector: 'app-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.css'],
+    standalone: false
 })
 export class ProductComponent implements OnInit {
   @ViewChild("form")

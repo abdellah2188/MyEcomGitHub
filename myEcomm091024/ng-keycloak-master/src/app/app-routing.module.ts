@@ -10,10 +10,11 @@ import {ProductComponent} from "./product/product.component";
 //const p2=atob('p2');
 const routes: Routes = [
 
+	//console.log("LLLLLLLLLLLLLLLGG" ,p1,"uuuuuuu",p2);
  // {path:'products/:p1/:p2',component:ProductsComponent},
-  {path:'products/:p1/:p2',component:ProductsComponent},
+  {path:'/products/:p1/:p2',component:ProductsComponent},
 
-  {path:'',redirectTo:'products/1/0',pathMatch:'full'},
+  {path:'',redirectTo:'/products/1/0',pathMatch:'full'},
 /*
   {path:'login', component:LoginComponent},
 */

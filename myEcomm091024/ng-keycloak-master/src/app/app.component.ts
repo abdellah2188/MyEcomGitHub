@@ -8,9 +8,10 @@ import {CustomerService} from "./services/customer.service";
 import {AuthGuard} from "./auth/auth.guard";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent {
   title = 'ng-keycloak';
@@ -54,6 +55,7 @@ export class AppComponent {
   }
 
   onSelectedProducts() {
+	console.log('DDDDDDDDDDDDDDDXXX');
     this.currentCategorie=undefined;
     this.router.navigateByUrl("/products/1/0");
   }

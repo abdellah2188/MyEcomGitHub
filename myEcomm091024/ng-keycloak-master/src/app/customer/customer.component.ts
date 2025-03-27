@@ -11,9 +11,10 @@ import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+    selector: 'app-customer',
+    templateUrl: './customer.component.html',
+    styleUrls: ['./customer.component.css'],
+    standalone: false
 })
 export class CustomerComponent implements OnInit {
   public mode:number=0;
