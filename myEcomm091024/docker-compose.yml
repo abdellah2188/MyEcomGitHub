@@ -14,6 +14,8 @@ services:
     links:
       - product-serviceb
 
+  
+    
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: cn-keycloak
