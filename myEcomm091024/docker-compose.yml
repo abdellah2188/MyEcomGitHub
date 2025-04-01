@@ -8,14 +8,11 @@ services:
       - '4200:80'
     expose:
       - '4200'
-    depends_on:
-      - keycloak
-      - product-serviceb    
     links:
       - product-serviceb
+    networks:
+      - net-micros
 
-  
-    
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: cn-keycloak
@@ -27,8 +24,8 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_HEALTH_ENABLED: "true"
       KC_LOG_LEVEL: info
-      #PROXY_ADDRESS_FORWARDING: 'true'
-      #KC_HTTP_RELATIVE_PATH: /auth
+      PROXY_ADDRESS_FORWARDING: 'true'
+     # KC_HTTP_RELATIVE_PATH: /auth
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
       interval: 15s
@@ -42,9 +39,6 @@ services:
       - "7443:7443"
     networks:
       - net-micros
-    depends_on:
-      - discovery  
-  
 
   mysql-db:
     image: mysql
@@ -61,7 +55,7 @@ services:
     networks:
       - net-micros
     volumes:
-      - B:/Java091024/MYSQL_DATA:/var/lib/mysql
+      - D:/Java091024/MYSQL_DATA:/var/lib/mysql
 
   phpMyAdmin:
       image: phpmyadmin/phpmyadmin
@@ -75,16 +69,14 @@ services:
         - "7089:80"
       networks:
         - net-micros
-      depends_on:
-        - mysql-db  
-
+  
   discovery:
     image: hashicorp/consul:latest
     container_name: discovery
     environment:
         - CONUL_BIND_INTERFACE=eth0
     volumes:
-        - B:\Java091024\CONSUL_DATAD:/consul/data
+        - D:\Java091024\CONSUL_DATAD:/consul/data
     ports:
        - '8501:8500'
     healthcheck:
@@ -92,8 +84,8 @@ services:
         interval: 10s
         retries: 10
     restart: always
-    #depends_on:
-     #  - mysql-db
+    depends_on:
+       - mysql-db
            #condition: service_started
     networks:
           - net-micros
@@ -166,32 +158,32 @@ services:
 #        product-service:
 #            condition: service_started
 #        
-  customer-service:
-     build: ./customer-service
-     container_name: cn-customer-service
-     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-     environment:
-       - JAVA_TOOL_OPTIONS=
-       - CONSUL_HOST=discovery
-       - CONSUL_PORT=8500
-       - CONFIG_SERVICE_URL=config-service
-       - CONFIG_SERVICE_PORT=8889
-       - DOCKER_MYSQL=mysql-db
-       - MYSQL_PW=root
-       - MYSQL_USR=root
-       #- SPRING_PROFILES_ACTIVE=docker  
-       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/customer-service?createDatabaseIfNotExist=true
-       - RABBITMQ_HOST=rabbitmq
-       - RABBITMQ_PW=5672
-#     healthcheck:
-#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-#       interval: 10s
-#       retries: 4
-     networks:
-       - net-micros
-     depends_on:
-        api-gateway-service:
-          condition: service_healthy
+#  customer-service:
+#     build: ./customer-service
+#     container_name: cn-customer-service
+#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#     environment:
+#       - JAVA_TOOL_OPTIONS=
+#       - CONSUL_HOST=discovery
+#       - CONSUL_PORT=8500
+#       - CONFIG_SERVICE_URL=config-service
+#       - CONFIG_SERVICE_PORT=8889
+#       - DOCKER_MYSQL=mysql-db
+#       - MYSQL_PW=root
+#       - MYSQL_USR=root
+#       #- SPRING_PROFILES_ACTIVE=docker  
+#       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/customer-service?createDatabaseIfNotExist=true
+#       - RABBITMQ_HOST=rabbitmq
+#       - RABBITMQ_PW=5672
+##     healthcheck:
+##       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+##       interval: 10s
+##       retries: 4
+#     networks:
+#       - net-micros
+#     depends_on:
+#        api-gateway-service:
+#          condition: service_healthy
    
   product-serviceb:
         build: ./product-serviceb
@@ -219,9 +211,7 @@ services:
         depends_on:
            api-gateway-service:
              condition: service_healthy
-        links :
-          - mysql-db
- 
+   
 #  order-serviceb:
 #         build: ./order-serviceb
 #         container_name: cn-order-service
