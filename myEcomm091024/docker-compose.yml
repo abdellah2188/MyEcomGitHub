@@ -1,3 +1,12 @@
+volumes:
+   CONSUL_DATAD:
+   MYSQL_DATA:
+   MYSQL_KEYC:
+   MYSQL_DATAK:
+
+networks:
+   net-micros:
+      driver: bridge  
 
 #version: '3.9'
 services:
@@ -26,14 +35,12 @@ services:
       KC_LOG_LEVEL: info
       PROXY_ADDRESS_FORWARDING: 'true'
      # KC_HTTP_RELATIVE_PATH: /auth
-      DB_VENDOR: mysql
-      DB_ADDR: mysql-db
-      DB_PORT: 
-         -'3308:3306'
-      # Same values as the mysql-kc service
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
       DB_USER: root
       DB_PASSWORD: root
-      DB_DATABASE: k_db
+      DB_PORT: "3308"
+      DB_DATABASE: keycloak
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
       interval: 15s
@@ -42,37 +49,59 @@ services:
     command: ["start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm"]
     volumes: # Ignore if you don't have realm-export.json to migrate data
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - B:/Java091024/MYSQL_KEYC:/tmp/backups/  
     ports:
       - "7080:7080"
       - "7443:7443"
     depends_on:
-      - mysql-db
+      - mysql-dbk  
     networks:
       - net-micros
 
-  mysql-db:
+  mysql-dbk:
     image: mysql
-    container_name: cn-mysql
+    container_name: cn-mysqlk
     environment:
       - MYSQL_ROOT_PASSWORD=root
   # The user, password and database that Keycloak
-   # is going to create and use
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_DATABASE=k_db
+      # is going to create and use
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+      - MYSQL_DATABASE=keycloak  
     ports:
-      - 3307:3306
+      - 3308:3308
     healthcheck:
-        test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
+        test: [ "CMD", "curl", "-f", "http://localhost:3308/health" ]
         interval: 10s
         retries: 10
     restart: always
     networks:
       - net-micros
     volumes:
-      - keycloak-and-mysql-volume:/var/lib/mysql
-      - C:/Users/Administrateur/Downloads/keycloak_exported.sql:/docker-entrypoint-initdb.d/db.sql
-
+      - B:/Java091024/MYSQL_DATAK:/var/lib/mysql
+      #- B:/Java091024/MYSQL_CONF:/etc/mysql
+  mysql-db:
+      image: mysql
+      container_name: cn-mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+    # The user, password and database that Keycloak
+        # is going to create and use
+        #- MYSQL_USER=user
+        #- MYSQL_PASSWORD=user
+        #- MYSQL_DATABASE=keycloak  
+      ports:
+        - 3307:3306
+      healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
+          interval: 10s
+          retries: 10
+      restart: always
+      networks:
+        - net-micros
+      volumes:
+        - B:/Java091024/MYSQL_DATA:/var/lib/mysql
+        #- B:/Java091024/MYSQL_CONF:/etc/mysql
   phpMyAdmin:
       image: phpmyadmin/phpmyadmin
       restart: always
@@ -81,18 +110,32 @@ services:
         - PMA_ARBITRARY=1
       links:
         - mysql-db
+        - mysql-dbk
       ports:
         - "7089:80"
       networks:
         - net-micros
-  
+
+  phpMyAdmink:
+      image: phpmyadmin/phpmyadmin
+      restart: always
+      container_name: phpMyAdmink
+      environment:
+        - PMA_ARBITRARY=1
+      links:
+        - mysql-dbk
+      ports:
+        - "7090:80"
+      networks:
+        - net-micros  
+
   discovery:
     image: hashicorp/consul:latest
     container_name: discovery
     environment:
         - CONUL_BIND_INTERFACE=eth0
     volumes:
-        - D:\Java091024\CONSUL_DATAD:/consul/data
+        - B:\Java091024\CONSUL_DATAD:/consul/data
     ports:
        - '8501:8500'
     healthcheck:
@@ -338,12 +381,5 @@ services:
               config-service:
                 condition: service_healthy
        
-  
-volumes:
-   CONSUL_DATAD:
-   keycloak-and-mysql-volume:
 
-networks:
-   net-micros:
-      driver: bridge
     
