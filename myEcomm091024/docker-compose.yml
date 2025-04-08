@@ -37,8 +37,8 @@ services:
      # KC_HTTP_RELATIVE_PATH: /auth
       DB_VENDOR: MYSQL
       DB_ADDR: mysql
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_USER: user
+      DB_PASSWORD: user
       DB_PORT: "3308"
       DB_DATABASE: keycloak
     healthcheck:
@@ -46,10 +46,20 @@ services:
       interval: 15s
       timeout: 2s
       retries: 15
-    command: ["start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm"]
+  #  command: ["start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm"]
     volumes: # Ignore if you don't have realm-export.json to migrate data
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
-      - B:/Java091024/MYSQL_KEYC:/tmp/backups/  
+      #- D:/Java091024/MYSQL_KEYC:/tmp/backups/  
+    command:
+        - "-start-dev" 
+        - "-http-port=7080", 
+        - "-https-port=7443"
+        - "-import-realm"
+        - "-Dkeycloak.migration.action=export"
+        - "-Dkeycloak.migration.provider=singleFile"
+        - "-Dkeycloak.migration.realmName=microservices-realm"
+        - "-Dkeycloak.migration.usersExportStrategy=REALM_FILE"
+        - "-Dkeycloak.migration.file=/tmp/export/keep-growing-realm.json"  
     ports:
       - "7080:7080"
       - "7443:7443"
@@ -69,16 +79,16 @@ services:
       - MYSQL_PASSWORD=user
       - MYSQL_DATABASE=keycloak  
     ports:
-      - 3308:3308
+      - 3308:3306
     healthcheck:
-        test: [ "CMD", "curl", "-f", "http://localhost:3308/health" ]
+        test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
         interval: 10s
         retries: 10
     restart: always
     networks:
       - net-micros
-    volumes:
-      - B:/Java091024/MYSQL_DATAK:/var/lib/mysql
+    #volumes:
+      #- D:/Java091024/MYSQL_DATAK:/var/lib/mysql
       #- B:/Java091024/MYSQL_CONF:/etc/mysql
   mysql-db:
       image: mysql
@@ -100,7 +110,7 @@ services:
       networks:
         - net-micros
       volumes:
-        - B:/Java091024/MYSQL_DATA:/var/lib/mysql
+        - D:/Java091024/MYSQL_DATA:/var/lib/mysql
         #- B:/Java091024/MYSQL_CONF:/etc/mysql
   phpMyAdmin:
       image: phpmyadmin/phpmyadmin
@@ -110,7 +120,6 @@ services:
         - PMA_ARBITRARY=1
       links:
         - mysql-db
-        - mysql-dbk
       ports:
         - "7089:80"
       networks:
@@ -135,7 +144,7 @@ services:
     environment:
         - CONUL_BIND_INTERFACE=eth0
     volumes:
-        - B:\Java091024\CONSUL_DATAD:/consul/data
+        - D:\Java091024\CONSUL_DATAD:/consul/data
     ports:
        - '8501:8500'
     healthcheck:
@@ -143,8 +152,8 @@ services:
         interval: 10s
         retries: 10
     restart: always
-    depends_on:
-       - mysql-db
+    #depends_on:
+       #- mysql-db
            #condition: service_started
     networks:
           - net-micros
