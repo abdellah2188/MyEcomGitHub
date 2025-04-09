@@ -49,17 +49,14 @@ services:
   #  command: ["start-dev", "--http-port", "7080", "--https-port", "7443", "--import-realm"]
     volumes: # Ignore if you don't have realm-export.json to migrate data
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - ./keycloak/realms/export:/tmp/export
       #- D:/Java091024/MYSQL_KEYC:/tmp/backups/  
-    command:
-        - "-start-dev" 
-        - "-http-port=7080", 
-        - "-https-port=7443"
-        - "-import-realm"
-        - "-Dkeycloak.migration.action=export"
-        - "-Dkeycloak.migration.provider=singleFile"
-        - "-Dkeycloak.migration.realmName=microservices-realm"
-        - "-Dkeycloak.migration.usersExportStrategy=REALM_FILE"
-        - "-Dkeycloak.migration.file=/tmp/export/keep-growing-realm.json"  
+    command: ["start-dev", "--http-port", "7080", "--https-port","7443", "--import-realm", 
+          "-Dkeycloak.migration.action=export",
+          "-Dkeycloak.migration.provider=singleFile",
+          "-Dkeycloak.migration.realmName=microservices-realm",
+          "-Dkeycloak.migration.usersExportStrategy=REALM_FILE",
+          "-Dkeycloak.migration.file=/tmp/export/microservices-realm-realm.json"]
     ports:
       - "7080:7080"
       - "7443:7443"
