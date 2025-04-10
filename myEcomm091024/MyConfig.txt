@@ -1,3 +1,5 @@
+cat /etc/os-release
+
 docker exec -it my_keycloak sh -c \
   "cp -rp /opt/keycloak/data/h2 /tmp ; \
   /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/import --realm MY_REALM \
