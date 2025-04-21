@@ -1,6 +1,6 @@
 volumes:
    mysql_volume:
-
+   #mysql_volume/keycloam:
 networks:
    net-micros:
       driver: bridge  
@@ -38,7 +38,7 @@ services:
   keycloak-w:
     image: quay.io/keycloak/keycloak:latest
     container_name: cn-keycloak
-    command: start-dev
+    command: -v start-dev --import-realm
     ports:
       - "7080:8080"
     restart: unless-stopped
@@ -54,7 +54,8 @@ services:
          KC_DB_URL: jdbc:mysql://mysql-kc:3306/keycloak
          KC_FEATURES: token-exchange,admin-fine-grained-authz
          KC_HOSTNAME: localhost
-
+    volumes:
+         - ./mysql_volume/keycloam:/opt/keycloak/data/import		  
 #    environment:
 #      #- KC_HOSTNAME=localhost
 #      #- KC_HOSTNAME_PORT=8080
