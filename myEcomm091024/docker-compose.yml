@@ -58,8 +58,8 @@ services:
          KC_DB_URL: jdbc:mysql://mysql-kc:3306/keycloak
          KC_FEATURES: token-exchange,admin-fine-grained-authz
          KC_HOSTNAME: localhost
-    volumes:
-         - ./VOLUME_MYSQL_KC/keycloak:/opt/keycloak/data/import		  
+    #volumes:
+     #    - ./VOLUME_MYSQL_KC/keycloak:/opt/keycloak/data/import		  
 #    environment:
 #      #- KC_HOSTNAME=localhost
 #      #- KC_HOSTNAME_PORT=8080
