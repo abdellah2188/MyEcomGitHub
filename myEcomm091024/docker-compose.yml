@@ -1,23 +1,27 @@
 volumes:
-   mysql_volume:
-   #mysql_volume/keycloam:
+   VOLUME_CONSUL:
+   VOLUME_MYSQL:
+   VOLUME_MYSQL_KC:
+  
 networks:
    net-micros:
       driver: bridge  
 
 #version: '3.9'
 services:
-#  front-angular:
-#    build: ./ng-keycloak-master
-#    container_name: cn-front-angular
-#    ports:
-#      - '4200:80'
-#    expose:
-#      - '4200'
-#    links:
-#      - product-serviceb
-#    networks:
-#      - net-micros
+  front-angular:
+    build: ./ng-keycloak-master
+    container_name: cn-front-angular
+    ports:
+      - '4200:80'
+    expose:
+      - '4200'
+    links:
+      - product-serviceb
+    networks:
+      - net-micros
+    depends_on:
+      - api-gateway-service	  
   mysql-kc:
     image: mysql:8.0.27
     container_name: cn-mysqlk
@@ -31,7 +35,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     mem_limit: 1g
     volumes:
-      - ./mysql_volume:/var/lib/mysql
+      - ./VOLUME_MYSQL_KC:/var/lib/mysql
     networks:
       - net-micros
 
@@ -55,7 +59,7 @@ services:
          KC_FEATURES: token-exchange,admin-fine-grained-authz
          KC_HOSTNAME: localhost
     volumes:
-         - ./mysql_volume/keycloam:/opt/keycloak/data/import		  
+         - ./VOLUME_MYSQL_KC/keycloak:/opt/keycloak/data/import		  
 #    environment:
 #      #- KC_HOSTNAME=localhost
 #      #- KC_HOSTNAME_PORT=8080
@@ -80,40 +84,42 @@ services:
       - net-micros
     depends_on:
       - mysql-kc
-#  mysql-db:
-#      image: mysql
-#      container_name: cn-mysql
-#      environment:
-#        - MYSQL_ROOT_PASSWORD=root
-#    # The user, password and database that Keycloak
-#        # is going to create and use
-#        #- MYSQL_USER=user
-#        #- MYSQL_PASSWORD=user
-#        #- MYSQL_DATABASE=keycloak  
-#      ports:
-#        - 3307:3306
-#      healthcheck:
-#          test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
-#          interval: 10s
-#          retries: 10
-#      restart: always
-#      networks:
-#        - net-micros
-#      volumes:
-#        - D:/Java091024/MYSQL_DATA:/var/lib/mysql
-#        #- B:/Java091024/MYSQL_CONF:/etc/mysql
-#  phpMyAdmin:
-#      image: phpmyadmin/phpmyadmin
-#      restart: always
-#      container_name: phpMyAdmin
-#      environment:
-#        - PMA_ARBITRARY=1
-#      links:
-#        - mysql-db
-#      ports:
-#        - "7089:80"
-#      networks:
-#        - net-micros
+  mysql-db:
+      image: mysql
+      container_name: cn-mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+    # The user, password and database that Keycloak
+        # is going to create and use
+        #- MYSQL_USER=user
+        #- MYSQL_PASSWORD=user
+        #- MYSQL_DATABASE=keycloak  
+      ports:
+        - 3307:3306
+      healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:3306/health" ]
+          interval: 10s
+          retries: 10
+      restart: always
+      networks:
+        - net-micros
+      volumes:
+        - ./VOLUME_MYSQL:/var/lib/mysql
+        #- B:/Java091024/MYSQL_CONF:/etc/mysql
+  phpMyAdmin:
+      image: phpmyadmin/phpmyadmin
+      restart: always
+      container_name: phpMyAdmin
+      environment:
+        - PMA_ARBITRARY=1
+      links:
+        - mysql-db
+      ports:
+        - "7089:80"
+      depends_on:
+        - mysql-db
+      networks:
+        - net-micros
 
   phpMyAdmink:
       image: phpmyadmin/phpmyadmin
@@ -131,50 +137,50 @@ services:
         - net-micros  
       depends_on:
         - mysql-kc
-#  discovery:
-#    image: hashicorp/consul:latest
-#    container_name: discovery
-#    environment:
-#        - CONUL_BIND_INTERFACE=eth0
-#    volumes:
-#        - D:\Java091024\CONSUL_DATAD:/consul/data
-#    ports:
-#       - '8501:8500'
-#    healthcheck:
-#        test: [ "CMD", "curl", "-f", "http://localhost:8500/health" ]
-#        interval: 10s
-#        retries: 10
-#    restart: always
-#    #depends_on:
-#       #- mysql-db
-#           #condition: service_started
-#    networks:
-#          - net-micros
-#      
-#  config-service:
-#     build: ./config-service
-#     container_name: config-service
-#     #image: im-config-service
-#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-#     ports:
-#        - "8889:8889"
-#     environment:
-#        - CONSUL_HOST=discovery
-#        - CONSUL_PORT=8500
-#        - CONFIG_PORT=8889
-#        - RABBITMQ_HOST=rabbitmq
-#        - RABBITMQ_PW=5672
-#
-#     healthcheck:
-#        test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
-#        interval: 10s
-#        retries: 10
-#     depends_on:
-#         - discovery
-#        # - rabbitmq
-#            #condition: service_healthy
-#     networks:
-#       - net-micros     
+  discovery:
+    image: hashicorp/consul:latest
+    container_name: discovery
+    environment:
+        - CONUL_BIND_INTERFACE=eth0
+    volumes:
+        - ./VOLUME_CONSUL:/consul/data
+    ports:
+       - '8501:8500'
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8500/health" ]
+        interval: 10s
+        retries: 10
+    restart: always
+    #depends_on:
+       #- mysql-db
+           #condition: service_started
+    networks:
+          - net-micros
+      
+  config-service:
+     build: ./config-service
+     container_name: config-service
+     #image: im-config-service
+     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     ports:
+        - "8889:8889"
+     environment:
+        - CONSUL_HOST=discovery
+        - CONSUL_PORT=8500
+        - CONFIG_PORT=8889
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_PW=5672
+
+     healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
+        interval: 10s
+        retries: 10
+     depends_on:
+         - discovery
+        # - rabbitmq
+            #condition: service_healthy
+     networks:
+       - net-micros     
 #  rabbitmq:
 #    image: rabbitmq:management
 #    restart: always
@@ -219,59 +225,59 @@ services:
 #        product-service:
 #            condition: service_started
 #        
-#  customer-service:
-#     build: ./customer-service
-#     container_name: cn-customer-service
-#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-#     environment:
-#       - JAVA_TOOL_OPTIONS=
-#       - CONSUL_HOST=discovery
-#       - CONSUL_PORT=8500
-#       - CONFIG_SERVICE_URL=config-service
-#       - CONFIG_SERVICE_PORT=8889
-#       - DOCKER_MYSQL=mysql-db
-#       - MYSQL_PW=root
-#       - MYSQL_USR=root
-#       #- SPRING_PROFILES_ACTIVE=docker  
-#       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/customer-service?createDatabaseIfNotExist=true
-#       - RABBITMQ_HOST=rabbitmq
-#       - RABBITMQ_PW=5672
-##     healthcheck:
-##       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
-##       interval: 10s
-##       retries: 4
-#     networks:
-#       - net-micros
-#     depends_on:
-#        api-gateway-service:
-#          condition: service_healthy
+  customer-service:
+     build: ./customer-service
+     container_name: cn-customer-service
+     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     environment:
+       - JAVA_TOOL_OPTIONS=
+       - CONSUL_HOST=discovery
+       - CONSUL_PORT=8500
+       - CONFIG_SERVICE_URL=config-service
+       - CONFIG_SERVICE_PORT=8889
+       - DOCKER_MYSQL=mysql-db
+       - MYSQL_PW=root
+       - MYSQL_USR=root
+       #- SPRING_PROFILES_ACTIVE=docker  
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/customer-service?createDatabaseIfNotExist=true
+       - RABBITMQ_HOST=rabbitmq
+       - RABBITMQ_PW=5672
+#     healthcheck:
+#       test: [ "CMD", "curl", "-f", "http://localhost:8500/actuator/health" ]
+#       interval: 10s
+#       retries: 4
+     networks:
+       - net-micros
+     depends_on:
+        product-serviceb:
+          condition: service_healthy
    
-#  product-serviceb:
-#        build: ./product-serviceb
-#        container_name: cn-product-service
-#        command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-#        environment:
-#          - JAVA_TOOL_OPTIONS=
-#          - CONSUL_HOST=discovery
-#          - CONSUL_PORT=8500
-#          - CONFIG_SERVICE_URL=config-service
-#          - CONFIG_SERVICE_PORT=8889
-#          - DOCKER_MYSQL=mysql-db
-#          - MYSQL_PW=root
-#          - MYSQL_USR=root
-#          #- SPRING_PROFILES_ACTIVE=docker  
-#          - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
-#          - RABBITMQ_HOST=rabbitmq
-#          - RABBITMQ_PW=5672
-#        healthcheck:
-#          test: [ "CMD", "curl", "-f", "http://localhost:$${server.port}/actuator/health" ]
-#          interval: 10s
-#          retries: 4
-#        networks:
-#          - net-micros
-#        depends_on:
-#           api-gateway-service:
-#             condition: service_healthy
+  product-serviceb:
+        build: ./product-serviceb
+        container_name: cn-product-service
+        command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+        environment:
+          - JAVA_TOOL_OPTIONS=
+          - CONSUL_HOST=discovery
+          - CONSUL_PORT=8500
+          - CONFIG_SERVICE_URL=config-service
+          - CONFIG_SERVICE_PORT=8889
+          - DOCKER_MYSQL=mysql-db
+          - MYSQL_PW=root
+          - MYSQL_USR=root
+          #- SPRING_PROFILES_ACTIVE=docker  
+          - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_PW=5672
+        healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:$${server.port}/actuator/health" ]
+          interval: 10s
+          retries: 4
+        networks:
+          - net-micros
+        depends_on:
+           api-gateway-service:
+             condition: service_healthy
    
 #  order-serviceb:
 #         build: ./order-serviceb
@@ -354,34 +360,34 @@ services:
 #              api-gateway-service:
 #                condition: service_healthy
      
-#  api-gateway-service:
-#           build: ./api-gateway-service
-#           container_name: cn-api-gateway-service
-#           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-#           ports:
-#             - "8080:8080"
-#           environment:
-#             - JAVA_TOOL_OPTIONS=
-#             - CONSUL_HOST=discovery
-#             - CONSUL_PORT=8500
-#             #- CONFIG_SERVICE_URL=config-service
-#             #- CONFIG_SERVICE_PORT=8889
-#             #- DOCKER_MYSQL=mysql-db
-#             #- MYSQL_PW=root
-#             #- MYSQL_USR=root
-#             #- SPRING_PROFILES_ACTIVE=docker  
-#             #- SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/notification-service?createDatabaseIfNotExist=true
-#             - RABBITMQ_HOST=rabbitmq
-#             - RABBITMQ_PW=5672
-#           healthcheck:
-#             test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-#             interval: 10s
-#             retries: 4
-#           networks:
-#             - net-micros
-#           depends_on:
-#              config-service:
-#                condition: service_healthy
+  api-gateway-service:
+           build: ./api-gateway-service
+           container_name: cn-api-gateway-service
+           command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+           ports:
+             - "8080:8080"
+           environment:
+             - JAVA_TOOL_OPTIONS=
+             - CONSUL_HOST=discovery
+             - CONSUL_PORT=8500
+             #- CONFIG_SERVICE_URL=config-service
+             #- CONFIG_SERVICE_PORT=8889
+             #- DOCKER_MYSQL=mysql-db
+             #- MYSQL_PW=root
+             #- MYSQL_USR=root
+             #- SPRING_PROFILES_ACTIVE=docker  
+             #- SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/notification-service?createDatabaseIfNotExist=true
+             - RABBITMQ_HOST=rabbitmq
+             - RABBITMQ_PW=5672
+           healthcheck:
+             test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+             interval: 10s
+             retries: 4
+           networks:
+             - net-micros
+           depends_on:
+              config-service:
+                condition: service_healthy
        
 
     
