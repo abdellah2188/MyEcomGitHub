@@ -181,20 +181,20 @@ services:
             #condition: service_healthy
      networks:
        - net-micros     
-#  rabbitmq:
-#    image: rabbitmq:management
-#    restart: always
-#    container_name: cn-rabbitmq
-#    environment:
-#       RABBITMQ_DEFAULT_USER: guest
-#       RABBITMQ_DEFAULT_PASS: guest
-#       RABBITMQ_DEFAULT_VHOST: /
-#    ports:
-#      - 5673:5672
-#      - 15673:15672
-#    networks:
-#      - net-micros
-#    #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    container_name: cn-rabbitmq
+    environment:
+       RABBITMQ_DEFAULT_USER: guest
+       RABBITMQ_DEFAULT_PASS: guest
+       RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - 5673:5672
+      - 15673:15672
+    networks:
+      - net-micros
+    #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
    
 #  inventory-service:
 #     build: ./inventory-service
@@ -249,8 +249,8 @@ services:
      networks:
        - net-micros
      depends_on:
-        product-serviceb:
-          condition: service_healthy
+       - product-serviceb
+          #condition: service_healthy
    
   product-serviceb:
         build: ./product-serviceb
@@ -269,10 +269,10 @@ services:
           - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
           - RABBITMQ_HOST=rabbitmq
           - RABBITMQ_PW=5672
-        healthcheck:
-          test: [ "CMD", "curl", "-f", "http://localhost:$${server.port}/actuator/health" ]
-          interval: 10s
-          retries: 4
+#        healthcheck:
+#          test: [ "CMD", "curl", "-f", "http://localhost:$${server.port}/actuator/health" ]
+#          interval: 10s
+#          retries: 4
         networks:
           - net-micros
         depends_on:
