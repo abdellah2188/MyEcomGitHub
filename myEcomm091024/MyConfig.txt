@@ -1,5 +1,5 @@
 
-
+docker compose up --no-deps myservice
 docker compose restart myservice
 
 ng generate @angular/core:control-flow
