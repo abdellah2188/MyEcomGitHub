@@ -2,6 +2,8 @@ volumes:
    VOLUME_CONSUL:
    VOLUME_MYSQL:
    VOLUME_MYSQL_KC:
+   VOLUME_IMAGE:
+   #VOLUME_CONFIG:
   
 networks:
    net-micros:
@@ -21,7 +23,7 @@ services:
     networks:
       - net-micros
     depends_on:
-      - api-gateway-service	  
+      - api-gateway-service  
   mysql-kc:
     image: mysql:8.0.27
     container_name: cn-mysqlk
@@ -59,7 +61,7 @@ services:
          KC_FEATURES: token-exchange,admin-fine-grained-authz
          KC_HOSTNAME: localhost
     #volumes:
-     #    - ./VOLUME_MYSQL_KC/keycloak:/opt/keycloak/data/import		  
+     #    - ./VOLUME_MYSQL_KC/keycloak:/opt/keycloak/data/import  
 #    environment:
 #      #- KC_HOSTNAME=localhost
 #      #- KC_HOSTNAME_PORT=8080
@@ -141,9 +143,30 @@ services:
     image: hashicorp/consul:latest
     container_name: discovery
     environment:
-        - CONUL_BIND_INTERFACE=eth0
+         CONUL_BIND_INTERFACE: eth0
+         CONSUL_LOCAL_CONFIG: '{
+          "bootstrap": true,
+          "server": true,
+          "node_name": "consul1",
+          "bind_addr": "0.0.0.0",
+          "client_addr": "0.0.0.0",
+          "bootstrap_expect": 1,
+          "ui": true,
+          "addresses" : {
+            "http" : "0.0.0.0"
+          },
+          "ports": {
+            "http": 8500
+          },
+          "log_level": "DEBUG",
+          "connect" : {
+            "enabled" : true
+          }
+        }'
+    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1		
     volumes:
         - ./VOLUME_CONSUL:/consul/data
+       # - ./VOLUME_CONFIG:/consul
     ports:
        - '8501:8500'
     healthcheck:
@@ -157,30 +180,29 @@ services:
     networks:
           - net-micros
       
-  config-service:
-     build: ./config-service
-     container_name: config-service
-     #image: im-config-service
-     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-     ports:
-        - "8889:8889"
-     environment:
-        - CONSUL_HOST=discovery
-        - CONSUL_PORT=8500
-        - CONFIG_PORT=8889
-        - RABBITMQ_HOST=rabbitmq
-        - RABBITMQ_PW=5672
-
-     healthcheck:
-        test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
-        interval: 10s
-        retries: 10
-     depends_on:
-         - discovery
-        # - rabbitmq
-            #condition: service_healthy
-     networks:
-       - net-micros     
+#  config-service:
+#     build: ./config-service
+#     container_name: config-service
+#     #image: im-config-service
+#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+#     ports:
+#        - "8889:8889"
+#     environment:
+#        - CONSUL_HOST=discovery
+#        - CONSUL_PORT=8500
+#        - CONFIG_PORT=8889
+#        - RABBITMQ_HOST=rabbitmq
+#        - RABBITMQ_PW=5672
+#
+#     healthcheck:
+#        test: [ "CMD", "curl", "-f", "http://localhost:8889/actuator/health" ]
+#        interval: 10s
+#        retries: 10
+#     depends_on:
+#         - discovery
+#             #condition: service_healthy
+#     networks:
+#       - net-micros     
   rabbitmq:
     image: rabbitmq:management
     restart: always
@@ -233,7 +255,7 @@ services:
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
        - CONSUL_PORT=8500
-       - CONFIG_SERVICE_URL=config-service
+       #- CONFIG_SERVICE_URL=config-service
        - CONFIG_SERVICE_PORT=8889
        - DOCKER_MYSQL=mysql-db
        - MYSQL_PW=root
@@ -249,18 +271,20 @@ services:
      networks:
        - net-micros
      depends_on:
-       - product-serviceb
-          #condition: service_healthy
+       product-serviceb:
+          condition: service_healthy
    
   product-serviceb:
         build: ./product-serviceb
         container_name: cn-product-service
         command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+        ports:
+          - "9001:9001"
         environment:
           - JAVA_TOOL_OPTIONS=
           - CONSUL_HOST=discovery
           - CONSUL_PORT=8500
-          - CONFIG_SERVICE_URL=config-service
+          #- CONFIG_SERVICE_URL=config-service
           - CONFIG_SERVICE_PORT=8889
           - DOCKER_MYSQL=mysql-db
           - MYSQL_PW=root
@@ -269,10 +293,12 @@ services:
           - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
           - RABBITMQ_HOST=rabbitmq
           - RABBITMQ_PW=5672
-#        healthcheck:
-#          test: [ "CMD", "curl", "-f", "http://localhost:$${server.port}/actuator/health" ]
-#          interval: 10s
-#          retries: 4
+        healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
+          interval: 10s
+          retries: 4
+        volumes:
+          - ./VOLUME_IMAGE:/products/images
         networks:
           - net-micros
         depends_on:
@@ -386,8 +412,8 @@ services:
            networks:
              - net-micros
            depends_on:
-              config-service:
-                condition: service_healthy
+              - discovery
+                #condition: service_healthy
        
 
     
