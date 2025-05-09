@@ -35,7 +35,9 @@ public  class ProductService implements ICrudService <Product, Long>{
         p.setPhotoName(p.getId()+".png");
         System.out.println(file+"PPPPXXX"+p.getPhotoName());
 
-        Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+p.getPhotoName()),  file.getBytes());
+        //Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+p.getPhotoName()),  file.getBytes());
+        //Files.write(Paths.get("/ecommerce/products/"+p.getPhotoName()),  file.getBytes());
+        Files.write(Paths.get("products/images/"+p.getPhotoName()),  file.getBytes());
         System.out.println("POPOP"+p);
         productRepository.save(p);
 
