@@ -229,8 +229,10 @@ public class ProductController  {
     public byte[] getPhoto(@PathVariable("id") long id) throws Exception{
         System.out.println("EEEEEEEEEEEEEEEEEEE");
         Product p=(Product) productRepository.findById(id).get();
-        System.out.println("NNNNNNNNNNNN"+ p);
-        return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        System.out.println("NNNNNNNNNNNN"+ p+"nnnn"+ Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        //return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        //return Files.readAllBytes(Paths.get("ecommerce/products/"+ p.getPhotoName()));
+        return Files.readAllBytes(Paths.get("products/images/"+ p.getPhotoName()));
     }
     @PostMapping(path = "/uploadPhoto/{id}")
     public void uploadPhoto(MultipartFile file, @PathVariable Long id) throws Exception{
@@ -244,7 +246,9 @@ public class ProductController  {
        
         ((com.hamch.productserviceb.entities.Product) p).setPhotoName(id+".png");
         
-        Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        //Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        //Files.write(Paths.get("/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        Files.write(Paths.get("products/images/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
         productRepository.save(p);
 
     }
