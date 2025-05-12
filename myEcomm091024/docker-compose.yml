@@ -218,34 +218,34 @@ services:
       - net-micros
     #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
    
-#  inventory-service:
-#     build: ./inventory-service
-#     #image: im-inventory-service
-#     container_name: cn-inventory-service
-#     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-#     environment:
-#       - JAVA_TOOL_OPTIONS=
-#       - CONSUL_HOST=discovery
-#       - CONSUL_PORT=8500
-#       - CONFIG_SERVICE_URL=config-service
-#       - CONFIG_SERVICE_PORT=8889
-#       - DOCKER_MYSQL=mysql-db
-#       - MYSQL_PW=root
-#       - MYSQL_USR=root
-#       #- SPRING_PROFILES_ACTIVE=docker  
-#       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/inventory-service?createDatabaseIfNotExist=true
-#       - RABBITMQ_HOST=rabbitmq
-#       - RABBITMQ_PW=5672
-##     healthcheck:
-##       test: [ "CMD", "curl", "-f", "http://localhost" ]
-##       interval: 10s
-##       retries: 10
-#     networks:
-#       - net-micros
-#       
-#     depends_on:
-#        product-service:
-#            condition: service_started
+  inventory-service:
+     build: ./inventory-service
+     #image: im-inventory-service
+     container_name: cn-inventory-service
+     command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     environment:
+       - JAVA_TOOL_OPTIONS=
+       - CONSUL_HOST=discovery
+       - CONSUL_PORT=8500
+       - CONFIG_SERVICE_URL=config-service
+       - CONFIG_SERVICE_PORT=8889
+       - DOCKER_MYSQL=mysql-db
+       - MYSQL_PW=root
+       - MYSQL_USR=root
+       #- SPRING_PROFILES_ACTIVE=docker  
+       - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/inventory-service?createDatabaseIfNotExist=true
+       - RABBITMQ_HOST=rabbitmq
+       - RABBITMQ_PW=5672
+#     healthcheck:
+#       test: [ "CMD", "curl", "-f", "http://localhost" ]
+#       interval: 10s
+#       retries: 10
+     networks:
+       - net-micros
+       
+     depends_on:
+        product-serviceb:
+            condition: service_healthy
 #        
   customer-service:
      build: ./customer-service
@@ -285,14 +285,14 @@ services:
           - CONSUL_HOST=discovery
           - CONSUL_PORT=8500
           #- CONFIG_SERVICE_URL=config-service
-          #- CONFIG_SERVICE_PORT=8889
+          - CONFIG_SERVICE_PORT=8889
           - DOCKER_MYSQL=mysql-db
           - MYSQL_PW=root
           - MYSQL_USR=root
           #- SPRING_PROFILES_ACTIVE=docker  
           - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
           - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_PORT=5672
+          - RABBITMQ_PW=5672
         healthcheck:
           test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
           interval: 10s
@@ -404,7 +404,7 @@ services:
              #- SPRING_PROFILES_ACTIVE=docker  
              #- SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/notification-service?createDatabaseIfNotExist=true
              - RABBITMQ_HOST=rabbitmq
-             - RABBITMQ_PORT=5672
+             - RABBITMQ_PW=5672
            healthcheck:
              test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
              interval: 10s
