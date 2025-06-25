@@ -223,7 +223,10 @@ services:
      #image: im-inventory-service
      container_name: cn-inventory-service
      command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     ports:
+       - "9002:9002"
      environment:
+       - SERVICE_PORT=9002
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
        - CONSUL_PORT=8500
@@ -251,7 +254,10 @@ services:
      build: ./customer-service
      container_name: cn-customer-service
      command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+     ports:
+       - "9003:9003"
      environment:
+       - SERVICE_PORT=9003
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
        - CONSUL_PORT=8500
@@ -281,6 +287,7 @@ services:
         ports:
           - "9001:9001"
         environment:
+          - SERVICE_PORT=9001
           - JAVA_TOOL_OPTIONS=
           - CONSUL_HOST=discovery
           - CONSUL_PORT=8500
@@ -309,7 +316,10 @@ services:
          build: ./order-serviceb
          container_name: cn-order-service
          command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+         ports:
+           - "9004:9004"
          environment:
+           - SERVICE_PORT=9004
            - JAVA_TOOL_OPTIONS=
            - CONSUL_HOST=discovery
            - CONSUL_PORT=8500
@@ -328,15 +338,18 @@ services:
            retries: 4
          networks:
            - net-micros
-         depends_on:
-            customer-service:
-              condition: service_healthy
+         #depends_on:
+          #  customer-service:
+           #   condition: service_healthy
 
   payment-service:
            build: ./payment-service
            container_name: cn-payment-service
            command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+           ports:
+             - "9002:9002"
            environment:
+             - SERVICE_PORT=9002
              - JAVA_TOOL_OPTIONS=
              - CONSUL_HOST=discovery
              - CONSUL_PORT=8500
@@ -363,7 +376,10 @@ services:
            build: ./notification-service
            container_name: cn-notification-service
            command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+           ports:
+             - "9006:9006"
            environment:
+             - SERVICE_PORT=9006
              - JAVA_TOOL_OPTIONS=
              - CONSUL_HOST=discovery
              - CONSUL_PORT=8500
@@ -382,9 +398,9 @@ services:
              retries: 4
            networks:
              - net-micros
-#           depends_on:
-#              order-serviceb:
-#                condition: service_healthy
+           #depends_on:
+           #   order-serviceb:
+           #     condition: service_healthy
      
   api-gateway-service:
            build: ./api-gateway-service
