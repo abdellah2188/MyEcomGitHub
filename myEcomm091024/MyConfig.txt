@@ -1,3 +1,6 @@
+Vider le cache des navigateurs web :
+Utilisez le raccourci Ctrl + F5 dans la plupart des navigateurs (Chrome, Firefox, Edge, Internet Explorer). Pour Microsoft Edge spécifiquement, vous pouvez aller dans Paramètres > Confidentialité, recherche et services et choisir "Effacer les données de navigation", ou taper edge://settings/clearbrowserdata dans la barre d'adresse. 
+
 curl -v -X PUT http://localhost:8501/v1/agent/service/deregister/product-service-0 
 
 docker compose up --no-deps myservice
