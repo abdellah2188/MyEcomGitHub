@@ -1,5 +1,7 @@
 console cloud google
 
+consul services deregister -id=product-servicebbbbb-0
+
 Vider le cache des navigateurs web :
 Utilisez le raccourci Ctrl + F5 dans la plupart des navigateurs (Chrome, Firefox, Edge, Internet Explorer). Pour Microsoft Edge spécifiquement, vous pouvez aller dans Paramètres > Confidentialité, recherche et services et choisir "Effacer les données de navigation", ou taper edge://settings/clearbrowserdata dans la barre d'adresse. 
 
