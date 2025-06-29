@@ -1,45 +1,61 @@
-<div *ngIf="currentProduct ; else elseBlock" >
-  <div class="container" *ngIf="mode==0">
-    <div class="card-heading col-12" style="background-color: crimson">
-      <div class="row ">
-          <div class="col-8 fw-bold text-white" > Nameee : {{currentProduct.name}}</div>
-
-          <div class="col-2" *ngIf="isAdmin()">
-              <button class="btn btn-warning" (click)="onEditProduct(currentProduct)">Edit Product</button>
+@if (currentProduct ) {
+  <div >
+    @if (mode==0) {
+      <div class="container">
+        <div class="card-heading col-12" style="background-color: crimson">
+          <div class="row ">
+            <div class="col-8 fw-bold text-white" > Nameee : {{currentProduct.name}}</div>
+            @if (isAdmin()) {
+              <div class="col-2">
+                <button class="btn btn-warning" (click)="onEditProduct(currentProduct)">Edit Product</button>
+              </div>
+            }
+            @if (isAdmin()) {
+              <div class="col-2">
+                <button class="btn btn-danger" (click)="onDeleteProduct(currentProduct.id)">Delete Product</button>
+              </div>
+            }
           </div>
-          <div class="col-2" *ngIf="isAdmin()">
-              <button class="btn btn-danger" (click)="onDeleteProduct(currentProduct.id)">Delete Product</button>
-          </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="row border">
-
-      <div class="col-md-5">
+        </div>
+        <div class="card-body">
+          <div class="row border">
+            <div class="col-md-5">
         <img class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
-        <div *ngIf="isAdmin()">
-          <button *ngIf="!editPhoto" (click)="onEditPhoto({p : currentProduct})">
+        @if (isAdmin()) {
+<div>
+          @if (!editPhoto) {
+<button (click)="onEditPhoto({p : currentProduct})">
             Change picture Edit
           </button>
-          <span *ngIf="editPhoto">
+}
+          @if (editPhoto) {
+<span>
             <input type="file" (change)="onSelectedFile({event : $event})">
             <button class="btn btn-success btn-sm" (click)="uploadPhoto()">
               <span class="btn btn-success">Upload</span>
             </button>
             {{progress}}
           </span>
+}
         </div>
+}
 
         <div>
-          <span *ngIf="currentProduct.promotion">
+          @if (currentProduct.promotion) {
+<span>
                 <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
           </span>
-          <span *ngIf="currentProduct.selected">
+}
+          @if (currentProduct.selected) {
+<span>
                 <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
               </span>
-          <span *ngIf="currentProduct.available">
+}
+          @if (currentProduct.available) {
+<span>
                 <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
               </span>
+}
         </div>
         <div>
           <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(currentProduct)">
@@ -72,7 +88,9 @@
       </div>
     </div>
   </div>
-  <div *ngIf="mode==1">
+}
+  @if (mode==1) {
+<div>
     <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
       <div class="form-group">
         <label class="control-label">Id:</label>
@@ -88,12 +106,17 @@
 	 	 <input type="file" name="photoName" ngModel [(ngModel)]="currentProduct.photoName" class="form-control" >
 	  </div>
 	  
-      <div class="col-sm-10" *ngIf="categories">
+      @if (categories) {
+<div class="col-sm-10">
         <label for="inputCategory" class="control-label">Select category:</label>
 
         <select name="category" id="inputCategory"  ngModel  [(ngModel)]="selectedCategory"  style="width: 40%" required>
-			<option *ngIf="selectedCategory"  [value]="selectedCategory">{{selectedCategory.name}}</option>
-          <option *ngFor="let category of categories._embedded.categories" [ngValue]="category" >{{category.name}}</option>
+			@if (selectedCategory) {
+<option  [value]="selectedCategory">{{selectedCategory.name}}</option>
+}
+          @for (category of categories._embedded.categories; track category) {
+<option [ngValue]="category" >{{category.name}}</option>
+}
         </select>
 		<br>
 <!--		Selected value is {{selectedCategory.id}}-->
@@ -102,6 +125,7 @@
         <span class="help-block" *ngIf="category.invalid && category.dirty">Category is required</span>
 -->
       </div>
+}
       <div class="form-group" >
         <label class="control-label">Description:</label>
         <textarea  name="description" ngModel [(ngModel)]="currentProduct.description" class="form-control"></textarea>
@@ -151,9 +175,10 @@
 	  		
     </form>
   </div>
+}
 </div>
+} @else {
 
-<ng-template #elseBlock >
   <br><br>
 
   <div class="container border fw-bold" >
@@ -166,17 +191,21 @@
 
         </div>
         <br>
-        <div class="col-sm-10" *ngIf="categories">
+        @if (categories) {
+<div class="col-sm-10">
           <label for="inputCategory" class="control-label">Select category:</label>
 
           <select name="category" id="inputCategory" ngModel  style="width: 100%" required>
-            <option *ngFor="let category of categories._embedded.categories" [ngValue]="category">{{category.name}}</option>
+            @for (category of categories._embedded.categories; track category) {
+<option [ngValue]="category">{{category.name}}</option>
+}
           </select>
 
 <!--
           <span class="help-block" *ngIf="category.invalid && category.dirty">Category is required</span>
 -->
         </div>
+}
         <br>
 
         <div class="form-group">
@@ -346,7 +375,10 @@
 	  
     <br>
   </div>
-</ng-template>
+
+}
+
+
           <!--<h1>CSS3 Checkbox Styles</h1>
 
           &lt;!&ndash; Slide ONE &ndash;&gt;

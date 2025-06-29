@@ -16,8 +16,7 @@ export class CustomerService {
 
   public getCustomers() {
     console.log("KKKKK");
-    return this.http.get<Customer[]>("http://localhost:8080/customer-service/api/customer")
-   // return this.http.get<Product[]>('http://localhost:8080/api/product', {headers: new HttpHeaders({'Authorization':'Bearer '+this.keycloakSecurityService.kc?.token})})
+    return this.http.get<Customer[]>("http://localhost:8080/customer-service/customers")
       .pipe(
         catchError(this.handleError),
         // tap(data => console.log('data', data))
