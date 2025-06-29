@@ -4,6 +4,9 @@ import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.CategoryRepository;
 import com.hamch.productserviceb.repository.ProductRepository;
+
+import java.util.Random;
+
 //import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -22,10 +25,6 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 */
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.Type;
@@ -83,17 +82,20 @@ public class ProductServicebApplication implements CommandLineRunner {
 
 //	repositoryRestConfiguration.exposeIdsFor(Product.class, Category.class);
 
-	/*
-	 * categoryRepository.save(new Category(null, "Bidons", null)); //
-	 * categoryRepository.save(new Category(null,"Printers", null)); //
-	 * categoryRepository.save(new Category(null,"Smart phones", null)); Random rnd
-	 * = new Random(); categoryRepository.findAll().forEach(c -> { for (int i = 0; i
-	 * < 0; i++) { Product p = new Product(); p.setName(RandomString.make(18));
-	 * p.setPrice(100 + rnd.nextInt(10000)); p.setAvailable(rnd.nextBoolean());
-	 * p.setPromotion(rnd.nextBoolean()); p.setSelected(rnd.nextBoolean());
-	 * p.setCategory(c); p.setPhotoName("unknown.png"); p.setStock(5);
-	 * productRepository.save(p); } });
-	 */
+		/*
+		 * categoryRepository.save(new Category(null, "Bidons", null)); //
+		 * categoryRepository.save(new Category(null,"Printers", null)); //
+		 * categoryRepository.save(new Category(null,"Smart phones", null)); Random rnd
+		 * = new Random(); categoryRepository.findAll().forEach(c -> { for (int i = 0;
+		 * i< 3; i++) { Product p = new Product(); p.setName(rnd.toString());
+		 * //p.setName("ttttttttttt"); p.setPrice(100 + rnd.nextInt(10000));
+		 * p.setAvailable(rnd.nextBoolean()); p.setPromotion(rnd.nextBoolean());
+		 * p.setSelected(rnd.nextBoolean()); p.setCategory(c);
+		 * p.setPhotoName("unknown.png"); p.setStock(5); productRepository.save(p); }
+		 * });
+		 */
+		 
+ 
 
 	}
 
