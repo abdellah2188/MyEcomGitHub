@@ -14,8 +14,8 @@ class CustomerMapperTest {
 
     @Test
     void shouldMapCustomerToCustomerDTO() {
-        Customer givenCustomer = Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
-        CustomerDTO expected = CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        Customer givenCustomer = Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        CustomerDTO expected = CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
 
         CustomerDTO result = customerMapper.fromCustomer(givenCustomer);
         assertThat(expected).usingRecursiveComparison().isEqualTo(result);
@@ -23,8 +23,8 @@ class CustomerMapperTest {
 
     @Test
     void shouldMapCustomerDTOtoCustomer() {
-        CustomerDTO givenCustomerDTO = CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
-        Customer    expected         = Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        CustomerDTO givenCustomerDTO = CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        Customer    expected         = Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
         Customer result = customerMapper.fromCustomerDTO(givenCustomerDTO);
         AssertionsForClassTypes.assertThat(expected).usingRecursiveComparison().isEqualTo(result);
     }
@@ -32,12 +32,12 @@ class CustomerMapperTest {
     @Test
     void shouldMapListOfCustomersToListCustomerDTOs() {
         List<Customer> givenCustomers=List.of(
-               Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
-               Customer.builder().id(2L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
+               Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
+               Customer.builder().id(2L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
         );
         List<CustomerDTO> expected=List.of(
-               CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
-               CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
+               CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
+               CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
         );
      //   System.out.println("EEEEE"+ expected);
         

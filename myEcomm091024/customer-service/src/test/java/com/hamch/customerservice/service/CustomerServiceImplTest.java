@@ -41,13 +41,13 @@ public class CustomerServiceImplTest {
     private CustomerServiceImpl underTest;
     @Test
     void shouldSaveNewCustomer() {
-        CustomerDTO customerDTO= CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        CustomerDTO customerDTO= CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
         
-        Customer customer= Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        Customer customer= Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
         
-        Customer savedCustomer= Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        Customer savedCustomer= Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
         
-        CustomerDTO expected= CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        CustomerDTO expected= CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("sxxxx@gmail.com").mobile("1111111").userName("XXX").build();
        
         
         
@@ -69,9 +69,9 @@ public class CustomerServiceImplTest {
 	
 	  @Test void shouldNotSaveNewCustomerWhenEmailExist() { 
 		  
-		  CustomerDTO customerDTO= CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("txxxx@gmail.com").mobile("1111111").userName("XXX").build();
+		  CustomerDTO customerDTO= CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("txxxx@gmail.com").mobile("1111111").userName("XXX").build();
 	        
-	      Customer customer= Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("txxxx@gmail.com").mobile("1111111").userName("XXX").build();
+	      Customer customer= Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("txxxx@gmail.com").mobile("1111111").userName("XXX").build();
 		  
 		//  Mockito.when(customerRepository.findByEmail(customerDTO.getEmail())).thenReturn(Optional.of(customer));
 		  Mockito.when(customerRepository.findByEmail(customerDTO.getEmail())).thenReturn(customer);
@@ -82,13 +82,13 @@ public class CustomerServiceImplTest {
 	 @Test 
 	 void shouldGetAllCustomers() { 
 		 List<Customer> customers = List.of(
-			 Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-			 Customer.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() , 
-		     Customer.builder().firstName("wyyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() );
+			 Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+			 Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() , 
+		     Customer.builder().firstName("wyyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() );
 
 		 List<CustomerDTO> expected = List.of(
-			  CustomerDTO.builder().firstName("qxxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-			  CustomerDTO.builder().firstName("qyyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() );
+			  CustomerDTO.builder().firstName("qxxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+			  CustomerDTO.builder().firstName("qyyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() );
 		 
 		 Mockito.when(customerRepository.findAll()).thenReturn(customers);
 	       
@@ -104,8 +104,8 @@ public class CustomerServiceImplTest {
 	  void shouldFindCustomerById() { 
 		  
 		  Long customerId = 1L; 
-		  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
-		  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+		  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
+		  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
 	  
 		  Mockito.when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 		  Mockito.when(customerMapper.fromCustomer(customer)).thenReturn(expected);
@@ -118,8 +118,8 @@ public class CustomerServiceImplTest {
 	  void shouldFindCustomerByUserName() { 
 		  
 		  String username = "XXX"; 
-		  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
-		  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+		  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
+		  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
 	  
 		  Mockito.when(customerRepository.findByUserName(username)).thenReturn(customer);
 		  Mockito.when(customerMapper.fromCustomer(customer)).thenReturn(expected);
@@ -137,17 +137,17 @@ public class CustomerServiceImplTest {
 		  
 		  
 		  List<Customer> customers = List.of(
-				  Customer.builder().firstName("yxxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-				  Customer.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() ); 
+				  Customer.builder().firstName("yxxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+				  Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() ); 
 				  
 		  List<CustomerDTO> expected = List.of(
-				 // CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-				  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
+				 // CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+				  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
 				 
 		  
 		  
-	//	  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
-	//	  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+	//	  Customer customer=Customer.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
+	//	  CustomerDTO expected=CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
 	  
 		  Mockito.when(customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile)).thenReturn(customers);
 		  Mockito.when(customerMapper.fromListCustomers(customers)).thenReturn(expected);
@@ -167,12 +167,12 @@ public class CustomerServiceImplTest {
 	  void shouldSearchCustomers() { 
 		  String keyword="y"; 
 		  List<Customer> customers = List.of(
-		  Customer.builder().firstName("yxxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-		  Customer.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() ); 
+		  Customer.builder().firstName("yxxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+		  Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build() ); 
 		  
 		  List<CustomerDTO> expected = List.of(
-		 // CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
-		  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
+		 // CustomerDTO.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(), 
+		  CustomerDTO.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY"). build() );
 		 
 		  Mockito.when(customerRepository.findByFirstNameContainingIgnoreCase(keyword)).thenReturn(customers);
 		//  System.out.println("rrrrrr" + customerRepository.findByFirstNameContainingIgnoreCase(keyword));
@@ -187,13 +187,13 @@ public class CustomerServiceImplTest {
 	  
 	  @Test void updateCustomer() { 
 		  Long customerId= 6L; 
-		  CustomerDTO customerDTO= CustomerDTO.builder().id(6L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
+		  CustomerDTO customerDTO= CustomerDTO.builder().id(6L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
 		 
-		  Customer customer= Customer.builder().id(6L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(); 
+		  Customer customer= Customer.builder().id(6L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(); 
 		  
-		  Customer updatedCustomer= Customer.builder().id(6L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
+		  Customer updatedCustomer= Customer.builder().id(6L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
 		 
-		  CustomerDTO expected= CustomerDTO.builder().id(6L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
+		  CustomerDTO expected= CustomerDTO.builder().id(6L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build();
 	  
 		  Mockito.when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 		 
@@ -214,7 +214,7 @@ public class CustomerServiceImplTest {
 	  @Test
 	  void shouldDeleteCustomer() {
 		  Long customerId =1L; 
-		  Customer customer= Customer.builder().id(6L).firstName("rrrrrr").lastName("rrrrrr").address("addddrrrsssrrrrr").email("rrrrr@gmail.com").mobile("555555555").userName("RRR").build();
+		  Customer customer= Customer.builder().id(6L).firstName("rrrrrr").lastName("rrrrrr").adress("addddrrrsssrrrrr").email("rrrrr@gmail.com").mobile("555555555").userName("RRR").build();
 		  Mockito.when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer)); 
 		  underTest.deleteCustomer(customerId);
 		  Mockito.verify(customerRepository).deleteById(customerId); 
