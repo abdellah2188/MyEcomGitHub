@@ -29,10 +29,11 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.Type;
 
-@SpringBootApplication
+//@SpringBootApplication
 @EnableDiscoveryClient
 @Configurable
 @EnableJpaRepositories
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 public class ProductServicebApplication implements CommandLineRunner {
 	@Autowired
 	private ProductRepository productRepository;
