@@ -9,10 +9,14 @@ import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import io.netty.resolver.DefaultAddressResolverGroup;
 import reactor.netty.Connection;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
@@ -24,8 +28,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@SpringBootApplication
+//@SpringBootApplication
 @EnableDiscoveryClient
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 public class ApiGatewayServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayServiceApplication.class, args);
@@ -33,13 +38,15 @@ public class ApiGatewayServiceApplication {
        
     }
 
+    
     @Bean
     DiscoveryClientRouteDefinitionLocator dynamicRoutes(ReactiveDiscoveryClient rdc,
                                                         DiscoveryLocatorProperties dlp){
         return new DiscoveryClientRouteDefinitionLocator(rdc,dlp);
     }
 
-
+    
+    
     @Bean
     public CorsWebFilter corsWebFilter() {
 
