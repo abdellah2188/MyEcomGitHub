@@ -223,8 +223,8 @@ services:
      #image: im-inventory-service
      container_name: cn-inventory-service
      command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-     ports:
-       - "9002:9002"
+   #  ports:
+    #   - "9002:9002"
      environment:
        - SERVICE_PORT=9002
        - JAVA_TOOL_OPTIONS=
@@ -239,7 +239,8 @@ services:
        - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/inventory-service?createDatabaseIfNotExist=true
        - RABBITMQ_HOST=rabbitmq
        - RABBITMQ_PW=5672
-#     healthcheck:
+       - KC_HOST=keycloak-w
+       #     healthcheck:
 #       test: [ "CMD", "curl", "-f", "http://localhost" ]
 #       interval: 10s
 #       retries: 10
@@ -287,6 +288,7 @@ services:
         ports:
           - "9001:9001"
         environment:
+          - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
           - SERVICE_PORT=9001
           - JAVA_TOOL_OPTIONS=
           - CONSUL_HOST=discovery
@@ -300,10 +302,11 @@ services:
           - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
           - RABBITMQ_HOST=rabbitmq
           - RABBITMQ_PW=5672
+          - KC_HOST=keycloak-w
         healthcheck:
           test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
           interval: 10s
-          retries: 4
+          retries: 6
         volumes:
           - ./VOLUME_IMAGE:/products/images
         networks:
