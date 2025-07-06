@@ -28,16 +28,30 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-//@SpringBootApplication
+@SpringBootApplication
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
+//@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 public class ApiGatewayServiceApplication {
     public static void main(String[] args) {
+    	
+//    	HttpClient client = HttpClient.create().resolver(spec -> spec.queryTimeout(Duration.ofMillis(2000)));
+//    	
+//    	String response = client.get()
+//    			.uri("127.0.0.1:8080/")
+//    		//	.uri("http://127.0.0.1:4200/")
+//    			//.uri("M-A-HAMCH.mshome.net")
+//    			//.uri("127.0.0.1:8080")
+//    			.responseContent()
+//    			.aggregate()
+//    			.asString()
+//    			.block();
+    			
         SpringApplication.run(ApiGatewayServiceApplication.class, args);
         
        
     }
 
+    
     
     @Bean
     DiscoveryClientRouteDefinitionLocator dynamicRoutes(ReactiveDiscoveryClient rdc,
