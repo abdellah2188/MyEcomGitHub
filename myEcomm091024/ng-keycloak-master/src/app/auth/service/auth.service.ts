@@ -30,9 +30,10 @@ export class AuthService {
       this.userName= user.username;
       this.firstName    = user.firstName;
 	  this.lastName     = user.lastName
-     // console.log("IIIII", this.name);
-      this.mobile  = user.attributes.mobile['0'];
-      this.adress  = user.attributes.adress['0']
+    //  this.mobile  = user.attributes.mobile['0'];
+	 // console.log("IIIIIiiiiiiiiiiiiiiiiiiiiiiiiiii",this.userName);
+
+    //  this.adress  = user.attributes.adress['0']
       this.email   = user.email;
     })
   }
@@ -50,7 +51,7 @@ export class AuthService {
 
   hasRoleIn(roles: Array<string>): boolean {
     let userRoles = this.keycloakService.getUserRoles();
-    //console.log("RRRRR", userRoles);
+    //console.log("RRRRRrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", userRoles);
     for (let role of roles) {
       if (userRoles.includes(role)) return true;
     }
