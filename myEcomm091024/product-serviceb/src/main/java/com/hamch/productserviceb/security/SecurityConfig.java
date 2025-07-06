@@ -1,68 +1,76 @@
 package com.hamch.productserviceb.security;
 
-import java.util.Arrays;
-
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+
 public class SecurityConfig {
 	
-	
-	
-	private JwtAuthConverter jwtAuthConverter;
+    private JwtAuthConverter jwtAuthConverter;
 
     public SecurityConfig(JwtAuthConverter jwtAuthConverter) {
         this.jwtAuthConverter = jwtAuthConverter;
     }
 
-	/*
-	 * public SecurityConfig(ClientRegistrationRepository
-	 * clientRegistrationRepository) { this.clientRegistrationRepository =
-	 * clientRegistrationRepository; }
-	 */
-	
-	
-	@Bean
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	
+    	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
-                .csrf(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar->ar.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
-                .oauth2ResourceServer(o2->o2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter)))
+                .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
                 .build();
     }
-	
-	/*
-	 * private OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler() {
-	 * final OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler = new
-	 * OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
-	 * oidcLogoutSuccessHandler.setPostLogoutRedirectUri(
-	 * "{baseUrl}?logoutsuccess=true"); return oidcLogoutSuccessHandler; }
-	 */
-	
-	 @Bean
-	    CorsConfigurationSource corsConfigurationSource() {
-	        CorsConfiguration configuration = new CorsConfiguration();
-	        configuration.setAllowedOrigins(Arrays.asList("*"));
-	        configuration.setAllowedMethods(Arrays.asList("*"));
-	        configuration.setAllowedHeaders(Arrays.asList("*"));
-	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	        source.registerCorsConfiguration("/**", configuration);
-	        return source;
-	    }
+    
+    private static JwtAuthenticationConverter jwtAuthenticationConverter()
+    {
+        var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("resource_access.user.roles");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        var jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
 }
