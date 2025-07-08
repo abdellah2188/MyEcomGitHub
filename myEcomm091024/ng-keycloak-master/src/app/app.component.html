@@ -6,7 +6,6 @@
       <!--        <span class="navbar-toggler-icon"></span>-->
     </button>
 
-	
     <li class="collapse navbar-collapse" id="navbarsExample04">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
@@ -30,15 +29,15 @@
           <a class="nav-link active clickable" style="font-size: 20px" routerLink="/caddy">Caddies</a>
         </li>
         @if (authService.hasRoleIn(['ADMIN'])) {
-          <!--<li class="nav-item">
-            <a class="nav-link active clickable" style="font-size: 20px" aria-current="page" routerLink="customer" >Customerss</a>
-          </li>-->
+          <li class="nav-item">
+            <a class="nav-link active clickable" style="font-size: 20px" aria-current="page" routerLink="customer" >Customerssss</a>
+          </li>
 		  <li class="nav-item dropdown">
-		            <a class="nav-link dropdown-toggle active clickable" style="font-size: 20px" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Customers</a>
+		            <a class="nav-link dropdown-toggle active clickable" style="font-size: 20px" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Customersxxx</a>
 		            <ul class="dropdown-menu" aria-labelledby="dropdown04">
-		              <li><a class="dropdown-item clickable"  routerLink="customer" >Customer on line</a></li>
+		              <li><a class="dropdown-item clickable"  routerLink="/customer" >Customer on line</a></li>
 		              <li><a class="dropdown-item clickable"  (click)="allCustomers()">All customers</a></li>
-		              
+		             
 		            </ul>
 		   </li>
         }

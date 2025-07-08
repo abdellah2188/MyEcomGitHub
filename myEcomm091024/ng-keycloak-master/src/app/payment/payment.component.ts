@@ -6,10 +6,10 @@ import {PaymentService} from "../services/payment.service";
 //import {Timestamp} from "rxjs/internal-compatibility";
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css'],
-  standalone: false
+    selector: 'app-payment',
+    templateUrl: './payment.component.html',
+    styleUrls: ['./payment.component.css'],
+    standalone: false
 })
 export class PaymentComponent implements OnInit {
   public paymentAmount?:number;
