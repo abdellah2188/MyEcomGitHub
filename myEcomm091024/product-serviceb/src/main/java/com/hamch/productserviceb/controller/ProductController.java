@@ -86,7 +86,8 @@ public class ProductController  {
    }
     
     @PostMapping(path="/add/")
-    public void addWithFile(@ModelAttribute("product") Object  prod, @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
+    public void addWithFile(@ModelAttribute("product") Object  prod,
+                            @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
         System.out.println(prod+"RRRRRRRRR"+file.getBytes());
         Product  product=new Product();

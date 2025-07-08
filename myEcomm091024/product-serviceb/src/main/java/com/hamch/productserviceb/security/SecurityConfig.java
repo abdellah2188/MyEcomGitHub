@@ -1,3 +1,4 @@
+
 package com.hamch.productserviceb.security;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
@@ -28,7 +29,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-
 public class SecurityConfig {
 	
     private JwtAuthConverter jwtAuthConverter;
@@ -38,13 +38,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     	
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
+                //.authorizeHttpRequests(ar->ar.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
@@ -64,7 +64,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
