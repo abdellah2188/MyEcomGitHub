@@ -28,7 +28,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
     
-    @GetMapping
+    @GetMapping("/customers")
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();

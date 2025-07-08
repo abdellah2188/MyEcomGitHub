@@ -47,9 +47,9 @@ class CustomerControllerTest {
     @BeforeAll
     static void setUp() {
         customers = List.of(
-                CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
-                CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
-                CustomerDTO.builder().id(3L).firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
+                CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
+                CustomerDTO.builder().id(2L).firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
+                CustomerDTO.builder().id(3L).firstName("zzzzz").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
         );
     }
 
@@ -86,9 +86,9 @@ class CustomerControllerTest {
 	  void searchCustomers() throws Exception { 
 		  
 		  List<CustomerDTO> customersDTO = List.of(
-	                CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
-	                CustomerDTO.builder().id(2L).firstName("xyyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
-	                CustomerDTO.builder().id(3L).firstName("xzzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
+	                CustomerDTO.builder().id(1L).firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build() ,
+	                CustomerDTO.builder().id(2L).firstName("xyyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build(),
+	                CustomerDTO.builder().id(3L).firstName("xzzzzz").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build()
 	        );
 		  
 		  String keyword="x";
@@ -107,7 +107,7 @@ class CustomerControllerTest {
 		  CustomerDTO customerDTO= customers.get(0); 
 		  String expected = """ 
 		  		
-		  		{ "id":1, "firstName":"xxxxx", "lastName":"xxxxx","adress":"addddrrrsssxxxx", "email":"xxxx@gmail.com", "mobile":"1111111", "userName":"XXX" }
+		  		{ "id":1, "firstName":"xxxxx", "lastName":"xxxxx","address":"addddrrrsssxxxx", "email":"xxxx@gmail.com", "mobile":"1111111", "userName":"XXX" }
 		                    """; 
 	
 	  Mockito.when(customerService.saveNewCustomer(Mockito.any())).thenReturn(customers.get(0));
@@ -122,7 +122,7 @@ class CustomerControllerTest {
  	  void testUpdateCustomer() throws Exception {
  		  Long customerId=1L;
  		//  CustomerDTO customerDTO= customers.get(0);
-		  CustomerDTO customerDTO= CustomerDTO.builder().firstName("aaaa").lastName("aaaa").adress("addddrrrsssaaaa").email("aaaa@gmail.com").mobile("1111111").userName("AAA").build();
+		  CustomerDTO customerDTO= CustomerDTO.builder().firstName("aaaa").lastName("aaaa").address("addddrrrsssaaaa").email("aaaa@gmail.com").mobile("1111111").userName("AAA").build();
  		 
 		  Mockito.when(customerService.updateCustomer(Mockito.eq(customerId),Mockito.any())).thenReturn(customerDTO);
  		  mockMvc.perform(MockMvcRequestBuilders.put("/api/customer/{id}", customerId)

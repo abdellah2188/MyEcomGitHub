@@ -89,9 +89,9 @@ public class CustomerIntegrationTest {
          customers = new ArrayList<>();
          //System.out.println("aaaaaaaaaaaaaaaaaa"+ customers);
 
-         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
-         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
-         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").userName("ZZZ").build());
+         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
+         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
+         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").userName("ZZZ").build());
          //System.out.println("bbbbbbbbbbbbbbbbb"+ customers);
          
     }
@@ -152,7 +152,7 @@ public class CustomerIntegrationTest {
     @Test
     //@Rollback
     void shouldSaveValidCustomer(){
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").adress("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").address("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
         ResponseEntity<CustomerDTO> response = testRestTemplate.exchange("/api/customer/add", HttpMethod.POST, new HttpEntity<>(customerDTO), CustomerDTO.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         AssertionsForClassTypes.assertThat(response.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(customerDTO);
@@ -162,7 +162,7 @@ public class CustomerIntegrationTest {
     @Test
    // @Rollback
     void shouldNotSaveInValidCustomer() throws JsonProcessingException {
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("").lastName("").adress("").email("").mobile("").userName("").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("").lastName("").address("").email("").mobile("").userName("").build();
         ResponseEntity<String> response = testRestTemplate.exchange("/api/customer/add", HttpMethod.POST, new HttpEntity<>(customerDTO), String.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         Map<String, ArrayList<String>> errors = objectMapper.readValue(response.getBody(), HashMap.class);
@@ -170,7 +170,7 @@ public class CustomerIntegrationTest {
         Assertions.assertThat(errors.get("firstName").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("lastName").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("email").size()).isEqualTo(2);
-        Assertions.assertThat(errors.get("adress").size()).isEqualTo(2);
+        Assertions.assertThat(errors.get("address").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("mobile").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("userName").size()).isEqualTo(2);
     }
@@ -179,7 +179,7 @@ public class CustomerIntegrationTest {
     //@Rollback
     void shouldUpdateValidCustomer(){
         Long customerId = 2L;
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").adress("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").address("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
         ResponseEntity<CustomerDTO> response = testRestTemplate.exchange("/api/customer/"+customerId, HttpMethod.PUT, new HttpEntity<>(customerDTO), CustomerDTO.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         AssertionsForClassTypes.assertThat(response.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(customerDTO);
