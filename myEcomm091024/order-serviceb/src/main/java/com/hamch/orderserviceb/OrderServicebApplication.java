@@ -9,15 +9,19 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /////////////////import org.springframework.cloud.sleuth.instrument.async.TraceableExecutorService;
 import org.springframework.context.annotation.Bean;
 //import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.concurrent.ExecutorService;
 
 import java.util.concurrent.Executors;
 
-@SpringBootApplication
+//@SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
 @RequiredArgsConstructor
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
+@ComponentScan("com.hamch.orderserviceb.security")
+@ComponentScan(basePackageClasses = com.hamch.orderserviceb.controller.OrderController.class)
 public class OrderServicebApplication {
     private final BeanFactory beanFactory;
     public static void main(String[] args) {

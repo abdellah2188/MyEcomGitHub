@@ -1,11 +1,11 @@
 package com.hamch.orderserviceb.services;
 
 import com.hamch.orderserviceb.model.Customer;
-import com.hamch.orderserviceb.security.ClientConfiguration;
+//import com.hamch.orderserviceb.security.ClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.*;
-@FeignClient(name = "customer-service", url = "${customer-service.url}",configuration = {ClientConfiguration.class})
+@FeignClient(name = "customer-service", url = "${customer-service.url}") //,configuration = {ClientConfiguration.class})
 public interface CustomerRestClientService {
     @GetMapping("/customers/{id}?projection=fullCustomer")
     public Customer customerById(@PathVariable Long id);
