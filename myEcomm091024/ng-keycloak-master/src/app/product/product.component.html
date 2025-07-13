@@ -22,9 +22,9 @@
             <div class="col-md-5">
         <img class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
         @if (isAdmin()) {
-<div>
+  <div>
           @if (!editPhoto) {
-<button (click)="onEditPhoto({p : currentProduct})">
+		<button (click)="onEditPhoto({p : currentProduct})">
             Change picture Edit
           </button>
 }

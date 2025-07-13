@@ -18,10 +18,12 @@ export class KeycloakSecurityService {
     return new Promise((resolve, reject) => {
       console.log('INIT : Service keycloak security2 ');
       this.kc= new Keycloak({
-        url: 'http://localhost:8180',
-		//url: 'http://localhost:7080',
+        //url: 'http://localhost:8180',
+		url: 'http://localhost:7080',
+
         realm: 'microservices-realm',
         clientId: 'controle-jee-client'
+		//ClientSecret: 'xiUbeHa6t4BkjsVEBH4kFai8GtGsjVMc' 
       });
       this.kc?.init({
          onLoad: 'login-required'
