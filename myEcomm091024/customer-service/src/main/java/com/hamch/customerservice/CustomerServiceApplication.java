@@ -11,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -31,8 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Profile("!test")
 @EnableJpaRepositories
-@Configurable
-@ComponentScan("com.hamch.productserviceb.security")
+//@Configurable
 public class CustomerServiceApplication  {
 
 	@Autowired

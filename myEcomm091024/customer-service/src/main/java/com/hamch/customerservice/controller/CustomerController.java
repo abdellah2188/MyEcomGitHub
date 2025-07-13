@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/customer")
 //@RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin("http://localhost:4200")
 //@CrossOrigin("*")
 public class CustomerController {
     @Autowired
@@ -28,7 +28,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
     
-    @GetMapping("/customers")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();
