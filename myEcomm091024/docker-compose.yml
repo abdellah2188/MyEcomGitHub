@@ -163,7 +163,7 @@ services:
             "enabled" : true
           }
         }'
-    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1		
+    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1
     volumes:
         - ./VOLUME_CONSUL:/consul/data
        # - ./VOLUME_CONFIG:/consul
@@ -217,7 +217,43 @@ services:
     networks:
       - net-micros
     #command: sh -c '/bin/wait-for-it.sh rabbitmq:5673 --timeout=30 -- node consumer.js'  
-   
+  product-serviceb:
+        build: ./product-serviceb
+        container_name: cn-product-service
+        command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
+        ports:
+          - "9001:9001"
+        environment:
+       #   - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak-w:8080/realms/microservices-realm
+          - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
+        #  - AUTH_SERVER_URL=http://keycloak-w:8080/realms/microservices-realm/apikey/check_api_key/
+          - SERVICE_PORT=9001
+          - JAVA_TOOL_OPTIONS=
+          - CONSUL_HOST=discovery
+          - CONSUL_PORT=8500
+          #- CONFIG_SERVICE_URL=config-service
+          - CONFIG_SERVICE_PORT=8889
+          - DOCKER_MYSQL=mysql-db
+          - MYSQL_PW=root
+          - MYSQL_USR=root
+          #- SPRING_PROFILES_ACTIVE=docker  
+          - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_PW=5672
+          - KC_HOST=localhost
+          - KC_PORT=7080
+        healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
+          interval: 10s
+          retries: 6
+        volumes:
+          - ./VOLUME_IMAGE:/products/images
+        networks:
+          - net-micros
+        depends_on:
+           api-gateway-service:
+             condition: service_healthy
+
   inventory-service:
      build: ./inventory-service
      #image: im-inventory-service
@@ -258,6 +294,7 @@ services:
      ports:
        - "9003:9003"
      environment:
+       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
        - SERVICE_PORT=9003
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
@@ -281,39 +318,7 @@ services:
        product-serviceb:
           condition: service_healthy
    
-  product-serviceb:
-        build: ./product-serviceb
-        container_name: cn-product-service
-        command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
-        ports:
-          - "9001:9001"
-        environment:
-          - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
-          - SERVICE_PORT=9001
-          - JAVA_TOOL_OPTIONS=
-          - CONSUL_HOST=discovery
-          - CONSUL_PORT=8500
-          #- CONFIG_SERVICE_URL=config-service
-          - CONFIG_SERVICE_PORT=8889
-          - DOCKER_MYSQL=mysql-db
-          - MYSQL_PW=root
-          - MYSQL_USR=root
-          #- SPRING_PROFILES_ACTIVE=docker  
-          - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/product-service?createDatabaseIfNotExist=true
-          - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_PW=5672
-          - KC_HOST=keycloak-w
-        healthcheck:
-          test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
-          interval: 10s
-          retries: 6
-        volumes:
-          - ./VOLUME_IMAGE:/products/images
-        networks:
-          - net-micros
-        depends_on:
-           api-gateway-service:
-             condition: service_healthy
+  
    
   order-serviceb:
          build: ./order-serviceb
@@ -322,6 +327,7 @@ services:
          ports:
            - "9004:9004"
          environment:
+           - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
            - SERVICE_PORT=9004
            - JAVA_TOOL_OPTIONS=
            - CONSUL_HOST=discovery
