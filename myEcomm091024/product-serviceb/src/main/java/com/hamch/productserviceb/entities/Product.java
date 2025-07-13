@@ -3,23 +3,22 @@ package com.hamch.productserviceb.entities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 //import org.springframework.data.annotation.Id;
 import lombok.ToString;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 
 //@Document(value = "product")
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Builder @Table(name="product") @Getter @Setter @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 
-//@Data
-
+@Table(name="product")
+@Data
+@Builder
 //@ToString()
 public class Product implements Serializable {
 

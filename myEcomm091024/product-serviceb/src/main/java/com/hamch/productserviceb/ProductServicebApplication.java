@@ -1,9 +1,12 @@
 package com.hamch.productserviceb;
 
-import com.hamch.productserviceb.entities.Category;
-import com.hamch.productserviceb.entities.Product;
-import com.hamch.productserviceb.repository.CategoryRepository;
-import com.hamch.productserviceb.repository.ProductRepository;
+//import com.hamch.productserviceb.entities.Category;
+//import com.hamch.productserviceb.entities.Product;
+//import com.hamch.productserviceb.repository.CategoryRepository;
+//import com.hamch.productserviceb.repository.ProductRepository;
+
+//import java.util.Random;
+
 //import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -23,13 +26,10 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 */
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import com.hamch.productserviceb.controller.ProductController;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.metamodel.Type;
+//import jakarta.persistence.metamodel.Type;
 
 //@SpringBootApplication
 @EnableDiscoveryClient
@@ -37,11 +37,14 @@ import jakarta.persistence.metamodel.Type;
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 @ComponentScan("com.hamch.productserviceb.security")
+@ComponentScan(basePackageClasses = com.hamch.productserviceb.controller.ProductController.class)
+@ComponentScan(basePackageClasses = com.hamch.productserviceb.services.impl.CategoryService.class)
+
 public class ProductServicebApplication implements CommandLineRunner {
-	@Autowired
-	private ProductRepository productRepository;
-	@Autowired
-	private CategoryRepository categoryRepository;
+	//@Autowired
+	//private ProductRepository productRepository;
+	//@Autowired
+	//private CategoryRepository categoryRepository;
 	@Autowired
 	
 	//private RepositoryRestConfiguration repositoryRestConfiguration;
@@ -80,29 +83,27 @@ public class ProductServicebApplication implements CommandLineRunner {
 	 * }; }
 	 */
 
-	
-	  @Override
-	 
-	  @Profile("test") 
-	  public void run(String... args) throws Exception {
-	  
-	  // repositoryRestConfiguration.exposeIdsFor(Product.class, Category.class);
-	  
-	  
+	@Override
+	@Profile("test")
+	public void run(String... args) throws Exception {
+
+//	repositoryRestConfiguration.exposeIdsFor(Product.class, Category.class);
+
 		/*
-		 * categoryRepository.save(new Category(null, "Computers", null)); //
+		 * categoryRepository.save(new Category(null, "Bidons", null)); //
 		 * categoryRepository.save(new Category(null,"Printers", null)); //
 		 * categoryRepository.save(new Category(null,"Smart phones", null)); Random rnd
-		 * = new Random(); categoryRepository.findAll().forEach(c -> { for (int i = 0; i
-		 * < 3; i++) { Product p = new Product(); p.setName("rrrrrrrrrrr");
-		 * p.setPrice(100 + rnd.nextInt(10000)); p.setAvailable(rnd.nextBoolean());
-		 * p.setPromotion(rnd.nextBoolean()); p.setSelected(rnd.nextBoolean());
-		 * p.setCategory(c); p.setPhotoName("unknown.png"); p.setStock(5);
-		 * productRepository.save(p); } });
+		 * = new Random(); categoryRepository.findAll().forEach(c -> { for (int i = 0;
+		 * i< 3; i++) { Product p = new Product(); p.setName(rnd.toString());
+		 * //p.setName("ttttttttttt"); p.setPrice(100 + rnd.nextInt(10000));
+		 * p.setAvailable(rnd.nextBoolean()); p.setPromotion(rnd.nextBoolean());
+		 * p.setSelected(rnd.nextBoolean()); p.setCategory(c);
+		 * p.setPhotoName("unknown.png"); p.setStock(5); productRepository.save(p); }
+		 * });
 		 */
-	 
-	 
-	  }
-	 
+		 
+ 
+
+	}
 
 }

@@ -4,7 +4,7 @@ import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.ProductRepository;
 import com.hamch.productserviceb.services.impl.ProductService;
-import lombok.RequiredArgsConstructor;
+//import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,11 +27,12 @@ import java.util.Optional;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/product")
 //@RequiredArgsConstructor
 @Slf4j
+//@PreAuthorize("hasAuthority('USER)")
 public class ProductController  {
 
     @Autowired
@@ -86,8 +88,7 @@ public class ProductController  {
    }
     
     @PostMapping(path="/add/")
-    public void addWithFile(@ModelAttribute("product") Object  prod,
-                            @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
+    public void addWithFile(@ModelAttribute("product") Object  prod, @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
         System.out.println(prod+"RRRRRRRRR"+file.getBytes());
         Product  product=new Product();
