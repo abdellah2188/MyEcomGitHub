@@ -1,29 +1,22 @@
 package com.hamch.apigatewayservice;
 
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+//import org.springframework.cloud.gateway.route.RouteLocator;
+//import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.context.annotation.ComponentScan;
+//import org.springframework.context.annotation.Primary;
+//import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import io.netty.resolver.DefaultAddressResolverGroup;
-import reactor.netty.Connection;
-import reactor.netty.http.client.HttpClient;
-import reactor.netty.resources.ConnectionProvider;
-import reactor.netty.udp.UdpServer;
-
-import java.sql.SQLOutput;
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +24,9 @@ import java.util.List;
 @SpringBootApplication
 @EnableDiscoveryClient
 //@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
+//@ComponentScan("com.hamch.apigatewayservice.config")
+//@ComponentScan("com.hamch.apigatewayservice.config.SecurityConfig.class")
+//@Configurable
 public class ApiGatewayServiceApplication {
     public static void main(String[] args) {
     	
