@@ -16,7 +16,7 @@ export class CustomerService {
 
   public getCustomers() {
     console.log("KKKKK");
-    return this.http.get<Customer[]>("http://localhost:8080/customer-service/customers")
+    return this.http.get<Customer[]>("http://api-gateway-service:8080/customer-service/customers")
       .pipe(
         catchError(this.handleError),
         // tap(data => console.log('data', data))
