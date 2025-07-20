@@ -33,9 +33,11 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-           //     .authorizeHttpRequests(ar->ar.requestMatchers("/products/images/**","/**", "/api/product/**","/api/product/photoProduct/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
-                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**").hasAnyAuthority("USER"))
+         //       .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
+               // .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .csrf(csrf->csrf.disable())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
                 .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
@@ -54,19 +56,19 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
    
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-//
-//        CorsConfiguration configuration = new CorsConfiguration();
-//     //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
-//        //configuration.addAllowedOrigin("http://localhost:4200");
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
+        CorsConfiguration configuration = new CorsConfiguration();
+     //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
+        //configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 }

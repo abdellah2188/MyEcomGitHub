@@ -18,7 +18,7 @@ import java.util.List;
 //@RequiredArgsConstructor
 @Slf4j
 //@CrossOrigin("http://localhost:4200")
-//@CrossOrigin("*")
+@CrossOrigin("*")
 public class CustomerController {
     @Autowired
    // private  CustomerRepository customerRepository;
@@ -28,8 +28,9 @@ public class CustomerController {
         this.customerService = customerService;
     }
     
-    @GetMapping
+    //@GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/customers")
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();
      //   System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
@@ -58,7 +59,10 @@ public class CustomerController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO saveCustomer(@RequestBody @Valid CustomerDTO customerDTO){
-        return customerService.saveNewCustomer(customerDTO);
+        
+        System.out.println("aaaaaaaaaaaaaaaadddddddddddddddddddddd");
+
+    	return customerService.saveNewCustomer(customerDTO);
     }
     
       
@@ -72,10 +76,12 @@ public class CustomerController {
         return customerService.findCustomerByUserName(username).getId();
     }
 
-    @GetMapping(path="/or/{username}/{email}/{mobile}")
+    //@GetMapping(path="/or/{username}/{email}/{mobile}")
+    @GetMapping(path="/{username}/{email}/{mobile}")
     //@ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getCustomerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
   //      System.out.println("CCCCCCBBBBB"+ customerRepository.findByUserNameOrEmailOrMobile( username, email, mobile));
+        System.out.println("ooooooooooooorrrrrrrrrrrrrrrr");
 
       //  return  customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
         return customerService.findByUserNameOrEmailOrMobile(username, email, mobile);
