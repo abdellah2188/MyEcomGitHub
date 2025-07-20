@@ -1,4 +1,3 @@
-
 package com.hamch.orderserviceb.security;
 
 import org.springframework.context.annotation.Bean;
@@ -35,7 +34,7 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").hasAnyAuthority("USER"))
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
+              //  .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))

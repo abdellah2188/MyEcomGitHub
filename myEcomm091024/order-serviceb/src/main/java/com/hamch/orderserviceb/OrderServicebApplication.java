@@ -1,8 +1,8 @@
-
 package com.hamch.orderserviceb;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 //@SpringBootApplication
+@Configurable
 @EnableDiscoveryClient
 @EnableFeignClients
 @RequiredArgsConstructor

@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-//@FeignClient(name = "product-serviceb", url = "${product-serviceb.url}",configuration = {ClientConfiguration.class})
-@FeignClient(name = "product-serviceb", url = "${product-serviceb.url}")
+@FeignClient(name = "product-serviceb", url = "${product-serviceb.url}") //,configuration = {ClientConfiguration.class})
 public interface ProductRestClientService {
     @GetMapping("/products/{id}?projection=fullProduct")
     public Product productById(@PathVariable Long id);

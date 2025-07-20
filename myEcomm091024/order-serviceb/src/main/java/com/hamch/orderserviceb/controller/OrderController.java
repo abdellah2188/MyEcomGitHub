@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin("http://localhost:4200")
 public class OrderController {
 
     private final OrderRepository orderRepository;
@@ -57,17 +57,19 @@ public class OrderController {
     @PostMapping("/add")
     public Order saveOrder(@RequestBody OrderForm orderForm){
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm);
-
-        Customer customer= customerRestClient.findByUsernameoOrEmailOrMobile(
-                orderForm.getCustomer().getName(),
-                orderForm.getCustomer().getEmail(),
-                orderForm.getCustomer().getMobile()
-        );
-//        System.out.println("CCCCCBBBB"+ customer.getCustomer_id());
+          Customer customer=orderForm.getCustomer();
+//        Customer customer= customerRestClient.findByUsernameoOrEmailOrMobile(
+//                orderForm.getCustomer().getUsername(),
+//                orderForm.getCustomer().getEmail(),
+//                orderForm.getCustomer().getMobile()
+//        );
+        System.out.println("CCCCCBBBB"+ customer);
 
         if(customer==null) {
+            System.out.println("WWWWWWWWWWW"+ customer);
             customer=new Customer();
-            customer.setName(orderForm.getCustomer().getName());
+            customer.setFirstName(orderForm.getCustomer().getFirstName());
+            customer.setLastName(orderForm.getCustomer().getLastName());
             customer.setEmail(orderForm.getCustomer().getEmail());
             customer.setAdress(orderForm.getCustomer().getAdress());
             customer.setMobile(orderForm.getCustomer().getMobile());
@@ -111,14 +113,14 @@ public class OrderController {
             System.out.println((customer)+"RRR222"+customer.getMobile()+"rrr"+ orderForm.getProducts());
 
 
-            Long IdCustomer= this.customerRestClient.customerByUsername( customer.getUsername()) ;
-            System.out.println("YYY222"+ IdCustomer);
-            customer.setCustomer_id( IdCustomer);
-            System.out.println("YYY222"+ customer);
+//            Long IdCustomer= this.customerRestClient.customerByUsername( customer.getUsername()) ;
+//            System.out.println("YYY222"+ IdCustomer);
+//            customer.setCustomer_id( IdCustomer);
+//            System.out.println("YYY222"+ customer);
 
             Order order=new Order();
             order.setDate(new Date());
-            order.setCustomerId(IdCustomer);
+           // order.setCustomerId(IdCustomer);
             order=orderRepository.save(order);
 
             double total=0;
