@@ -23,7 +23,7 @@ services:
     networks:
       - net-micros
     depends_on:
-      - api-gateway-service  
+      - apigatewayservice  
   mysql-kc:
     image: mysql:8.0.27
     container_name: cn-mysqlk
@@ -242,6 +242,7 @@ services:
           - RABBITMQ_PW=5672
           - KC_HOST=localhost
           - KC_PORT=7080
+          - GATEWAY=apigatewayservice
         healthcheck:
           test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
           interval: 10s
@@ -251,7 +252,7 @@ services:
         networks:
           - net-micros
         depends_on:
-           api-gateway-service:
+           apigatewayservice:
              condition: service_healthy
 
   inventory-service:
@@ -262,6 +263,7 @@ services:
    #  ports:
     #   - "9002:9002"
      environment:
+       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
        - SERVICE_PORT=9002
        - JAVA_TOOL_OPTIONS=
        - CONSUL_HOST=discovery
@@ -276,6 +278,7 @@ services:
        - RABBITMQ_HOST=rabbitmq
        - RABBITMQ_PW=5672
        - KC_HOST=keycloak-w
+       - GATEWAY=apigatewayservice
        #     healthcheck:
 #       test: [ "CMD", "curl", "-f", "http://localhost" ]
 #       interval: 10s
@@ -308,6 +311,7 @@ services:
        - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/customer-service?createDatabaseIfNotExist=true
        - RABBITMQ_HOST=rabbitmq
        - RABBITMQ_PW=5672
+       - GATEWAY=apigatewayservice
      healthcheck:
        test: [ "CMD", "curl", "-f", "http://localhost:9003/actuator/health" ]
        interval: 10s
@@ -317,9 +321,7 @@ services:
      depends_on:
        product-serviceb:
           condition: service_healthy
-   
-  
-   
+
   order-serviceb:
          build: ./order-serviceb
          container_name: cn-order-service
@@ -341,6 +343,7 @@ services:
            - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/order-service?createDatabaseIfNotExist=true
            - RABBITMQ_HOST=rabbitmq
            - RABBITMQ_PW=5672
+           - GATEWAY=apigatewayservice
          healthcheck:
            test: [ "CMD", "curl", "-f", "http://localhost:9004/actuator/health" ]
            interval: 10s
@@ -358,6 +361,7 @@ services:
            ports:
              - "9002:9002"
            environment:
+             - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
              - SERVICE_PORT=9002
              - JAVA_TOOL_OPTIONS=
              - CONSUL_HOST=discovery
@@ -371,6 +375,7 @@ services:
              - SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/payment-service?createDatabaseIfNotExist=true
              - RABBITMQ_HOST=rabbitmq
              - RABBITMQ_PW=5672
+             - GATEWAY=apigatewayservice
            healthcheck:
              test: [ "CMD", "curl", "-f", "http://localhost:9005/actuator/health" ]
              interval: 10s
@@ -378,7 +383,7 @@ services:
            networks:
              - net-micros
            depends_on:
-              api-gateway-service:
+              apigatewayservice:
                 condition: service_healthy
 
   notification-service:
@@ -388,6 +393,7 @@ services:
            ports:
              - "9006:9006"
            environment:
+             - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
              - SERVICE_PORT=9006
              - JAVA_TOOL_OPTIONS=
              - CONSUL_HOST=discovery
@@ -401,6 +407,7 @@ services:
              #- SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/notification-service?createDatabaseIfNotExist=true
              - RABBITMQ_HOST=rabbitmq
              - RABBITMQ_PW=5672
+             - GATEWAY=apigatewayservice
            healthcheck:
              test: [ "CMD", "curl", "-f", "http://localhost:9006/actuator/health" ]
              interval: 10s
@@ -411,7 +418,7 @@ services:
            #   order-serviceb:
            #     condition: service_healthy
      
-  api-gateway-service:
+  apigatewayservice:
            build: ./api-gateway-service
            container_name: cn-api-gateway-service
            command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node consumer.js'
@@ -427,7 +434,7 @@ services:
              #- MYSQL_PW=root
              #- MYSQL_USR=root
              #- SPRING_PROFILES_ACTIVE=docker  
-             #- SPRING_DATA_SOURCE_URL=jdbc:mysql://mysql-db:3306/notification-service?createDatabaseIfNotExist=true
+             - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak-w:8080/realms/microservices-realm/protocol/openid-connect/certs
              - RABBITMQ_HOST=rabbitmq
              - RABBITMQ_PW=5672
            healthcheck:
