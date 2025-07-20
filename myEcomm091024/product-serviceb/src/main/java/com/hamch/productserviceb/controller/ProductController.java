@@ -212,7 +212,7 @@ public class ProductController  {
 		
 	}
     
-    @GetMapping
+    @GetMapping("/products)")
     @ResponseStatus(HttpStatus.OK)
     public List<Product> findAll() {
         System.out.println("hhhhhhhhhhh");
