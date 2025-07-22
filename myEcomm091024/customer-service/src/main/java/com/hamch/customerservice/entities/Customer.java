@@ -29,7 +29,7 @@ public class Customer  {
     private String lastName;
   
     @NotEmpty @Size(min = 10)
-    private String adress;
+    private String address;
 //  @Column(unique=true)
     @NotEmpty @Size(min = 7)
     private String email;
@@ -38,5 +38,5 @@ public class Customer  {
     private String mobile;
    // @Column(unique=true)
     @NotEmpty @Size(min = 3)
-    private String userName;
+    private String username;
 }

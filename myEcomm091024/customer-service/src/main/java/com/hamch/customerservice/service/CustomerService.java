@@ -17,7 +17,7 @@ public interface CustomerService {
     
     CustomerDTO findCustomerById(Long id) throws CustomerNotFoundException;
     
-    CustomerDTO findCustomerByUserName(String username) throws CustomerNotFoundException;
+    CustomerDTO findCustomerByUsername(String username) throws CustomerNotFoundException;
     
     List<CustomerDTO> searchCustomers(String keyword);
     
@@ -25,7 +25,7 @@ public interface CustomerService {
     
     void deleteCustomer(Long id)throws CustomerNotFoundException;
 
-	List<CustomerDTO> findByUserNameOrEmailOrMobile(String username, String email, String mobile);
+	List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile);
     
     
 }

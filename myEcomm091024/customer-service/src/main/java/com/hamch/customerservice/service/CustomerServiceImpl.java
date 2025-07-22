@@ -46,8 +46,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO findCustomerByUserName(String username) throws CustomerNotFoundException {
-        Optional<Customer> customer = Optional.ofNullable(customerRepository.findByUserName(username));
+    public CustomerDTO findCustomerByUsername(String username) throws CustomerNotFoundException {
+        Optional<Customer> customer = Optional.ofNullable(customerRepository.findByUsername(username));
         if (customer.isEmpty()) throw new CustomerNotFoundException();
         return customerMapper.fromCustomer(customer.get());
     }
@@ -78,9 +78,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 	@Override
-	public List<CustomerDTO> findByUserNameOrEmailOrMobile(String username, String email, String mobile) {
+	public List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile) {
 		
-		List<Customer> customers= customerRepository.findByUserNameOrEmailOrMobile(username, email, mobile);
+		List<Customer> customers= customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
 		return customerMapper.fromListCustomers(customers);
 		
 	}

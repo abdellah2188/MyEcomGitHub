@@ -46,16 +46,16 @@ class CustomerRepositoryTest {
 	static void setUp(@Autowired CustomerRepository customerRepository2) throws Exception {
 		
 	//	System.out.println("-----------------kkkkk------------------------------");
-        customerRepository2.save(Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
-        customerRepository2.save(Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
-        customerRepository2.save(Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build());
+        customerRepository2.save(Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build());
+        customerRepository2.save(Customer.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build());
+        customerRepository2.save(Customer.builder().firstName("zzzzz").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").username("ZZZ").build());
      //   System.out.println("-----------------llllll------------------------------");
 	}
 	
 	@Test
     void shouldFindCustomersByEmail(){
         String givenEmail="xxxx@gmail.com";
-        Customer expected=Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build();
+        Customer expected=Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build();
         Customer result = customerRepository.findByEmail(givenEmail);
       //  System.out.println("MMMMMMMMMMMMM"+ expected);
 
@@ -65,25 +65,25 @@ class CustomerRepositoryTest {
     }
 	
 	@Test
-    void shouldFindCustomersByUsername(){
-        String givenUsername="ZZZ";
-        Customer expected=Customer.builder().firstName("zzzzz").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").userName("ZZZ").build();
-        Customer result = customerRepository.findByUserName(givenUsername);
+    void shouldFindCustomersByusername(){
+        String givenusername="ZZZ";
+        Customer expected=Customer.builder().firstName("zzzzz").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("33333333").username("ZZZ").build();
+        Customer result = customerRepository.findByUsername(givenusername);
       //  System.out.println("ZZZZZZZZZZZZZZZZZ"+ result);
         assertThat(result).isNotNull();
         assertThat(expected).usingRecursiveComparison().ignoringFields("id").isEqualTo(result);
     }
 	
 	@Test
-    void shoudFindByUsernameOrEmailOrMobile(){
+    void shoudFindByusernameOrEmailOrMobile(){
         String givenEmail="xxxx@gmail.com";
-        String givenUsername="YYY";
+        String givenusername="YYY";
         String givenMobile="2222222";
         List<Customer> expected=List.of(
-        		Customer.builder().firstName("xxxxx").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(),
-        		Customer.builder().firstName("yyyyy").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build()
+        		Customer.builder().firstName("xxxxx").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build(),
+        		Customer.builder().firstName("yyyyy").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build()
         );
-        List<Customer> result = customerRepository.findByUserNameOrEmailOrMobile(givenUsername, givenEmail, givenMobile);
+        List<Customer> result = customerRepository.findByUsernameOrEmailOrMobile(givenusername, givenEmail, givenMobile);
       //  System.out.println("LLLLLLLLLLLLLLL"+ result);
         assertThat(result).isNotNull();
         assertThat(expected).usingRecursiveComparison().ignoringFields("id").isEqualTo(result);

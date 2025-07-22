@@ -15,9 +15,9 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
    // Customer findByUsername(String username);
   //  @RestResource(path = "/name")
-   Customer findByUserName(@Param(value = "username") String username);
+   Customer findByUsername(@Param(value = "username") String username);
 
-   List<Customer> findByUserNameOrEmailOrMobile( String username, String email, String mobile);
+   List<Customer> findByUsernameOrEmailOrMobile( String username, String email, String mobile);
 
  //  Customer findByEmail(String email);
      Customer findByEmail(String email);

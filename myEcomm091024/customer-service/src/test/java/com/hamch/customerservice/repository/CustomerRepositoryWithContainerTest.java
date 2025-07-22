@@ -73,9 +73,9 @@ class CustomerRepositoryWithContainerTest {
 	         customers = new ArrayList<>();
 	         //System.out.println("aaaaaaaaaaaaaaaaaa"+ customers);
 
-	         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
-	         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
-	         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").userName("ZZZ").build());
+	         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build());
+	         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build());
+	         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").username("ZZZ").build());
 	         //System.out.println("bbbbbbbbbbbbbbbbb"+ customers);
 	         
 	    }
@@ -100,7 +100,7 @@ class CustomerRepositoryWithContainerTest {
 		  String givenMobile ="3333333"; 
 		  
 		 		  
-		  List<Customer> result = customerRepository2.findByUserNameOrEmailOrMobile(givenUsername, givenEmail, givenMobile); 
+		  List<Customer> result = customerRepository2.findByUsernameOrEmailOrMobile(givenUsername, givenEmail, givenMobile); 
 		//  System.out.println("11111111111111" + result);
 		  assertThat(result).isNotNull();
 		  assertThat(customers).usingRecursiveComparison().ignoringFields("id").isEqualTo(result); 
@@ -110,7 +110,7 @@ class CustomerRepositoryWithContainerTest {
 	  @Test void shouldFindCustomersByEmail() { 
 		  String givenEmail = "xxxx@gmail.com"; 
 		 
-		  Customer expected = Customer.builder().firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build(); 
+		  Customer expected = Customer.builder().firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build(); 
 		  Customer result = customerRepository2.findByEmail(givenEmail);
 		//  System.out.println("2222222222222222" + result); 
 		  assertThat(result).isNotNull();
@@ -121,8 +121,8 @@ class CustomerRepositoryWithContainerTest {
 	  @Test 
 	  void shouldFindCustomersByUsername() { 
 		  String givenUsername = "ZZZ";
-		  Customer expected = Customer.builder().firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com") .mobile("3333333").userName("ZZZ").build();
-		  Customer result = customerRepository2.findByUserName(givenUsername);
+		  Customer expected = Customer.builder().firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com") .mobile("3333333").username("ZZZ").build();
+		  Customer result = customerRepository2.findByUsername(givenUsername);
 	//	  System.out.println("33333333333333333" + expected);
 	//	  System.out.println("33333333333333333" + result);
 

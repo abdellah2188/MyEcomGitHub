@@ -1,8 +1,7 @@
 package com.hamch.customerservice.controller;
 
 import com.hamch.customerservice.dto.CustomerDTO;
-//import com.hamch.customerservice.entities.Customer;
-//import com.hamch.customerservice.repository.CustomerRepository;
+
 import com.hamch.customerservice.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -15,25 +14,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
-//@RequiredArgsConstructor
 @Slf4j
-//@CrossOrigin("http://localhost:4200")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class CustomerController {
     @Autowired
-   // private  CustomerRepository customerRepository;
     private CustomerService customerService;
-
+    
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
     
-    //@GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/customers")
+    @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();
-     //   System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
+        System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
 
     	return customerService.getAllCustomers(); 
     }
@@ -50,19 +45,18 @@ public class CustomerController {
         return customerService.searchCustomers(keyword);
     }
 
-    /*@GetMapping("/customer")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Customer> findAll() {
-        System.out.println("XXXXXXXXXXXXXXXXXXXX");
-        return customerRepository.findAll();
-    }*/
+//    @GetMapping("/customer")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Customer> findAll() {
+//        System.out.println("XXXXXXXXXXXXXXXXXXXX");
+//        
+//		return customerRepository.findAll();
+//    }
+    
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO saveCustomer(@RequestBody @Valid CustomerDTO customerDTO){
-        
-        System.out.println("aaaaaaaaaaaaaaaadddddddddddddddddddddd");
-
-    	return customerService.saveNewCustomer(customerDTO);
+        return customerService.saveNewCustomer(customerDTO);
     }
     
       
@@ -73,18 +67,18 @@ public class CustomerController {
         //System.out.println(username+"c"+ customerService.findCustomerByUserName(username));
 
         //return  customerRepository.findByUsername( username).getId();
-        return customerService.findCustomerByUserName(username).getId();
+        return customerService.findCustomerByUsername(username).getId();
     }
 
-    //@GetMapping(path="/or/{username}/{email}/{mobile}")
     @GetMapping(path="/{username}/{email}/{mobile}")
     //@ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getCustomerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
-  //      System.out.println("CCCCCCBBBBB"+ customerRepository.findByUserNameOrEmailOrMobile( username, email, mobile));
-        System.out.println("ooooooooooooorrrrrrrrrrrrrrrr");
+ //   public CustomerDTO getCustomerByUsernameOrEmailOrMobile(@PathVariable("username") String username, @PathVariable("email") String email, @PathVariable("mobile") String mobile ) {
+   
+    	System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"+ customerService.findByUsernameOrEmailOrMobile(username, email, mobile));
 
       //  return  customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
-        return customerService.findByUserNameOrEmailOrMobile(username, email, mobile);
+        return customerService.findByUsernameOrEmailOrMobile(username, email, mobile);
     }
     
     @PutMapping("/{id}")

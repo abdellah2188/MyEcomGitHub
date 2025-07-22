@@ -1,3 +1,4 @@
+
 package com.hamch.customerservice.security;
 
 import org.springframework.context.annotation.Bean;
@@ -33,11 +34,9 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**").hasAnyAuthority("USER"))
-         //       .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
+           //     .authorizeHttpRequests(ar->ar.requestMatchers("/products/images/**","/**", "/api/product/**","/api/product/photoProduct/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**","/**").permitAll())
                // .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
-                .csrf(csrf->csrf.disable())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
                 .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))

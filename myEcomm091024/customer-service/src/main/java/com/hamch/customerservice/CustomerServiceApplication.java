@@ -26,13 +26,16 @@ import jakarta.persistence.*;
 import lombok.extern.slf4j.Slf4j;
 //import lombok.extern.slf4j.Slf4j;
 
-//@SpringBootApplication
+@SpringBootApplication
 @EnableDiscoveryClient
 @Slf4j
 @Profile("!test")
 @EnableJpaRepositories
-@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
-@ComponentScan("com.hamch.customerservice.security")
+@Configurable
+//@ComponentScan("com.hamch.productserviceb.security")
+@ComponentScan(basePackageClasses = com.hamch.customerservice.controller.CustomerController.class)
+@ComponentScan(basePackageClasses = com.hamch.customerservice.service.CustomerService.class)
+@ComponentScan(basePackageClasses = com.hamch.customerservice.mapper.CustomerMapper.class)
 public class CustomerServiceApplication  {
 
 	@Autowired
