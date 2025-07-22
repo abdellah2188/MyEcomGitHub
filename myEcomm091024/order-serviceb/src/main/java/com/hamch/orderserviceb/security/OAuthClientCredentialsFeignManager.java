@@ -67,6 +67,9 @@
 //    }
 //
 //    public String getAccessToken() {
+//    	
+//    	System.out.println("AAAAAAAAAAAAAAACCCCCCCCCCCCCCCC" );
+//
 //        try {
 //            OAuth2AuthorizeRequest oAuth2AuthorizeRequest = OAuth2AuthorizeRequest
 //                .withClientRegistrationId(clientRegistration.getRegistrationId())
@@ -76,6 +79,7 @@
 //            if (isNull(client)) {
 //                throw new IllegalStateException("client credentials flow on " + clientRegistration.getRegistrationId() + " failed, client is null");
 //            }
+//            System.out.println("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"+client.getAccessToken().getTokenValue());
 //            return client.getAccessToken().getTokenValue();
 //        } catch (Exception exp) {
 //            logger.error("client credentials error " + exp.getMessage());

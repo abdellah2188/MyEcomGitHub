@@ -2,7 +2,7 @@
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
-////import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+//import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 //import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 //import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
 //import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -19,12 +19,10 @@
 //    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 //    private final ClientRegistrationRepository clientRegistrationRepository;
 //
-//    public OAuthFeignConfig(OAuth2AuthorizedClientService oAuth2AuthorizedClientService, ClientRegistrationRepository clientRegistrationRepository) {
-//    	
-//    	this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
+//    public OAuthFeignConfig(OAuth2AuthorizedClientService oAuth2AuthorizedClientService,
+//            ClientRegistrationRepository clientRegistrationRepository) {
+//        this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
 //        this.clientRegistrationRepository = clientRegistrationRepository;
-//        
-//        System.out.printf(this.oAuth2AuthorizedClientService + "LLLLLLxxxxxxxxxxxxxxxxxxxxxxxxxxLLLLLLLLLLLL" + this.clientRegistrationRepository);
 //    }
 //    
 ////    @Bean
@@ -35,6 +33,8 @@
 //
 //    @Bean
 //    public RequestInterceptor requestInterceptor() {
+//
+//    	System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" );
 //        ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(CLIENT_REGISTRATION_ID);
 //        OAuthClientCredentialsFeignManager clientCredentialsFeignManager =
 //            new OAuthClientCredentialsFeignManager(authorizedClientManager(), clientRegistration);
@@ -45,6 +45,9 @@
 //
 //    @Bean
 //    OAuth2AuthorizedClientManager authorizedClientManager() {
+//    	
+//    	System.out.println("FFFFFFFFFFFFFFFFFFFFFF" );
+//
 //        OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
 //            .clientCredentials()
 //            .build();
@@ -54,4 +57,5 @@
 //        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 //        return authorizedClientManager;
 //    }
+//
 //}

@@ -1,8 +1,6 @@
 package com.hamch.orderserviceb.services;
 
 import com.hamch.orderserviceb.model.Payment;
-import com.hamch.orderserviceb.security.FeignInterceptor;
-
 //import com.hamch.orderserviceb.security.ClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.hateoas.PagedModel;
@@ -11,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "payment-service", url = "${payment-service.url}", configuration = {FeignInterceptor.class})
+//@FeignClient(name = "payment-service", url = "${payment-service.url}",configuration = {ClientConfiguration.class})
+@FeignClient(name = "payment-service", url = "${payment-service.url}")
 public interface PaymentRestClientService {
     @GetMapping("/pauyments/{id}?projection=fullPayment")
     public Payment customerById(@PathVariable Long id);

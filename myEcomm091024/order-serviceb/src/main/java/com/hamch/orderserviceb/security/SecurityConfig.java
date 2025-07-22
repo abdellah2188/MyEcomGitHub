@@ -1,3 +1,4 @@
+
 package com.hamch.orderserviceb.security;
 
 import org.springframework.context.annotation.Bean;
@@ -33,8 +34,8 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").hasAnyAuthority("USER"))
-              //  .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
+                .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
@@ -54,19 +55,19 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
    
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-//
-//        CorsConfiguration configuration = new CorsConfiguration();
-//     //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
-//        //configuration.addAllowedOrigin("http://localhost:4200");
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
+        CorsConfiguration configuration = new CorsConfiguration();
+     //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
+        configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 }
