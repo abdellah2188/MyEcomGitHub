@@ -40,7 +40,7 @@ export class ProductService {
     console.log(JSON.stringify(product),"TTTTTTTTTT",formdata);
     let obj= { product,  file};
     console.log("YYYYYYYYYYY", file);
-    return this.http.post(this.host+"/api/product/add/",  formdata);
+    return this.http.post(this.host+"/api/product/add",  formdata);
   }
 
   public upProduct(product: Product){

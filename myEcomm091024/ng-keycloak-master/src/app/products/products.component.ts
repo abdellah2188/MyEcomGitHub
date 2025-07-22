@@ -8,10 +8,10 @@ import {AuthService} from "../auth/service/auth.service";
 import { ProductService } from '../services/product.service';
 //import {KeycloakSecurityService} from "../services/keycloak-security.service";
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
-  standalone: false
+    selector: 'app-products',
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.css'],
+    standalone: false
 })
 
 export class ProductsComponent implements OnInit {
@@ -65,6 +65,7 @@ export class ProductsComponent implements OnInit {
     console.log('hhhhhhh', p1);
 
     if(p1==1){
+		console.log('DDDDDDDDDDDDDDD');
       this.title="Selected products";
       this.currentRequest='/products/search/selectedProducts';
       this.getProducts({url: this.currentRequest});
@@ -115,7 +116,6 @@ export class ProductsComponent implements OnInit {
       })
   }
   private refreshUpdatedProduct() {
-	console.log("jjjjjjjjjjjj", this.currentProduct._links)
     this.catService.getResource(this.currentProduct._links.self.href)
       .subscribe(data=>{
         // @ts-ignore

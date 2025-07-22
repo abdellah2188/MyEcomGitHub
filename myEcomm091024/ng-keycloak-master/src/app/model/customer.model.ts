@@ -3,6 +3,6 @@ export interface Customer{
    lastName?:string;
    email?:string;
    mobile?:string;
-   adress?:string;
+   address?:string;
    username?:string;
 }

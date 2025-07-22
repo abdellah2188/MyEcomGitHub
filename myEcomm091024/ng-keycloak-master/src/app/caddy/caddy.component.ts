@@ -8,10 +8,10 @@ import {AuthService} from "../auth/service/auth.service";
 import { CaddyService } from '../services/caddy.service';
 
 @Component({
-  selector: 'app-caddy',
-  templateUrl: './caddy.component.html',
-  styleUrls: ['./caddy.component.css'],
-  standalone: false
+    selector: 'app-caddy',
+    templateUrl: './caddy.component.html',
+    styleUrls: ['./caddy.component.css'],
+    standalone: false
 })
 export class CaddyComponent implements OnInit {
   public px: number=0;

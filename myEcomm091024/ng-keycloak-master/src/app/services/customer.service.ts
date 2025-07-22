@@ -16,7 +16,8 @@ export class CustomerService {
 
   public getCustomers() {
     console.log("KKKKK");
-    return this.http.get<Customer[]>("http://api-gateway-service:8080/customer-service/customers")
+    return this.http.get<Customer[]>("http://localhost:8080/customer-service/api/customer/customers")
+   // return this.http.get<Product[]>('http://localhost:8080/api/product', {headers: new HttpHeaders({'Authorization':'Bearer '+this.keycloakSecurityService.kc?.token})})
       .pipe(
         catchError(this.handleError),
         // tap(data => console.log('data', data))
@@ -24,7 +25,7 @@ export class CustomerService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    console.log('errorRes', errorRes)
+    console.log('errorRessssssssssssssssssssssssssssss', errorRes)
     let errorMessage = 'an unknown error occured';
     if (!errorRes.error || !errorRes.error.error || !errorRes.error.message) {
       return throwError(errorMessage);

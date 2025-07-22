@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import {OrderService} from '../services/order.service';
 //import {AuthenticationService} from '../services/authentication.service';
@@ -77,7 +78,7 @@ export class CustomerComponent implements OnInit {
 	
   onSaveCustomer(customer:Customer) {
     this.orderService.order.id= null;
-    customer.username=this.authService.userName;
+    customer.username=this.authService.username;
     this.orderService.setCustomer(customer);
     this.caddyService.setCustomer(customer);
     this.orderService.loadProductsFromCaddy();

@@ -8,10 +8,10 @@ import {CustomerService} from "./services/customer.service";
 import {AuthGuard} from "./auth/auth.guard";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: false
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent {
   title = 'ng-keycloak';
@@ -22,8 +22,8 @@ export class AppComponent {
   public customers: any;
   private log!: boolean;
   private cat!: any ;
-  public mode:number=0;
 
+  
   constructor(private  router:Router, public authService: AuthService, public catService:CatalogueService,
               public caddyService: CaddyService, private customerService: CustomerService, authgard: AuthGuard) {}
 
@@ -54,14 +54,15 @@ export class AppComponent {
   managedAccount() {
     this.authService.manageAccount();
   }
-  
-  allCustomers() {
-      this.currentCategorie=undefined;
-	  this.mode=3;
-      this.router.navigateByUrl("/customers/3");
-    }
+   
+  allCustomers(){
+	this.currentCategorie=undefined;
+	//this.mode=3;
+	this.router.navigateByUrl("/customers/3");
+  }
 
   onSelectedProducts() {
+	console.log('DDDDDDDDDDDDDDDXXX');
     this.currentCategorie=undefined;
     this.router.navigateByUrl("/products/1/0");
   }
@@ -105,7 +106,7 @@ export class AppComponent {
     this.catService.getResource( this.catService.host + "/categories")
       .subscribe(data=>{
         this.categories=data;
-		console.log("hjkllllllll", this.categories);
+
       },err=>{
         console.log(err);
       })
