@@ -4,7 +4,7 @@ import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.ProductRepository;
 import com.hamch.productserviceb.services.impl.ProductService;
-//import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,7 +12,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,12 +26,10 @@ import java.util.Optional;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
-//@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/product")
-//@RequiredArgsConstructor
 @Slf4j
-//@PreAuthorize("hasAuthority('USER)")
 public class ProductController  {
 
     @Autowired
@@ -87,8 +84,9 @@ public class ProductController  {
       return   cat2;
    }
     
-    @PostMapping(path="/add/")
-    public void addWithFile(@ModelAttribute("product") Object  prod, @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
+    @PostMapping(path="/add")
+    public void addWithFile(@ModelAttribute("product") Object  prod,
+                            @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
         System.out.println(prod+"RRRRRRRRR"+file.getBytes());
         Product  product=new Product();
@@ -212,7 +210,7 @@ public class ProductController  {
 		
 	}
     
-    @GetMapping("/products)")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Product> findAll() {
         System.out.println("hhhhhhhhhhh");
@@ -231,9 +229,12 @@ public class ProductController  {
         System.out.println("EEEEEEEEEEEEEEEEEEE");
         Product p=(Product) productRepository.findById(id).get();
         System.out.println("NNNNNNNNNNNN"+ p+"nnnn"+ Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
-        //return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
-        //return Files.readAllBytes(Paths.get("ecommerce/products/"+ p.getPhotoName()));
-        return Files.readAllBytes(Paths.get("products/images/"+ p.getPhotoName()));
+        return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+      //  return Files.readAllBytes(Paths.get("ecommerce/products/"+ p.getPhotoName()));
+        
+        
+        //docker
+        //return Files.readAllBytes(Paths.get("products/images/"+ p.getPhotoName()));
     }
     @PostMapping(path = "/uploadPhoto/{id}")
     public void uploadPhoto(MultipartFile file, @PathVariable Long id) throws Exception{
@@ -247,9 +248,9 @@ public class ProductController  {
        
         ((com.hamch.productserviceb.entities.Product) p).setPhotoName(id+".png");
         
-        //Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
-        //Files.write(Paths.get("/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
-        Files.write(Paths.get("products/images/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+       // Files.write(Paths.get("/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        //Files.write(Paths.get("products/images/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
         productRepository.save(p);
 
     }

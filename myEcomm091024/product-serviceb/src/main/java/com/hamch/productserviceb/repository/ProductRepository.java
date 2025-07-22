@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-//import org.springframework.security.access.prepost.PreAuthorize;
-
 //import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +15,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
    //Optional<Product> findById(Long id);
-	//@PreAuthorize("hasAuthority('ADMIN')")
     @RestResource(path = "/selectedProducts")
     public List<Product> findBySelectedIsTrue();
     

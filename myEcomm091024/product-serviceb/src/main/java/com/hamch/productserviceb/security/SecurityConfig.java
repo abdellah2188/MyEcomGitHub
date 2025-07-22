@@ -1,3 +1,4 @@
+
 package com.hamch.productserviceb.security;
 
 import org.springframework.context.annotation.Bean;
@@ -30,11 +31,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	
-    	// System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+    	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar->ar.requestMatchers("/products/images/**","/**", "/api/product/**","/api/product/photoProduct/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**","/products/**").hasAuthority("USER"))
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))

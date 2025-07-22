@@ -3,7 +3,9 @@ package com.hamch.productserviceb.entities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.persistence.*;
@@ -12,9 +14,8 @@ import java.util.Collection;
 import java.util.Map;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-@Builder
-@Table(name="category")
+//@Data 
+@NoArgsConstructor @AllArgsConstructor @Builder @Table(name="category") @Getter @Setter @ToString
 //@Component
 public class Category implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
