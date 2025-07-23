@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.boot.CommandLineRunner;
+//import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,8 +17,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-import com.hamch.customerservice.entities.Customer;
-import com.hamch.customerservice.repository.CustomerRepository;
+//import com.hamch.customerservice.entities.Customer;
+//import com.hamch.customerservice.repository.CustomerRepository;
 
 //import com.hamch.customerservice.repository.CustomerRepository;
 
@@ -26,20 +26,21 @@ import jakarta.persistence.*;
 import lombok.extern.slf4j.Slf4j;
 //import lombok.extern.slf4j.Slf4j;
 
-@SpringBootApplication
+//@SpringBootApplication
 @EnableDiscoveryClient
 @Slf4j
 @Profile("!test")
 @EnableJpaRepositories
 @Configurable
-//@ComponentScan("com.hamch.productserviceb.security")
+@ComponentScan("com.hamch.customerservice.security")
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 @ComponentScan(basePackageClasses = com.hamch.customerservice.controller.CustomerController.class)
 @ComponentScan(basePackageClasses = com.hamch.customerservice.service.CustomerService.class)
 @ComponentScan(basePackageClasses = com.hamch.customerservice.mapper.CustomerMapper.class)
 public class CustomerServiceApplication  {
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	//private CustomerRepository customerRepository;
 //	@Autowired
 //	private RepositoryRestConfiguration repositoryRestConfiguration;
 

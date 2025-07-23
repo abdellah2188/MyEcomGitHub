@@ -35,11 +35,11 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
            //     .authorizeHttpRequests(ar->ar.requestMatchers("/products/images/**","/**", "/api/product/**","/api/product/photoProduct/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**","/**").permitAll())
-               // .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**").hasAuthority("ADMIN"))
+                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
-                .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
+            //    .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
                 .build();
     }
     
@@ -61,7 +61,7 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
      //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
-        //configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.addAllowedOrigin("http://localhost:4200");
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
