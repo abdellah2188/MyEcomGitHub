@@ -42,7 +42,11 @@ export class CustomerComponent implements OnInit {
     if (!this.loggedIn) {
       this.authService.login();
     } else {
-    // console.log("WWWWWWWWx",  this.authService.getUserInfos()!.attributes.mobile[0]!);
+		
+	//	let userDetails = await this.keycloakService.loadUserProfile();
+	//	console.log("TTTTTTT", userDetails.attributes);
+		
+     console.log("WWWWWWWWx",  this.authService);
    //  this.mobile= this.authService.getUserInfos()!.attributes.mobile[0]!
    //  this.adress= this.authService.getUserInfos()!.attributes.adress[0]!
       console.log("MMMMMMMMMMMMZz");

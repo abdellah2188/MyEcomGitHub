@@ -26,14 +26,14 @@ export class AuthService {
    // console.log("DDDDX", token);
     //this.loadUserProfile();
     this.loadProfile().then(user => {
-      //console.log("IIIII", user.attributes.mobile['0']);
-      this.username= user.username;
-      this.firstName    = user.firstName;
-	  this.lastName     = user.lastName
+      console.log("IIIII", user.attributes.mobile['0']);
+      this.username  = user.username;
+      this.firstName = user.firstName;
+	  this.lastName  = user.lastName
      // console.log("IIIII", this.name);
-     // this.mobile  = user.attributes.mobile['0'];
-     // this.address  = user.attributes.address['0']
-      this.email   = user.email;
+      this.mobile    = user.attributes.mobile['0'];
+      this.address   = user.attributes.address['0']
+      this.email     = user.email;
     })
   }
   loadProfile(): Promise<any>{
