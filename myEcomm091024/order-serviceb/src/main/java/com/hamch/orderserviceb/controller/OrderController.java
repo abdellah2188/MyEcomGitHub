@@ -58,7 +58,7 @@ public class OrderController {
     public Order saveOrder(@RequestBody OrderForm orderForm){
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm);
 
-        List<Customer> customers= customerRestClient.findByUsernameoOrEmailOrMobile(
+        List<Customer> customers= customerRestClient.findByUsernameOrEmailOrMobile(
                 orderForm.getCustomer().getUsername(),
                 orderForm.getCustomer().getEmail(),
                 orderForm.getCustomer().getMobile()

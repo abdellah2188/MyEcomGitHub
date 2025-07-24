@@ -27,7 +27,7 @@ public interface CustomerRestClientService {
     Long customerByUsername(@PathVariable("username") String username);
 
     @GetMapping("api/customer/{username}/{email}/{mobile}")
-    List<Customer> findByUsernameoOrEmailOrMobile(@PathVariable("username") String username,
+    List<Customer> findByUsernameOrEmailOrMobile(@PathVariable("username") String username,
                                     @PathVariable("email") String email,
                                     @PathVariable("mobile") String mobile);
 }
