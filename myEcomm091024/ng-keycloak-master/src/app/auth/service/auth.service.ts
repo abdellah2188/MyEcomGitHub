@@ -16,9 +16,11 @@ export class AuthService {
   public token!: string;
 
   constructor(private keycloakService: KeycloakService) {
-    this.getUserInfos();
-    this.getLoggedUser();
-
+	
+	if (this.isLogged()) {
+     this.getUserInfos();
+  //  this.getLoggedUser();
+	}
     const token = this.keycloakService.getKeycloakInstance().idToken;
    // console.log("EEEEX", token!);
     window.sessionStorage.setItem('token', JSON.stringify(token));
@@ -59,7 +61,7 @@ export class AuthService {
   public getLoggedUser(): KeycloakTokenParsed | undefined {
     try {
       const userDetails: KeycloakTokenParsed | undefined = this.keycloakService.getKeycloakInstance();
-     // console.log( "UUUUUUUUUUUUUUUU", userDetails);
+      console.log( "UUUUUUUUUUUUUUUU", userDetails);
       return userDetails;
     } catch (e) {
       console.error("Exception", e);
@@ -78,13 +80,14 @@ export class AuthService {
   }*/
   public getUserInfos() {
 
-    /*this.keycloakService.loadUserProfile().then(profile => {
+    this.keycloakService.loadUserProfile().then(profile => {
       this.userDetails= profile;
-      return profile;
-    })*/
-   // console.log(this.userDetails, "PPPPPPyy",  this.keycloakService.getKeycloakInstance().idToken);
+	  console.log("PPPPPPyyIIIIIIIIIIIIII", this.userDetails);
+      return this.userDetails;
+    })
+   // console.log("PPPPPPyyxxxxxxx", this.userDetails);
 
-    return this.userDetails;
+   // return this.userDetails;
 
   }
 

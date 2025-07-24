@@ -9,7 +9,7 @@
 	
   <div  class="offset-3 col-md-6 justify-content-center card-body border">
     <form #f="ngForm" (ngSubmit)="onSaveCustomer(f.value)" >
-      <div class="text-center fw-bold" style="font-size: 30px; color: blueviolet">Personal informationssss</div>
+      <div class="text-center fw-bold" style="font-size: 30px; color: blueviolet">Personal information</div>
       <div class=" row-cols-auto">
         <label class="control-label fw-bold" style="color:cadetblue">First Name:</label>
         <input type="text" name="firstName" ngModel class="form-control" [(ngModel)]="authService.firstName">

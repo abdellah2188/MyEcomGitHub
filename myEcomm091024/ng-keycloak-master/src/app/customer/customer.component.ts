@@ -46,7 +46,7 @@ export class CustomerComponent implements OnInit {
 	//	let userDetails = await this.keycloakService.loadUserProfile();
 	//	console.log("TTTTTTT", userDetails.attributes);
 		
-     console.log("WWWWWWWWx",  this.authService);
+     console.log("WWWWWWWWx",  this.authService.mobile);
    //  this.mobile= this.authService.getUserInfos()!.attributes.mobile[0]!
    //  this.adress= this.authService.getUserInfos()!.attributes.adress[0]!
       console.log("MMMMMMMMMMMMZz");
