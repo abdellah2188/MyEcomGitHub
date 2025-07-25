@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 //@CrossOrigin("*")
 
@@ -20,7 +20,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
    List<Customer> findByUsernameOrEmailOrMobile( String username, String email, String mobile);
 
  //  Customer findByEmail(String email);
-     Customer findByEmail(String email);
+   Customer findByEmail(String email);
    
    List<Customer> findByFirstNameContainingIgnoreCase(String keyword);
 

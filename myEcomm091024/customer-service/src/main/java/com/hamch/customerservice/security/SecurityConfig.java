@@ -34,7 +34,7 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-           //     .authorizeHttpRequests(ar->ar.requestMatchers("/products/images/**","/**", "/api/product/**","/api/product/photoProduct/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/api/customer/**").hasAuthority("USER"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
@@ -45,7 +45,7 @@ public class SecurityConfig {
     
     private static JwtAuthenticationConverter jwtAuthenticationConverter()
     {
-      	 System.out.println("fffffffffffffffffffffffffffff");
+    //  	 System.out.println("fffffffffffffffffffffffffffff");
 
         var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("resource_access.user.roles");

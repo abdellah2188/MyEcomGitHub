@@ -2,7 +2,7 @@ package com.hamch.customerservice.service;
 
 
 import com.hamch.customerservice.dto.CustomerDTO;
-import com.hamch.customerservice.entities.Customer;
+//import com.hamch.customerservice.entities.Customer;
 import com.hamch.customerservice.exceptions.CustomerNotFoundException;
 import com.hamch.customerservice.exceptions.EmailAlreadyExistException;
 

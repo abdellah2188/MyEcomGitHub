@@ -3,7 +3,7 @@ package com.hamch.customerservice.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+//import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 
 @Entity  @NoArgsConstructor @AllArgsConstructor 
 @Table(name="customer")
