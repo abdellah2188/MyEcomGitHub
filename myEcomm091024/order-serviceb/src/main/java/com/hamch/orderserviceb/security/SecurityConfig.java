@@ -45,7 +45,7 @@ public class SecurityConfig {
     
     private static JwtAuthenticationConverter jwtAuthenticationConverter()
     {
-      	 System.out.println("fffffffffffffffffffffffffffff");
+   //   	 System.out.println("fffffffffffffffffffffffffffff");
 
         var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("resource_access.user.roles");

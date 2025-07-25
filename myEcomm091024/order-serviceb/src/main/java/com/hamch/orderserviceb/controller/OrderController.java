@@ -56,18 +56,24 @@ public class OrderController {
     }*/
     @PostMapping("/add")
     public Order saveOrder(@RequestBody OrderForm orderForm){
+    	
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm);
-
+        System.out.println("HHH"+ orderForm.getCustomer().getUsername()+"HHH"+ orderForm.getCustomer().getEmail()+"HHH"+orderForm.getCustomer().getMobile());
+        
         List<Customer> customers= customerRestClient.findByUsernameOrEmailOrMobile(
                 orderForm.getCustomer().getUsername(),
                 orderForm.getCustomer().getEmail(),
                 orderForm.getCustomer().getMobile()
         );
-        System.out.println("CCCCCBBBB"+ customers.getFirst());
-        Customer customer = customers.getFirst();
-        
-        if(customers.getFirst()==null) {
-            customer=new Customer();
+        Customer customer=new Customer();
+        System.out.println("CCCCCBBBB");
+//        if(customers!=null) {
+//        	System.out.println("CCCCCBBBB"+ customers);
+//        	System.out.println("CCCCCBBBB"+ customers.getFirst());
+//            customer = customers.getFirst();
+//        }
+        if(customers.isEmpty()) {
+            
             customer.setFirstName(orderForm.getCustomer().getFirstName());
             customer.setLastName(orderForm.getCustomer().getLastName());
             customer.setEmail(orderForm.getCustomer().getEmail());
@@ -109,6 +115,10 @@ public class OrderController {
             order.setTotalAmount(total);
             return orderRepository.save(order);
         }else{
+        	
+        	System.out.println("CCCCCBBBB"+ customers);
+        	System.out.println("CCCCCBBBB"+ customers.getFirst());
+            customer = customers.getFirst();
 
             System.out.println((customer.getUsername())+"RRR222"+customer.getMobile()+"rrr"+ orderForm.getProducts());
 

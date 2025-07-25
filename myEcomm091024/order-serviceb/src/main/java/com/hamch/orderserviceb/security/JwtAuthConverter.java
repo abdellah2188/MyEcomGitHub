@@ -25,7 +25,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
     	
-    	System.out.printf("oooooooooooooooooooooooooOOOOOOOOO"+ jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream());
+    //	System.out.printf("oooooooooooooooooooooooooOOOOOOOOO"+ jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream());
 
     	Collection<GrantedAuthority> authorities = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
@@ -41,7 +41,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         }
         realmAccess = jwt.getClaim("realm_access");
         roles = (Collection<String>) realmAccess.get("roles");
-    	System.out.printf("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+ roles);
+    //	System.out.printf("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+ roles);
     	//return null;
         return roles.stream().map(role->new SimpleGrantedAuthority(role)).collect(Collectors.toSet());
     }
