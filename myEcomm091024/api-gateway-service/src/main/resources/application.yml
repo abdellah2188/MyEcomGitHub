@@ -4,10 +4,16 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins: "http://localhost:4200"
             allowedHeaders: "*"
             allowedMethods:
               - GET
               - POST
               - PUT
               - DELETE
+#  security:
+#          oauth2:
+#            resourceserver:
+#              jwt:
+#                issuer-uri: http://localhost:7080/realms/microservices-realm
+#                jwk-set-uri: http://localhost:7080/realms/microservices-realm/protocol/openid-connect/certs
