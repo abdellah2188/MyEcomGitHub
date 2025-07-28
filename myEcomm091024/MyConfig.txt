@@ -10,6 +10,7 @@ logstash
 
 console cloud google
 
+consul services deregister -id order-serviceb-0 -->docker-desktops
 consul services deregister -id=product-servicebbbbb-0
 
 Vider le cache des navigateurs web :
