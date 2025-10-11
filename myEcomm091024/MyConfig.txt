@@ -40,6 +40,15 @@ sudo apt-get update
 sudo apt-get install vim
 
 wsl --shutdown      ### restart Docker
+2. Close Unused WSL Processes
+
+List active WSL processes:
+
+wsl -l -v
+
+Terminate specific processes:
+
+wsl -t <distribution_name>
 
 1.npm install -g @angular/cli
 2.npm install    @angular/cli
@@ -346,3 +355,4 @@ ID du projet : abiding-octane-360711. Vous ne pourrez pas le modifier par la sui
 
 Client id: 176959387329-6qatep9r3dejuf8vt8l99bq7jkg7f0c2.apps.googleusercontent.com
 Client secret: GOCSPX-rxLcLnqs_7Qpc_27GCsWlAWX6rq
+
