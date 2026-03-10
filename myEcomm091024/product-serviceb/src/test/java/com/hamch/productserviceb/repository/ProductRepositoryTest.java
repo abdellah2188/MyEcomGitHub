@@ -1,37 +1,42 @@
 package com.hamch.productserviceb.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
 
 import com.hamch.productserviceb.entities.Product;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+
+@ToString
+@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @ActiveProfiles("test")
-@DataJpaTest
+//@DataJpaTest
 @RunWith(SpringRunner.class)
 //@AutoConfigureTestDatabase
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
 //@SpringBootTest(properties = { "spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE","spring.datasource.driverClassName=org.h2.Driver","spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect" })
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Transactional
 class ProductRepositoryTest {
 	
@@ -40,6 +45,7 @@ class ProductRepositoryTest {
 	
 
 	@BeforeEach
+        @SuppressWarnings("unused")
 	void setUp() throws Exception {
 		
 		System.out.println("-----------------------------------------------");
@@ -118,6 +124,7 @@ class ProductRepositoryTest {
 	 }
 
 	@AfterEach
+        @SuppressWarnings("unused")
 	void tearDown() throws Exception {
 	}
 

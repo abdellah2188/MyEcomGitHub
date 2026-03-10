@@ -1,20 +1,5 @@
 package com.hamch.productserviceb.controller;
 
-import com.hamch.productserviceb.entities.Category;
-import com.hamch.productserviceb.entities.Product;
-import com.hamch.productserviceb.repository.ProductRepository;
-import com.hamch.productserviceb.services.impl.ProductService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,11 +9,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.hamch.productserviceb.entities.Category;
+import com.hamch.productserviceb.entities.Product;
+import com.hamch.productserviceb.repository.ProductRepository;
+import com.hamch.productserviceb.services.impl.ProductService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/product")
+//@RequiredArgsConstructor
 @Slf4j
 public class ProductController  {
 
@@ -84,7 +95,7 @@ public class ProductController  {
       return   cat2;
    }
     
-    @PostMapping(path="/add")
+    @PostMapping(path="/add/")
     public void addWithFile(@ModelAttribute("product") Object  prod,
                             @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
@@ -228,13 +239,8 @@ public class ProductController  {
     public byte[] getPhoto(@PathVariable("id") long id) throws Exception{
         System.out.println("EEEEEEEEEEEEEEEEEEE");
         Product p=(Product) productRepository.findById(id).get();
-        System.out.println("NNNNNNNNNNNN"+ p+"nnnn"+ Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        System.out.println("NNNNNNNNNNNN"+ p);
         return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
-      //  return Files.readAllBytes(Paths.get("ecommerce/products/"+ p.getPhotoName()));
-        
-        
-        //docker
-        //return Files.readAllBytes(Paths.get("products/images/"+ p.getPhotoName()));
     }
     @PostMapping(path = "/uploadPhoto/{id}")
     public void uploadPhoto(MultipartFile file, @PathVariable Long id) throws Exception{
@@ -249,8 +255,6 @@ public class ProductController  {
         ((com.hamch.productserviceb.entities.Product) p).setPhotoName(id+".png");
         
         Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
-       // Files.write(Paths.get("/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
-        //Files.write(Paths.get("products/images/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
         productRepository.save(p);
 
     }
