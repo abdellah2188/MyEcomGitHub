@@ -4,7 +4,7 @@
 import keycloakConfig from './keycloak.config';
 
 export const environment = {
-  production: false,
+  production: true,
   keycloak: keycloakConfig,
 };
 
