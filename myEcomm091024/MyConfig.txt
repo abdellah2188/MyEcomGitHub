@@ -1,3 +1,6 @@
+ #volumes:
+    #  - ./VOLUME_NODE:app/nodes_modules
+    #command: npm start
 
 curl http://localhost:8501/v1/agent/services
 docker exec discovery consul services deregister -id=inventory-service-0        
