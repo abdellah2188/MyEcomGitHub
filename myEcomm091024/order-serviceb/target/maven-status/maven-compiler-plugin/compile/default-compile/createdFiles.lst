@@ -12,7 +12,10 @@ com\hamch\orderserviceb\controller\OrderProduct.class
 com\hamch\orderserviceb\model\Product.class
 com\hamch\orderserviceb\repository\OrderRepository.class
 com\hamch\orderserviceb\OrderServicebApplication.class
+com\hamch\orderserviceb\security\JwtAuthConverter.class
 com\hamch\orderserviceb\services\PaymentRestClientService.class
 com\hamch\orderserviceb\controller\OrderForm.class
+com\hamch\orderserviceb\security\SecurityConfig.class
 com\hamch\orderserviceb\model\Payment.class
 com\hamch\orderserviceb\client\InventoryClient.class
+com\hamch\orderserviceb\security\FeignInterceptor.class

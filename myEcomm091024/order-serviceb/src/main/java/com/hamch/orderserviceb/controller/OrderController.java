@@ -8,7 +8,7 @@ import com.hamch.orderserviceb.services.ProductRestClientService;
 import com.hamch.orderserviceb.model.Customer;
 import com.hamch.orderserviceb.model.Product;
 import com.hamch.orderserviceb.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 ////////import org.springframework.cloud.stream.function.StreamBridge;
@@ -23,10 +23,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin("http://localhost:4200")
 public class OrderController {
+
+    public OrderController(OrderRepository orderRepository, com.hamch.orderserviceb.services.ProductRestClientService productRestClient, com.hamch.orderserviceb.services.CustomerRestClientService customerRestClient, org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory r4jcircuitBreakerFactory, com.hamch.orderserviceb.repository.OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.productRestClient = productRestClient;
+        this.customerRestClient = customerRestClient;
+        this.r4jcircuitBreakerFactory = r4jcircuitBreakerFactory;
+        this.orderItemRepository = orderItemRepository;
+    }
 
     private final OrderRepository orderRepository;
     private final ProductRestClientService productRestClient;
@@ -56,28 +64,22 @@ public class OrderController {
     }*/
     @PostMapping("/add")
     public Order saveOrder(@RequestBody OrderForm orderForm){
-    	
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm);
-        System.out.println("HHH"+ orderForm.getCustomer().getUsername()+"HHH"+ orderForm.getCustomer().getEmail()+"HHH"+orderForm.getCustomer().getMobile());
-        
-        List<Customer> customers= customerRestClient.findByUsernameOrEmailOrMobile(
-                orderForm.getCustomer().getUsername(),
+
+        Customer customer= customerRestClient.findByUsernameoOrEmailOrMobile(
+                orderForm.getCustomer().getFirstName(),
+                orderForm.getCustomer().getLastName(),
                 orderForm.getCustomer().getEmail(),
                 orderForm.getCustomer().getMobile()
         );
-        Customer customer=new Customer();
-        System.out.println("CCCCCBBBB");
-//        if(customers!=null) {
-//        	System.out.println("CCCCCBBBB"+ customers);
-//        	System.out.println("CCCCCBBBB"+ customers.getFirst());
-//            customer = customers.getFirst();
-//        }
-        if(customers.isEmpty()) {
-            
+//        System.out.println("CCCCCBBBB"+ customer.getCustomer_id());
+
+        if(customer==null) {
+            customer=new Customer();
             customer.setFirstName(orderForm.getCustomer().getFirstName());
             customer.setLastName(orderForm.getCustomer().getLastName());
             customer.setEmail(orderForm.getCustomer().getEmail());
-            customer.setAddress(orderForm.getCustomer().getAddress());
+            customer.setAdress(orderForm.getCustomer().getAdress());
             customer.setMobile(orderForm.getCustomer().getMobile());
             customer.setUsername(orderForm.getCustomer().getUsername());
             //iciiii
@@ -87,7 +89,7 @@ public class OrderController {
 
             Long IdCustomer=this.customerRestClient.customerByUsername(customer.getUsername());
             System.out.println("YYY" + IdCustomer);
-            customer.setId(IdCustomer);
+            customer.setCustomer_id(IdCustomer);
             System.out.println("YYY" + customer);
 
             Order order=new Order();
@@ -115,17 +117,13 @@ public class OrderController {
             order.setTotalAmount(total);
             return orderRepository.save(order);
         }else{
-        	
-        	System.out.println("CCCCCBBBB"+ customers);
-        	System.out.println("CCCCCBBBB"+ customers.getFirst());
-            customer = customers.getFirst();
 
-            System.out.println((customer.getUsername())+"RRR222"+customer.getMobile()+"rrr"+ orderForm.getProducts());
+            System.out.println((customer)+"RRR222"+customer.getMobile()+"rrr"+ orderForm.getProducts());
 
 
             Long IdCustomer= this.customerRestClient.customerByUsername( customer.getUsername()) ;
             System.out.println("YYY222"+ IdCustomer);
-            customer.setId( IdCustomer);
+            customer.setCustomer_id( IdCustomer);
             System.out.println("YYY222"+ customer);
 
             Order order=new Order();

@@ -1,4 +1,3 @@
-
 package com.hamch.orderserviceb.security;
 
 import org.springframework.context.annotation.Bean;
@@ -34,18 +33,19 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("USER"))
+                .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").hasAuthority("USER"))
+                .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer((ors->ors.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter))))
                 .headers(h->h.frameOptions(fo->fo.disable()))
-                .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
+                .cors(cors -> cors.disable())
+               // .csrf(csrf->csrf.ignoringRequestMatchers("/h2-console/**"))
                 .build();
     }
     
     private static JwtAuthenticationConverter jwtAuthenticationConverter()
     {
-   //   	 System.out.println("fffffffffffffffffffffffffffff");
+      	 System.out.println("fffffffffffffffffffffffffffff");
 
         var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("resource_access.user.roles");
@@ -55,19 +55,19 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
    
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-
-        CorsConfiguration configuration = new CorsConfiguration();
-     //   configuration.addAllowedOrigin(Arrays.asList("http://localhost:4200"));
-        configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//      	 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+//
+//        CorsConfiguration configuration = new CorsConfiguration();
+//       // configuration.setAllowedOrigins(Arrays.asList(""));
+//        //configuration.addAllowedOrigin("");
+//        configuration.setAllowedMethods(Arrays.asList("*"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 
 }
