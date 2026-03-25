@@ -1,15 +1,13 @@
-
-
+<!--
+<pre>{{ customers | json }}</pre>
+-->
 @if (mode3==3) {
-	uuuuuuuuuuuu
 	<pre>{{customers | json }}</pre>
 }
-
 @if (mode==0) {
-	
   <div  class="offset-3 col-md-6 justify-content-center card-body border">
     <form #f="ngForm" (ngSubmit)="onSaveCustomer(f.value)" >
-      <div class="text-center fw-bold" style="font-size: 30px; color: blueviolet">Personal information</div>
+      <div class="text-center fw-bold" style="font-size: 30px; color: blueviolet">Personal informations</div>
       <div class=" row-cols-auto">
         <label class="control-label fw-bold" style="color:cadetblue">First Name:</label>
         <input type="text" name="firstName" ngModel class="form-control" [(ngModel)]="authService.firstName">
@@ -20,7 +18,7 @@
       </div>
       <div class="form-group">
         <label class="control-label fw-bold" style="color:cadetblue">User name:</label>
-        <input type="text" name="username" ngModel class="form-control" [(ngModel)]="authService.username">
+        <input type="text" name="username" ngModel class="form-control" [(ngModel)]="authService.userName">
       </div>
       <div class="form-group">
         <label class="control-label fw-bold" style="color:cadetblue">Email:</label>
@@ -31,8 +29,8 @@
         <input  type="text" name="mobile" ngModel class="form-control" [(ngModel)]=authService.mobile!>
       </div>
       <div class="form-group">
-        <label class="control-label fw-bold" style="color:cadetblue">Address:</label>
-        <input type="text" name="address" ngModel class="form-control" [(ngModel)]="authService.address!">
+        <label class="control-label fw-bold" style="color:cadetblue">Adress:</label>
+        <input type="text" name="adress" ngModel class="form-control" [(ngModel)]="authService.adress!">
       </div>
       <button type="submit" class="btn btn-primary fw-bold" style="width: 100px">Next</button>
     </form>
@@ -45,15 +43,15 @@
       <div class="col-md-5">
         <div class="form-group">
           <label>First Name :</label>
-          <label>{{authService.firstName}}</label>
+          <label>{{orderService.order.customer!.firstName!}}</label>
         </div>
-		<div class="form-group">
-		          <label>Last Name :</label>
-		          <label>{{authService.lastName}}</label>
-		        </div>
         <div class="form-group">
-          <label>Address :</label>
-          <label>{{orderService.order.customer!.address!}}</label>
+          <label>Name :</label>
+          <label>{{orderService.order.customer!.lastName!}}</label>
+        </div>
+        <div class="form-group">
+          <label>Adress :</label>
+          <label>{{orderService.order.customer!.adress!}}</label>
         </div>
         <div class="form-group">
           <label>Phone :</label>
@@ -63,10 +61,6 @@
           <label>Email :</label>
           <label>{{orderService.order.customer!.email!}}</label>
         </div>
-		<div class="form-group">
-		          <label>Username :</label>
-		          <label>{{authService.username}}</label>
-		</div>
       </div>
       <div class="col-md-5">
         <div class="form-group">

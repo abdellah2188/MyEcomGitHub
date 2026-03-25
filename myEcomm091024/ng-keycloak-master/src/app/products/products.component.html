@@ -1,5 +1,4 @@
 
-
 @if (products) {
   <div >
     <div ><h2><span class="border  " style="color: brown">
@@ -62,8 +61,7 @@
                 <label class="control-label">Stock: {{p.stock}}</label>
               </div>
             }
-<!--			@if (!authService.hasRoleIn(['ADMIN'])){-->
-            <div  class="card-group">
+            <div *ngIf!="authService.hasRoleIn(['ADMIN'])" class="card-group">
               <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)">
                 <label class="control-label">Quantity:</label>
                 @if (p.quantity<=p.stock) {
@@ -80,7 +78,6 @@
                 </button>
               </form>
             </div>
-<!--			//}-->
           </div>
         } @else {
                 <img height="100" class="img-thumbnail img-rounded" [src]="this.host+'/api/product/photoProduct/'+p.id+'?ts='+getTS()">
@@ -96,19 +93,19 @@
 <span>
                         <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
                       </span>
-  					  }
+}
                       @if (p.selected) {
 <span>
                         <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
                       </span>
-					  }
+}
                       @if (p.available) {
 <span>
                         <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
                       </span>
-					  }
+}
                 </div>
-<!--           //     @if (authService.hasRoleIn(['USER'])) {-->
+                @if (authService.hasRoleIn(['USER'])) {
             <div class="card-group">
               <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)" id="form" novalidate >
                 <label class="control-label">Quantity:</label>
@@ -129,7 +126,7 @@
                 </button>
               </form>
             </div>
-<!--      //    }-->
+          }
         }
       </div>
     </div>

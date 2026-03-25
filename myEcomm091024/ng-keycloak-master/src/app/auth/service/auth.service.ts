@@ -11,16 +11,14 @@ export class AuthService {
   public lastName: any;
   public email: any;
   public mobile: any;
-  public address: any;
-  public username: any;
+  public adress: any;
+  public userName: any;
   public token!: string;
 
   constructor(private keycloakService: KeycloakService) {
-	
-	if (this.isLogged()) {
-     this.getUserInfos();
-  //  this.getLoggedUser();
-	}
+    this.getUserInfos();
+    this.getLoggedUser();
+
     const token = this.keycloakService.getKeycloakInstance().idToken;
    // console.log("EEEEX", token!);
     window.sessionStorage.setItem('token', JSON.stringify(token));
@@ -28,14 +26,14 @@ export class AuthService {
    // console.log("DDDDX", token);
     //this.loadUserProfile();
     this.loadProfile().then(user => {
-      console.log("IIIII", user.attributes.mobile['0']);
-      this.username  = user.username;
-      this.firstName = user.firstName;
-	  this.lastName  = user.lastName
+      console.log("IIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXXXXXX", user);
+      this.userName= user.username;
+      this.firstName    = user.firstName;
+	  this.lastName     = user.lastName
      // console.log("IIIII", this.name);
-      this.mobile    = user.attributes.mobile['0'];
-      this.address   = user.attributes.address['0']
-      this.email     = user.email;
+      this.mobile  = user.attributes.mobile['0'];
+      this.adress  = user.attributes.adress['0']
+      this.email   = user.email;
     })
   }
   loadProfile(): Promise<any>{
@@ -61,7 +59,7 @@ export class AuthService {
   public getLoggedUser(): KeycloakTokenParsed | undefined {
     try {
       const userDetails: KeycloakTokenParsed | undefined = this.keycloakService.getKeycloakInstance();
-      console.log( "UUUUUUUUUUUUUUUU", userDetails);
+     // console.log( "UUUUUUUUUUUUUUUU", userDetails);
       return userDetails;
     } catch (e) {
       console.error("Exception", e);
@@ -80,14 +78,13 @@ export class AuthService {
   }*/
   public getUserInfos() {
 
-    this.keycloakService.loadUserProfile().then(profile => {
+    /*this.keycloakService.loadUserProfile().then(profile => {
       this.userDetails= profile;
-	  console.log("PPPPPPyyIIIIIIIIIIIIII", this.userDetails);
-      return this.userDetails;
-    })
-   // console.log("PPPPPPyyxxxxxxx", this.userDetails);
+      return profile;
+    })*/
+   // console.log(this.userDetails, "PPPPPPyy",  this.keycloakService.getKeycloakInstance().idToken);
 
-   // return this.userDetails;
+    return this.userDetails;
 
   }
 

@@ -153,13 +153,13 @@ export  class CaddyService{
 
   public loadCaddyFromLocalStorage(){
 
-    let myCaddiesList=localStorage.getItem("ListCaddies_"+this.authService.username);
+    let myCaddiesList=localStorage.getItem("ListCaddies_"+this.authService.userName);
 
 //    let myCaddiesList=localStorage.getItem("ListCaddies_"+this.authService.authenticatedUser.username);
        this.listCaddies=myCaddiesList==undefined?[{num:1,name:'Caddy1'}]:JSON.parse(myCaddiesList);
        this.listCaddies.forEach(c=>{
         // console.log("EEEEE", c);
-         let cad=localStorage.getItem("myCaddy_"+this.authService.username+"_"+c.name);
+         let cad=localStorage.getItem("myCaddy_"+this.authService.userName+"_"+c.name);
 
        //  let cad=localStorage.getItem("myCaddy_"+this.authService.authenticatedUser.username+"_"+c.name);
         // this.caddies?[c.name]=cad==undefined?new Caddy(c.name):JSON.parse(cad);
@@ -243,7 +243,7 @@ export  class CaddyService{
     this.listCaddies.push(c);
 
    // this.caddies[c.name]=new Caddy(c.name);
-    localStorage.setItem("ListCaddies_"+this.authService.username,JSON.stringify(this.listCaddies));
+    localStorage.setItem("ListCaddies_"+this.authService.userName,JSON.stringify(this.listCaddies));
   //  localStorage.setItem("ListCaddies_"+this.authService.authenticatedUser.username,JSON.stringify(this.listCaddies));
   }
 

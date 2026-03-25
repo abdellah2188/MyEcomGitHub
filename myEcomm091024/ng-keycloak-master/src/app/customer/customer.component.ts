@@ -1,15 +1,14 @@
-
 import { Component, OnInit } from '@angular/core';
 import {OrderService} from '../services/order.service';
 //import {AuthenticationService} from '../services/authentication.service';
 import {CaddyService} from '../services/caddy.service';
 import {Router} from '@angular/router';
-import {Order} from "../model/Order.model";
+//import {Order} from "../model/Order.model";
 import {CustomerService} from "../services/customer.service";
 import {AuthService} from "../auth/service/auth.service";
 import {Customer} from "../model/customer.model";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+//import {Observable} from "rxjs";
+//import {tap} from "rxjs/operators";
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -21,14 +20,14 @@ import {ActivatedRoute} from '@angular/router';
 export class CustomerComponent implements OnInit {
   public mode:number=0;
   public mode3:number=0;
-  
+
   panelStyle:string= "panel-default";
   private myData: any;
   public customers: any;
   private loggedIn: boolean= false;
   public mobile: any;
   public adress: any;
-  constructor(public  route:ActivatedRoute, private customerService:CustomerService,public orderService:OrderService,
+  constructor(public  route:ActivatedRoute,public customerService:CustomerService,public orderService:OrderService,
               public authService:AuthService,
               public caddyService:CaddyService,
               private router:Router) {
@@ -70,19 +69,9 @@ export class CustomerComponent implements OnInit {
 	} 	
   }
   
-  /*public getCustomers() {
-      this.customerService.getCustomers()
-        .subscribe(data=>{
-          this.customers=data;
-          console.log("LLLLLLLLL", this.customers);
-        },err=>{
-          console.log(err);
-        })
-  }*/
-	
   onSaveCustomer(customer:Customer) {
     this.orderService.order.id= null;
-    customer.username=this.authService.username;
+   // customer.username=this.authService.userName;
     this.orderService.setCustomer(customer);
     this.caddyService.setCustomer(customer);
     this.orderService.loadProductsFromCaddy();

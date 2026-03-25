@@ -15,9 +15,12 @@ import {FormsModule} from "@angular/forms";
 import {NgxCurrencyModule} from "ngx-currency";
 
 @NgModule({ declarations: [
-        AppComponent, CustomerComponent, PaymentComponent, CaddyComponent, ProductComponent, ProductsComponent
+    AppComponent, CustomerComponent, PaymentComponent, CaddyComponent, ProductComponent, ProductsComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRoutingModule,
-        AuthModule, FormsModule], providers: [CatalogueService, provideHttpClient(withInterceptorsFromDi())] })
+    bootstrap: [AppComponent], 
+    
+    imports: [BrowserModule,  AppRoutingModule, AuthModule, FormsModule], 
+    
+    providers: [CatalogueService, provideHttpClient(withInterceptorsFromDi())] 
+})
 export class AppModule { }

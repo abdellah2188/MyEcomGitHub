@@ -30,16 +30,16 @@
         </li>
         @if (authService.hasRoleIn(['ADMIN'])) {
           <li class="nav-item">
-            <a class="nav-link active clickable" style="font-size: 20px" aria-current="page" routerLink="customer" >Customerssss</a>
+            <a class="nav-link active clickable" style="font-size: 20px" aria-current="page" routerLink="customer" >Customer</a>
           </li>
-		  <li class="nav-item dropdown">
-		            <a class="nav-link dropdown-toggle active clickable" style="font-size: 20px" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Customersxxx</a>
-		            <ul class="dropdown-menu" aria-labelledby="dropdown04">
-		              <li><a class="dropdown-item clickable"  routerLink="/customer" >Customer on line</a></li>
-		              <li><a class="dropdown-item clickable"  (click)="allCustomers()">All customers</a></li>
-		             
-		            </ul>
-		   </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active clickable" style="font-size: 20px" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Customersgggg</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown04">
+              <li><a class="dropdown-item clickable"  routerLink="/customer" >Customer on line</a></li>
+              <li><a class="dropdown-item clickable"  (click)="allCustomers()">All customers</a></li>
+
+            </ul>
+          </li>
         }
 
       </ul>
@@ -83,7 +83,7 @@
         <ul >
           <li class="nav-item dropdown" style="color:aqua;">
             <a class="nav-link dropdown-toggle fw-bold" style="font-size: 20px" href="#" id="navbardrop" data-bs-toggle="dropdown" >
-              <span>{{ this.authService.username }}</span></a>
+              <span>{{ this.authService.userName }}</span></a>
               <div class="dropdown-menu">
                 <a class="dropdown-item border clickable fw-bold" style="font-size: 20px" (click)="logout()">Logout</a>
                 <!--*ngIf="authService.hasRoleIn(['ADMIN'])"-->
