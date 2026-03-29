@@ -1,4 +1,4 @@
-package com.hamch.orderserviceb.security;
+/* package com.hamch.orderserviceb.security;
 
 
 import feign.RequestInterceptor;
@@ -47,4 +47,4 @@ public class ClientConfiguration {
         return context;
     }
 
-}
+} */

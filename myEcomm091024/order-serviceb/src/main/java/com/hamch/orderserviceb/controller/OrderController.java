@@ -1,26 +1,34 @@
 package com.hamch.orderserviceb.controller;
 
-import com.hamch.orderserviceb.entities.Order;
-import com.hamch.orderserviceb.entities.OrderItem;
-import com.hamch.orderserviceb.repository.OrderItemRepository;
-import com.hamch.orderserviceb.services.CustomerRestClientService;
-import com.hamch.orderserviceb.services.ProductRestClientService;
-import com.hamch.orderserviceb.model.Customer;
-import com.hamch.orderserviceb.model.Product;
-import com.hamch.orderserviceb.repository.OrderRepository;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 ////////import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 ///////import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-///////import java.util.concurrent.ExecutorService;
+import com.hamch.orderserviceb.entities.Order;
+import com.hamch.orderserviceb.entities.OrderItem;
+import com.hamch.orderserviceb.model.Customer;
+import com.hamch.orderserviceb.model.Product;
+import com.hamch.orderserviceb.repository.OrderItemRepository;
+import com.hamch.orderserviceb.repository.OrderRepository;
+import com.hamch.orderserviceb.services.CustomerRestClientService;
+import com.hamch.orderserviceb.services.ProductRestClientService;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+@Getter
 @RestController
 @RequestMapping("/api/order")
 //@RequiredArgsConstructor
@@ -64,17 +72,18 @@ public class OrderController {
     }*/
     @PostMapping("/add")
     public Order saveOrder(@RequestBody OrderForm orderForm){
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm);
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+ orderForm.getCustomer().getUsername());
 
-        Customer customer= customerRestClient.findByUsernameoOrEmailOrMobile(
-                orderForm.getCustomer().getFirstName(),
-                orderForm.getCustomer().getLastName(),
+        Customer customer= customerRestClient.findByUsernameOrEmailOrMobile(
+                orderForm.getCustomer().getUsername(),
                 orderForm.getCustomer().getEmail(),
                 orderForm.getCustomer().getMobile()
-        );
-//        System.out.println("CCCCCBBBB"+ customer.getCustomer_id());
+        ); 
+       // Customer customer= customerRestClient.findByUsernameOrEmailOrMobile("user2","abdellah_h2001@yahoo.fr","0666666666");
+
 
         if(customer==null) {
+            System.out.println("CCCCCBBBBxxxxxxxxxxxxxxxxxxxx"+ customer);
             customer=new Customer();
             customer.setFirstName(orderForm.getCustomer().getFirstName());
             customer.setLastName(orderForm.getCustomer().getLastName());
@@ -104,7 +113,7 @@ public class OrderController {
 
                 //Product product=productRestClient.productById(p.getProduct().getId()).get();
                 Product product=productRestClient.isInStock(p.getProduct().getId());
-
+                //Product product=productRestClient.isInStock(p.getId());
                 System.out.println(product.getStock() + "SSSSTTTTTKKKK" + product.getId());
                 orderItem.setProductId(product.getId());
                 orderItem.setPrice(product.getPrice());
@@ -188,7 +197,7 @@ public class OrderController {
             return "Order Failed - One of the Product in your Order is out of stock";
         }
     }*/
-    private Boolean handleErrorCase() {
+    /* private Boolean handleErrorCase() {
         return false;
-    }
+    } */
 }

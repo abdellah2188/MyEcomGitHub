@@ -1,8 +1,9 @@
 package com.hamch.orderserviceb.model;
 
-import lombok.*;
-
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 
 @Data
 public class Customer {
@@ -16,7 +17,7 @@ public class Customer {
     private String mobile;
     private String username;
 
-    public Long getCustomer_id() {
+    /* public Long getCustomer_id() {
         return customer_id;
     }
 
@@ -70,5 +71,5 @@ public class Customer {
 
     public void setUsername(String username) {
         this.username = username;
-    }
+    } */
 }

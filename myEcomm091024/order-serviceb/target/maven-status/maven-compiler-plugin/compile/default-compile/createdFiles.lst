@@ -4,7 +4,6 @@ com\hamch\orderserviceb\model\Customer.class
 com\hamch\orderserviceb\controller\OrderController.class
 com\hamch\orderserviceb\entities\Order.class
 com\hamch\orderserviceb\services\ProductRestClientService.class
-com\hamch\orderserviceb\security\ClientConfiguration.class
 com\hamch\orderserviceb\services\CustomerRestClientService.class
 com\hamch\orderserviceb\repository\OrderItemRepository.class
 com\hamch\orderserviceb\dto\OrderDto$OrderDtoBuilder.class

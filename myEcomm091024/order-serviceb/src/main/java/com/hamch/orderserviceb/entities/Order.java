@@ -1,6 +1,5 @@
 package com.hamch.orderserviceb.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hamch.orderserviceb.model.Customer;
 import lombok.*;
 

@@ -21,18 +21,18 @@ import lombok.ToString;
 //@AllArgsConstructor
 @NoArgsConstructor
 public class OrderForm {
-    @SuppressWarnings("unused")
-    private final Customer customer=new Customer();
-    @SuppressWarnings("unused")
-    private final List<OrderProduct> products=new ArrayList<>();
+    //@SuppressWarnings("unused")
+    private  Customer customer=new Customer();
+    //@SuppressWarnings("unused")
+    private  List<OrderProduct> products=new ArrayList<>();
 
-    public Customer getCustomer() {
+    /* public Customer getCustomer() {
         return customer;
     }
 
     public List<OrderProduct> getProducts() {
         return products;
-    }
+    } */
 }
 @Data
 @Getter
@@ -45,7 +45,7 @@ class OrderProduct{
     private  int price;
     private Product product;
 
-    public Long getId() {
+    /* public Long getId() {
         return id;
     }
 
@@ -76,5 +76,5 @@ class OrderProduct{
     public void setProduct(Product product) {
         this.product = product;
     }
-
+ */
 }
