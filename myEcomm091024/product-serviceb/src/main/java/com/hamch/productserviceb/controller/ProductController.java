@@ -45,15 +45,17 @@ public class ProductController  {
 
     @Autowired
     private ProductService service;
-    @Autowired
+    //@Autowired
     private final ProductRepository productRepository;
 
 
+    @SuppressWarnings("unused")
     private ProductController(ProductRepository productRepository){
         this.productRepository= productRepository;
     }
 
     @GetMapping("/products/{id}")
+    @SuppressWarnings("unused")
     Product isInStock(@PathVariable Long id) {
         System.out.println("TTTTTTTTTTTTT");
         log.info("Checking stock for product with id - " + id);
@@ -65,6 +67,7 @@ public class ProductController  {
     }
     
     @GetMapping("/products/{id2})")
+    @SuppressWarnings("unused")
        Object fincCategory( @PathVariable("id2") Long id2) throws ParseException {
        System.out.println("GGGGGGGGGGG"+ id2);
      //   int ID =(id);
@@ -96,6 +99,7 @@ public class ProductController  {
    }
     
     @PostMapping(path="/add/")
+    @SuppressWarnings("ImplicitArrayToString")
     public void addWithFile(@ModelAttribute("product") Object  prod,
                             @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
@@ -163,7 +167,7 @@ public class ProductController  {
 		  Product product=new  Product();
 		  
 		  JSONParser jsonP =new JSONParser();
-		  JSONObject jsonObject ;
+		  //JSONObject jsonObject ;
 		  
 		//   Product pr= (Product) (jsonP.parse((String) prod));
 	//	   jsonObject=(org.json.simple.JSONObject)pr;
@@ -176,7 +180,7 @@ public class ProductController  {
 		  JSONObject categ=(JSONObject) pro.get("category");
 		  System.out.println("GGGG"+categ.get("id"));
 		  
-		  JSONObject cat = new JSONObject((Map) categ);
+		  JSONObject cat = new JSONObject((Map<?, ?>) categ);
 		  System.out.println("JJJJJ"+cat);
 		  
 		  Category category =new Category(); category.setName((String)
@@ -240,13 +244,15 @@ public class ProductController  {
         System.out.println("EEEEEEEEEEEEEEEEEEE");
         Product p=(Product) productRepository.findById(id).get();
         System.out.println("NNNNNNNNNNNN"+ p);
-        return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        //return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ p.getPhotoName()));
+        return Files.readAllBytes(Paths.get("products/images/"+ p.getPhotoName()));
     }
     @PostMapping(path = "/uploadPhoto/{id}")
     public void uploadPhoto(MultipartFile file, @PathVariable Long id) throws Exception{
     	
     	Calendar c = Calendar.getInstance();
         System.out.println(c.get(Calendar.SECOND)+"RRRRRRRRRRRXXXXXXXXRRRRRRRRRRRRR"+ file);
+            @SuppressWarnings("BoxingBoxedValue")
         com.hamch.productserviceb.entities.Product p=productRepository.findById((java.lang.Long) id).get();
         
         //p.setPhotoName(file.getOriginalFilename());
@@ -254,8 +260,8 @@ public class ProductController  {
        
         ((com.hamch.productserviceb.entities.Product) p).setPhotoName(id+".png");
         
-        Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        //Files.write(Paths.get(System.getProperty("user.home")+"/ecommerce/products/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
+        Files.write(Paths.get("products/images/"+ ((com.hamch.productserviceb.entities.Product) p).getPhotoName()),file.getBytes());
         productRepository.save(p);
-
     }
 }
