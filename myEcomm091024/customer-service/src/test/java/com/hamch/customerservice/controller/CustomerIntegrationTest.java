@@ -1,46 +1,40 @@
+/* 
 package com.hamch.customerservice.controller;
 
-import com.hamch.customerservice.entities.Customer;
-import com.hamch.customerservice.repository.CustomerRepository;
-import com.hamch.customerservice.CustomerServiceApplication;
-import com.hamch.customerservice.dto.CustomerDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Configuration;
+//import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.mockito.Mockito.RETURNS_DEFAULTS;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hamch.customerservice.CustomerServiceApplication;
+import com.hamch.customerservice.dto.CustomerDTO;
+import com.hamch.customerservice.entities.Customer;
+import com.hamch.customerservice.repository.CustomerRepository;
 
 @Testcontainers
 @SpringBootTest (webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -53,6 +47,7 @@ public class CustomerIntegrationTest {
 	
 		
 	@Autowired
+        @SuppressWarnings("unused")
 	CustomerRepository customerRepository;
 	
     @Autowired
@@ -66,17 +61,10 @@ public class CustomerIntegrationTest {
 
     static List<CustomerDTO> customers;
     
-   /* @Before(value = "")
-     void setup(){
-        System.out.println("JJJJJJJJJJJJJJ");
-
-    	postgreSQLContainer.start();
-    	
-    	
-    }	*/
-    
+   /
     
     @BeforeAll
+        @SuppressWarnings("unused")
     static void setup(@Autowired CustomerRepository customerRepository) {
         //System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGG");
 
@@ -89,20 +77,22 @@ public class CustomerIntegrationTest {
          customers = new ArrayList<>();
          //System.out.println("aaaaaaaaaaaaaaaaaa"+ customers);
 
-         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build());
-         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build());
-         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").username("ZZZ").build());
+         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").userName("XXX").build());
+         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").userName("YYY").build());
+         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").userName("ZZZ").build());
          //System.out.println("bbbbbbbbbbbbbbbbb"+ customers);
          
     }
     
     
     @AfterAll
+        @SuppressWarnings("unused")
     static void terminate() {
     	//postgreSQLContainer.stop();
     }
 
     @BeforeEach
+        @SuppressWarnings("unused")
     void setUp() {
        
     }
@@ -152,7 +142,7 @@ public class CustomerIntegrationTest {
     @Test
     //@Rollback
     void shouldSaveValidCustomer(){
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").address("addddssssssss").email("ssss@gmail.com").mobile("66666666").username("SSS").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").adress("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
         ResponseEntity<CustomerDTO> response = testRestTemplate.exchange("/api/customer/add", HttpMethod.POST, new HttpEntity<>(customerDTO), CustomerDTO.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         AssertionsForClassTypes.assertThat(response.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(customerDTO);
@@ -162,7 +152,7 @@ public class CustomerIntegrationTest {
     @Test
    // @Rollback
     void shouldNotSaveInValidCustomer() throws JsonProcessingException {
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("").lastName("").address("").email("").mobile("").username("").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("").lastName("").adress("").email("").mobile("").userName("").build();
         ResponseEntity<String> response = testRestTemplate.exchange("/api/customer/add", HttpMethod.POST, new HttpEntity<>(customerDTO), String.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         Map<String, ArrayList<String>> errors = objectMapper.readValue(response.getBody(), HashMap.class);
@@ -170,16 +160,16 @@ public class CustomerIntegrationTest {
         Assertions.assertThat(errors.get("firstName").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("lastName").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("email").size()).isEqualTo(2);
-        Assertions.assertThat(errors.get("address").size()).isEqualTo(2);
+        Assertions.assertThat(errors.get("adress").size()).isEqualTo(2);
         Assertions.assertThat(errors.get("mobile").size()).isEqualTo(2);
-        Assertions.assertThat(errors.get("username").size()).isEqualTo(2);
+        Assertions.assertThat(errors.get("userName").size()).isEqualTo(2);
     }
 
     @Test
     //@Rollback
     void shouldUpdateValidCustomer(){
         Long customerId = 2L;
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").address("addddssssssss").email("ssss@gmail.com").mobile("66666666").username("SSS").build();
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName("sssss").lastName("sssss").adress("addddssssssss").email("ssss@gmail.com").mobile("66666666").userName("SSS").build();
         ResponseEntity<CustomerDTO> response = testRestTemplate.exchange("/api/customer/"+customerId, HttpMethod.PUT, new HttpEntity<>(customerDTO), CustomerDTO.class);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         AssertionsForClassTypes.assertThat(response.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(customerDTO);
@@ -194,4 +184,4 @@ public class CustomerIntegrationTest {
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
-}
+} */

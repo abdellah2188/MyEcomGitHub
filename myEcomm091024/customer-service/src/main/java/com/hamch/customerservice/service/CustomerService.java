@@ -1,13 +1,11 @@
 package com.hamch.customerservice.service;
 
 
+import java.util.List;
+
 import com.hamch.customerservice.dto.CustomerDTO;
-//import com.hamch.customerservice.entities.Customer;
 import com.hamch.customerservice.exceptions.CustomerNotFoundException;
 import com.hamch.customerservice.exceptions.EmailAlreadyExistException;
-
-
-import java.util.List;
 
 public interface CustomerService {
 	
@@ -25,7 +23,9 @@ public interface CustomerService {
     
     void deleteCustomer(Long id)throws CustomerNotFoundException;
 
-	List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile);
+	//List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile);
     
+    CustomerDTO findByUsernameOrEmailOrMobile(String username, String email, String mobile);
     
+
 }

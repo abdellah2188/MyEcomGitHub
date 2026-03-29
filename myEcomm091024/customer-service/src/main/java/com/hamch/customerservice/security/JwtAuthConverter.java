@@ -1,5 +1,4 @@
 package com.hamch.customerservice.security;
-//
 
 
 import org.springframework.core.convert.converter.Converter;
@@ -7,7 +6,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimNames;
+//import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
     	
-    	//System.out.printf("cccccccccccuuuuuusssssstttttttttt"+ jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream());
+    //	System.out.printf("oooooooooooooooooooooooooOOOOOOOOO"+ jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream());
 
     	Collection<GrantedAuthority> authorities = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
@@ -41,7 +40,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         }
         realmAccess = jwt.getClaim("realm_access");
         roles = (Collection<String>) realmAccess.get("roles");
-    	//System.out.printf("CCCCCCCCCCUUUUUUUUUUSSSSSSSSSSTTTTTTTTTTT"+ roles);
+    //	System.out.printf("yyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+ roles);
     	//return null;
         return roles.stream().map(role->new SimpleGrantedAuthority(role)).collect(Collectors.toSet());
     }

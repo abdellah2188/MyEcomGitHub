@@ -1,12 +1,13 @@
 package com.hamch.customerservice.mapper;
 
-import com.hamch.customerservice.dto.CustomerDTO;
-import com.hamch.customerservice.entities.Customer;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.hamch.customerservice.dto.CustomerDTO;
+import com.hamch.customerservice.entities.Customer;
 
 @Service
 public class CustomerMapper {
@@ -21,4 +22,5 @@ public class CustomerMapper {
     public List<CustomerDTO> fromListCustomers(List<Customer> customers){
         return customers.stream().map(c->modelMapper.map(c, CustomerDTO.class)).collect(Collectors.toList());
     }
+    
 }

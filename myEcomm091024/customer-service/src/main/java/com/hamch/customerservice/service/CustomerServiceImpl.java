@@ -1,24 +1,27 @@
 package com.hamch.customerservice.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.hamch.customerservice.dto.CustomerDTO;
 import com.hamch.customerservice.entities.Customer;
 import com.hamch.customerservice.exceptions.CustomerNotFoundException;
 import com.hamch.customerservice.exceptions.EmailAlreadyExistException;
 import com.hamch.customerservice.mapper.CustomerMapper;
 import com.hamch.customerservice.repository.CustomerRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
-    private CustomerMapper customerMapper;
-    private CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
+    private final CustomerRepository customerRepository;
 
     public CustomerServiceImpl(CustomerMapper customerMapper, CustomerRepository customerRepository) {
         this.customerMapper = customerMapper;
@@ -40,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Cacheable (value = "customersCache", key = "'allCustomers'")
     public List<CustomerDTO> getAllCustomers() {
         List<Customer> allCustomers = customerRepository.findAll();
         return customerMapper.fromListCustomers(allCustomers);
@@ -78,11 +82,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 	@Override
-	public List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile) {
-		
+/* 	public List<CustomerDTO> findByUsernameOrEmailOrMobile(String username, String email, String mobile) {
+	
+        System.out.println("PPPPPPPPPPPPPPPP"+ username+ email+ mobile);
+
 		List<Customer> customers= customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
 		return customerMapper.fromListCustomers(customers);
 		
+	} */
+   	public CustomerDTO findByUsernameOrEmailOrMobile(String username, String email, String mobile) {
+	
+        System.out.println("PPPPPPPPPPPPPPPP"+ username+ email+ mobile);
+
+		Customer customer= customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
+		//return customerMapper.fromListCustomers(customer);
+        System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"+ customer);
+        
+        if(customer == null) {
+        	log.error(String.format("This customer with username %s or email %s or mobile %s does not exist", username, email, mobile));
+        	return null;
+        }else
+        return customerMapper.fromCustomer(customer);
+        
 	}
 
 	@Override

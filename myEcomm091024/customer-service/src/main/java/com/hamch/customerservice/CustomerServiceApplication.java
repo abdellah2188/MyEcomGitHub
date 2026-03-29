@@ -1,57 +1,48 @@
 package com.hamch.customerservice;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
-//import javax.persistence.EntityManager;
 
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-//import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-//import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-//import com.hamch.customerservice.entities.Customer;
-//import com.hamch.customerservice.repository.CustomerRepository;
+import jakarta.persistence.EntityManager;
 
-//import com.hamch.customerservice.repository.CustomerRepository;
 
-import jakarta.persistence.*;
-import lombok.extern.slf4j.Slf4j;
-//import lombok.extern.slf4j.Slf4j;
-
-//@SpringBootApplication
-@EnableDiscoveryClient
-@Slf4j
+//@ComponentScan("com.hamch.customerservice.security")
+/* @Slf4j
 @Profile("!test")
 @EnableJpaRepositories
+//@Configuration
 @Configurable
 @ComponentScan("com.hamch.customerservice.security")
 @SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 @ComponentScan(basePackageClasses = com.hamch.customerservice.controller.CustomerController.class)
 @ComponentScan(basePackageClasses = com.hamch.customerservice.service.CustomerService.class)
-@ComponentScan(basePackageClasses = com.hamch.customerservice.mapper.CustomerMapper.class)
+@ComponentScan(basePackageClasses = com.hamch.customerservice.mapper.CustomerMapper.class) */
+@SpringBootApplication
+@EnableDiscoveryClient
+@Configurable
+@EnableJpaRepositories
+@EnableCaching
+@EnableRedisRepositories
 public class CustomerServiceApplication  {
-
-	@Autowired
-	//private CustomerRepository customerRepository;
-//	@Autowired
-//	private RepositoryRestConfiguration repositoryRestConfiguration;
-
 	
 	public static void main(String[] args)   throws Exception {
+		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM000000");
 		SpringApplication.run(CustomerServiceApplication.class, args);
 		
 	}
 
 	@Bean
-	public RepositoryRestConfigurer repositoryRestConfigurer(EntityManagerFactory entityManager) {
+	public RepositoryRestConfigurer repositoryRestConfigurer(EntityManager entityManager) {
+		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM222222");
 		return RepositoryRestConfigurer.withConfig(config -> {
 			config.exposeIdsFor(entityManager.getMetamodel().getEntities().stream().map(entityType -> entityType.getJavaType()).toArray(Class[]::new));
 		});

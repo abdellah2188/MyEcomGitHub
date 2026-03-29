@@ -1,23 +1,16 @@
 
 package com.hamch.customerservice.repository;
 
-import org.junit.After;
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,22 +19,13 @@ import com.hamch.customerservice.CustomerServiceApplication;
 import com.hamch.customerservice.dto.CustomerDTO;
 import com.hamch.customerservice.entities.Customer;
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-//import static org.assertj.core.api.Assertions.*; 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 // @Slf4j
 @Testcontainers
 //@ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = {CustomerServiceApplication.class})
 //@Configuration
-@DataJpaTest
+//@DataJpaTest
 
 //@ContextConfiguration
 //@TestPropertySource("/application-test.properties")
@@ -55,12 +39,14 @@ class CustomerRepositoryWithContainerTest {
 	 
 	 static List<CustomerDTO> customers;
 	
+	@SuppressWarnings("rawtypes")
 	@Container
 	@ServiceConnection 
 	static PostgreSQLContainer database=new PostgreSQLContainer("postgres:16"); //.withDatabaseName("customers-db").withUsername("postgres").withPassword("1234");
 	  
 	  	  
 	 @BeforeAll
+         @SuppressWarnings("unused")
 	    static void setup(@Autowired CustomerRepository customerRepository) {
 	        //System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGG");
 
@@ -73,14 +59,15 @@ class CustomerRepositoryWithContainerTest {
 	         customers = new ArrayList<>();
 	         //System.out.println("aaaaaaaaaaaaaaaaaa"+ customers);
 
-	         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build());
-	         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").address("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build());
-	         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").username("ZZZ").build());
+	         customers.add(CustomerDTO.builder().id(1L).firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build());
+	         customers.add(CustomerDTO.builder().id(2L).firstName("yyyyy22").lastName("yyyyy").adress("addddrrrsssyyyy").email("yyyy@gmail.com").mobile("2222222").username("YYY").build());
+	         customers.add(CustomerDTO.builder().id(3L).firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com").mobile("3333333").username("ZZZ").build());
 	         //System.out.println("bbbbbbbbbbbbbbbbb"+ customers);
 	         
 	    }
 	    
 	@AfterAll 
+         @SuppressWarnings("unused")
 	static void terminate() { 
 		database.stop(); 
 	}
@@ -94,23 +81,25 @@ class CustomerRepositoryWithContainerTest {
 	//	  assertThat(database.isRunning()).isTrue(); 
 	  }
 	  
-	  @Test void shoudFindByUsernameOrEmailOrMobile() { 
+	  @Test@SuppressWarnings("unused") 
+ void shoudFindByUsernameOrEmailOrMobile() { 
 		  String givenEmail = "xxxx@gmail.com"; 
 		  String givenUsername = "YYY"; 
 		  String givenMobile ="3333333"; 
 		  
 		 		  
-		  List<Customer> result = customerRepository2.findByUsernameOrEmailOrMobile(givenUsername, givenEmail, givenMobile); 
+		  Customer result = customerRepository2.findByUsernameOrEmailOrMobile(givenUsername, givenEmail, givenMobile); 
 		//  System.out.println("11111111111111" + result);
 		  assertThat(result).isNotNull();
 		  assertThat(customers).usingRecursiveComparison().ignoringFields("id").isEqualTo(result); 
 		  
 	  }
 	  
-	  @Test void shouldFindCustomersByEmail() { 
+	  @Test@SuppressWarnings("unused") 
+ void shouldFindCustomersByEmail() { 
 		  String givenEmail = "xxxx@gmail.com"; 
 		 
-		  Customer expected = Customer.builder().firstName("xxxxx11").lastName("xxxxx").address("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build(); 
+		  Customer expected = Customer.builder().firstName("xxxxx11").lastName("xxxxx").adress("addddrrrsssxxxx").email("xxxx@gmail.com").mobile("1111111").username("XXX").build(); 
 		  Customer result = customerRepository2.findByEmail(givenEmail);
 		//  System.out.println("2222222222222222" + result); 
 		  assertThat(result).isNotNull();
@@ -119,9 +108,10 @@ class CustomerRepositoryWithContainerTest {
 	  }
 	  
 	  @Test 
+         @SuppressWarnings("unused")
 	  void shouldFindCustomersByUsername() { 
 		  String givenUsername = "ZZZ";
-		  Customer expected = Customer.builder().firstName("zzzzz33").lastName("zzzzz").address("addddrrrssszzzz").email("zzzz@gmail.com") .mobile("3333333").username("ZZZ").build();
+		  Customer expected = Customer.builder().firstName("zzzzz33").lastName("zzzzz").adress("addddrrrssszzzz").email("zzzz@gmail.com") .mobile("3333333").username("ZZZ").build();
 		  Customer result = customerRepository2.findByUsername(givenUsername);
 	//	  System.out.println("33333333333333333" + expected);
 	//	  System.out.println("33333333333333333" + result);
