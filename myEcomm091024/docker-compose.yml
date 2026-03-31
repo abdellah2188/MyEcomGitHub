@@ -3,7 +3,7 @@ volumes:
    VOLUME_MYSQL:
    VOLUME_MYSQL_KC:
    VOLUME_IMAGE:
-   REDIS_DATA:
+   VOLUME_REDIS:
 networks:
    net-micros:
       driver: bridge  
@@ -18,7 +18,7 @@ services:
     ports:
       - "6379:6379" # Port par défaut de Redis
     volumes:
-    - REDIS_DATA:/data # Persistance des données
+    - ./VOLUME_REDIS:/data # Persistance des données
     command: redis-server --appendonly yes --requirepass "123" # Sécurité et sauvegarde
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
