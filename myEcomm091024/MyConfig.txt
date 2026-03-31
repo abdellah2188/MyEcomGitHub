@@ -1,4 +1,7 @@
- #volumes:
+docker exec -it redis_cache redis-cli -a 123
+FLUSHALL
+
+#volumes:
     #  - ./VOLUME_NODE:app/nodes_modules
     #command: npm start
 
