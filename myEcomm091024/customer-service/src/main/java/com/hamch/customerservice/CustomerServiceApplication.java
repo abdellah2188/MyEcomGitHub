@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 
 import jakarta.persistence.EntityManager;
 
@@ -31,7 +33,9 @@ import jakarta.persistence.EntityManager;
 @Configurable
 @EnableJpaRepositories
 @EnableCaching
-@EnableRedisRepositories
+//@EnableRedisRepositories
+@EnableScheduling
+
 public class CustomerServiceApplication  {
 	
 	public static void main(String[] args)   throws Exception {
@@ -39,6 +43,11 @@ public class CustomerServiceApplication  {
 		SpringApplication.run(CustomerServiceApplication.class, args);
 		
 	}
+
+	@Bean
+   RestTemplate restTemplate() {
+      return new RestTemplate();
+   }
 
 	@Bean
 	public RepositoryRestConfigurer repositoryRestConfigurer(EntityManager entityManager) {

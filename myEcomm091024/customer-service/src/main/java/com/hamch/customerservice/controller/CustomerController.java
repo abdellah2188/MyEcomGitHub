@@ -40,7 +40,8 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
        // return (List<Customer>) customerRepository.findAll();
-     //   System.out.println("NNNNNNNNNNNNNNN"+ customerService.getAllCustomers());
+       List<CustomerDTO> customersDTO = customerService.getAllCustomers();
+        System.out.println("NNNNNNNNNNNNNNN"+ customersDTO);
 
     	return customerService.getAllCustomers(); 
     }
@@ -66,6 +67,9 @@ public class CustomerController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO saveCustomer(@RequestBody @Valid CustomerDTO customerDTO){
+
+                System.out.println(customerDTO+"aaaaaaaaaaaaaaaaaaaaaaaaaa");
+
         return customerService.saveNewCustomer(customerDTO);
     }
     
@@ -74,7 +78,7 @@ public class CustomerController {
     @GetMapping(path="/{username}")
     //@ResponseStatus(HttpStatus.OK)
     public Long getCustomerByUsername(@PathVariable("username") String username ) {
-        //System.out.println(username+"c"+ customerService.findCustomerByUsername(username));
+        System.out.println(username+"cccccccccccccccccccccccccc");
 
         //return  customerRepository.findByUsername( username).getId();
         return customerService.findCustomerByUsername(username).getId();
@@ -90,6 +94,7 @@ public class CustomerController {
 
       //  return  customerRepository.findByUsernameOrEmailOrMobile(username, email, mobile);
       CustomerDTO customerDTO = customerService.findByUsernameOrEmailOrMobile(username, email, mobile);
+      System.out.println("ZZZZZZZZZZZZZZZZZZZZ"+ customerDTO);
       if(customerDTO != null)
         return customerDTO;
       else return null;

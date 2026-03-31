@@ -3,8 +3,6 @@ package com.hamch.customerservice.entities;
 
 import java.io.Serializable;
 
-import org.springframework.data.redis.core.RedisHash;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +23,7 @@ import lombok.ToString;
 @Entity  @NoArgsConstructor @AllArgsConstructor 
 @Table(name="customer")
 @Builder @ToString @Setter @Getter
-@RedisHash("Customer")
+//@RedisHash("Customer")
 public class Customer implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
    @SuppressWarnings("unused")

@@ -43,9 +43,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Cacheable (value = "customersCache", key = "'allCustomers'")
+    @Cacheable (value = "customersCache", key = "'allCustomers'", unless = "#result.isEmpty()")
     public List<CustomerDTO> getAllCustomers() {
+                System.out.println("HHHHHHHHHHHHjjjjjjjjjjjjjjjjjjjjjjvvvvvvv");
+
         List<Customer> allCustomers = customerRepository.findAll();
+        System.out.println("HHHHHHHHHHHHjjjjjjjjjjjjjjjjjjjjjj" + allCustomers);
         return customerMapper.fromListCustomers(allCustomers);
     }
 
