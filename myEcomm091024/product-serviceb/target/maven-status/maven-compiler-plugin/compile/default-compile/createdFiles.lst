@@ -7,6 +7,7 @@ com\hamch\productserviceb\repository\ProductRepository.class
 com\hamch\productserviceb\entities\Category$CategoryBuilder.class
 com\hamch\productserviceb\services\ICrudService.class
 com\hamch\productserviceb\entities\Category.class
+com\hamch\productserviceb\redisConfig\CachingConfig.class
 com\hamch\productserviceb\services\impl\CategoryService.class
 com\hamch\productserviceb\entities\Product.class
 com\hamch\productserviceb\services\impl\ProductService.class
