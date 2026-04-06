@@ -1,6 +1,5 @@
 package com.hamch.productserviceb.redisConfig;
 
-
 // Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 
 //import java.time.Duration;
@@ -24,8 +23,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import tools.jackson.databind.ObjectMapper;
 
 @Configuration
-//@EnableCaching
-@EnableCaching(mode = AdviceMode.ASPECTJ)
+@EnableCaching
+//@EnableCaching(mode = AdviceMode.ASPECTJ)
 public class CachingConfig {
 
     @Bean

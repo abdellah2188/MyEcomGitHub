@@ -23,17 +23,11 @@ import lombok.ToString;
 //@Component
 public class Category implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SuppressWarnings("unused")
     private Long id;
-    @SuppressWarnings("unused")
     private String name;
-  //  private String photo;
- //   private String description;
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-    @SuppressWarnings("unused")
     private Collection<Product> products;
-    @SuppressWarnings("unused")
     public Category(Map<?, ?> category) {
     }
 }

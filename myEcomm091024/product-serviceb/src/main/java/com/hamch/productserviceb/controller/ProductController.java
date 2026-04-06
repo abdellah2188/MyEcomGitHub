@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hamch.productserviceb.dto.ProductDTO;
 import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.ProductRepository;
@@ -36,7 +37,7 @@ import com.hamch.productserviceb.services.impl.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/product")
 //@RequiredArgsConstructor
@@ -45,17 +46,61 @@ public class ProductController  {
 
     @Autowired
     private ProductService service;
-    //@Autowired
+    @Autowired
     private final ProductRepository productRepository;
 
 
-    @SuppressWarnings("unused")
-    private ProductController(ProductRepository productRepository){
+    public ProductController(ProductService service, ProductRepository productRepository){
+        this.service= service;
         this.productRepository= productRepository;
     }
 
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/productsByCategory/{id}")
+    public List<ProductDTO> getProductsByCategory(@PathVariable Long id) {
+        
+        System.out.println("Categggggggggooooooorrrrrrrryyyyyyyyy" + id);
+
+        List<ProductDTO> productsDTO = service.getProductsByCategory(id);
+
+        
+        System.out.println("EEEEEEEEEEEEEEEEEEnnnnnnnnnnnnnnn" + productsDTO);
+
+        return service.getProductsByCategory(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/products/search/selectedProducts")
+    public List<ProductDTO> getSelectedProducts() {
+        System.out.println("TTTTTTTTTTTTTxxxxxxxxxxxxxxxx");
+        List<ProductDTO> productsDTO = service.getSelectedProducts();
+        System.out.println("MMMMMMMMMMxxxxxxxxxxxxxxxxx" + productsDTO);
+        
+        return service.getSelectedProducts();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/products/search/promoProducts")
+    public List<ProductDTO> getPromotedProducts() {
+        System.out.println("TTTTTTTTTTTTTxxxxxxxxxxxxxxxx");
+        List<ProductDTO> productsDTO = service.getPromotedProducts();
+        System.out.println("MMMMMMMMMMxxxxxxxxxxxxxxxxx" + productsDTO);
+        
+        return service.getPromotedProducts();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/products/search/dispoProducts")
+    public List<ProductDTO> getAvailableProducts() {
+        System.out.println("TTTTTTTTTTTTTxxxxxxxxxxxxxxxx");
+        List<ProductDTO> productsDTO = service.getDispoProducts();
+        System.out.println("MMMMMMMMMMxxxxxxxxxxxxxxxxx" + productsDTO);
+        
+        return service.getDispoProducts();
+    }
+
     @GetMapping("/products/{id}")
-    @SuppressWarnings("unused")
     Product isInStock(@PathVariable Long id) {
         System.out.println("TTTTTTTTTTTTT");
         log.info("Checking stock for product with id - " + id);
@@ -67,8 +112,7 @@ public class ProductController  {
     }
     
     @GetMapping("/products/{id2})")
-    @SuppressWarnings("unused")
-       Object fincCategory( @PathVariable("id2") Long id2) throws ParseException {
+    Object fincCategory( @PathVariable("id2") Long id2) throws ParseException {
        System.out.println("GGGGGGGGGGG"+ id2);
      //   int ID =(id);
     //   Optional<Product> p = productRepository.findById(id);
@@ -99,7 +143,6 @@ public class ProductController  {
    }
     
     @PostMapping(path="/add/")
-    @SuppressWarnings("ImplicitArrayToString")
     public void addWithFile(@ModelAttribute("product") Object  prod,
                             @RequestParam("file") MultipartFile file) throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 

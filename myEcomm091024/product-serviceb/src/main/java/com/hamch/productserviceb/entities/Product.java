@@ -31,43 +31,23 @@ import lombok.ToString;
 @Table(name="product")
 @Data
 @Builder
-//@ToString()
 public class Product implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
    // @Column(name = "`id`")
-   ///@SuppressWarnings("unused")
     private Long id;
-    //@SuppressWarnings("unused")
     private String name;
-    @SuppressWarnings("unused")
     private String description;
-    @SuppressWarnings("unused")
     private double price;
-    @SuppressWarnings("unused")
     private boolean promotion;
-    @SuppressWarnings("unused")
     private boolean selected;
-    @SuppressWarnings("unused")
     private boolean available;
-    @SuppressWarnings("unused")
     private String photoName;
-    @SuppressWarnings("unused")
     private long stock;
     @Transient
-    @SuppressWarnings("unused")
     private final int quantity=0;
     @ManyToOne
- //   @ToString.Exclude
-    @SuppressWarnings("unused")
     private Category category;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+       
 }

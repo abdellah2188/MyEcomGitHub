@@ -2,8 +2,12 @@ D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamc
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\controller\CategoryController.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\controller\CrudController.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\controller\ProductController.java
+D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\dto\CategoryDTO.java
+D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\dto\ProductDTO.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\entities\Category.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\entities\Product.java
+D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\mapper\CategoryMapper.java
+D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\mapper\ProductMapper.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\ProductServicebApplication.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\redisConfig\CachingConfig.java
 D:\Java091024\MyEcomGitHub\myEcomm091024\product-serviceb\src\main\java\com\hamch\productserviceb\repository\CategoryRepository.java
