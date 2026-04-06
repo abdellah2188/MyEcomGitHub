@@ -49,6 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
 
         List<Customer> allCustomers = customerRepository.findAll();
         System.out.println("HHHHHHHHHHHHjjjjjjjjjjjjjjjjjjjjjj" + allCustomers);
+        System.out.println("HHHHHHHHHHHHkkkkkkkkkkkkkkkkkkkkkk" + customerMapper.fromListCustomers(allCustomers));
+
         return customerMapper.fromListCustomers(allCustomers);
     }
 

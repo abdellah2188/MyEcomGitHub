@@ -26,27 +26,27 @@ import lombok.ToString;
 //@RedisHash("Customer")
 public class Customer implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @SuppressWarnings("unused")
+   //@SuppressWarnings("unused")
     private Long id;
     @SuppressWarnings("unused")
     @NotEmpty @Size(min = 3)
     private String firstName;
     @NotEmpty @Size(min = 3)
-    @SuppressWarnings("unused")
+    //@SuppressWarnings("unused")
     private String lastName;
-  @SuppressWarnings("unused")
+  //@SuppressWarnings("unused")
     @NotEmpty @Size(min = 10)
     private String adress;
 //  @Column(unique=true)
     @NotEmpty @Size(min = 7)
-    @SuppressWarnings("unused")
+    //@SuppressWarnings("unused")
     private String email;
   //  @Column(unique=true)
     @NotEmpty @Size(min = 7)
-    @SuppressWarnings("unused")
+    //@SuppressWarnings("unused")
     private String mobile;
    // @Column(unique=true)
-   @SuppressWarnings("unused")
+   //@SuppressWarnings("unused")
     @NotEmpty @Size(min = 3)
     @Column(name="username")
     private String username;

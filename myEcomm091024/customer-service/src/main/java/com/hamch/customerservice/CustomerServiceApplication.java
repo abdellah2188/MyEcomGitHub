@@ -44,11 +44,11 @@ public class CustomerServiceApplication  {
 		
 	}
 
-	@Bean
+	/* @Bean
    RestTemplate restTemplate() {
       return new RestTemplate();
    }
-
+ */
 	@Bean
 	public RepositoryRestConfigurer repositoryRestConfigurer(EntityManager entityManager) {
 		System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM222222");

@@ -39,6 +39,9 @@ public class CustomerController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
+       
+        System.out.println("NNNNNNNNNNNNNNN");
+
        // return (List<Customer>) customerRepository.findAll();
        List<CustomerDTO> customersDTO = customerService.getAllCustomers();
         System.out.println("NNNNNNNNNNNNNNN"+ customersDTO);
