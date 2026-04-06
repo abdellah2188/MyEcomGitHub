@@ -5,7 +5,7 @@
       Category:   </span> <span class="border " style="color:chartreuse">{{title}}</span></h2>
     </div><br>
     <div class="row">
-      @for (p of products._embedded.products; track p) {
+      @for (p of products; track p) {
         <div class="col-md-3">
           <div class="card ">
             <div style="width:auto; height: 40px" class="card-header">{{p.name}}</div>

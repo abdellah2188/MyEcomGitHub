@@ -6,6 +6,7 @@ import {Product} from '../model/product.model';
 import {CaddyService} from '../services/caddy.service';
 import {AuthService} from "../auth/service/auth.service";
 import { ProductService } from '../services/product.service';
+import { Category } from '../model/category.model';
 //import {KeycloakSecurityService} from "../services/keycloak-security.service";
 @Component({
   selector: 'app-products',
@@ -33,6 +34,7 @@ export class ProductsComponent implements OnInit {
   private cat2!: any;
   public host: any;
   public size=1;
+  public category: Category | undefined;
   constructor(
     public productService: ProductService,
     public catService:CatalogueService,
@@ -66,7 +68,7 @@ export class ProductsComponent implements OnInit {
 
     if(p1==1){
       this.title="Selected products";
-      this.currentRequest='/products/search/selectedProducts';
+      this.currentRequest='/api/product/products/search/selectedProducts';
       this.getProducts({url: this.currentRequest});
     }
     else if (p1==2){
@@ -74,24 +76,29 @@ export class ProductsComponent implements OnInit {
 
       this.cat=this.route.snapshot.params.p2;
 
-      console.log("QQQQQQQQQQQQ", (this.cat));
+      this.category= this.cat ;
+      console.log("QQQQQQQQQQQQ", (this.category));
+      //console.log("QQQQQQQQQQQQ22223333", atob(this.category));
+
       this.cat2= (JSON.parse(atob(this.cat)));
-      console.log("TTTT", this.cat2, "TTT", this.cat2.name);
+      console.log("TTTT", this.cat2, "TTT", this.cat2.id);
 
       this.title= this.cat2.name;
 
-      this.currentRequest='/categories/'+this.cat2.id+'/products';
+     // this.currentRequest='/categories/'+this.cat2.id+'/products';
+      this.currentRequest='/api/product/productsByCategory/'+this.cat2.id; ;
+
 	  console.log("LLL", this.currentRequest);
      this.getProducts({url: this.currentRequest});
     }
     else if (p1==3){
       this.title="Promotional products";
-      this.currentRequest='/products/search/promoProducts';
+      this.currentRequest='/api/product/products/search/promoProducts';
       this.getProducts({url: this.currentRequest});
     }
     else if (p1==4){
       this.title="Availables products";
-      this.currentRequest='/products/search/dispoProducts';
+      this.currentRequest='/api/product/products/search/dispoProducts';
       this.getProducts({url: this.currentRequest});
     }
     else if (p1==5){
@@ -104,12 +111,14 @@ export class ProductsComponent implements OnInit {
   }
 
   private getProducts({url}: { url: any }) {
-	console.log("IIIIIIIIIIIIIII", this.catService.host+url);
-	this.products=null;
+	  console.log("IIIIIIIIIIIIIII", this.catService.host+url);
+
+	  this.products=null;
+    //this.catService.getResource(this.catService.host+url)
     this.catService.getResource(this.catService.host+url)
       .subscribe(data=>{
         this.products=data;
-        console.log("PPPPPPPPPPPPPPPP", this.products);
+        console.log("PPPPPPPPPPPPPPPPxxxxxxxxxxxxxxxxxxx", this.products);
       },err=>{
         console.log(err);
       })
@@ -145,7 +154,7 @@ export class ProductsComponent implements OnInit {
          }
       } else if (event instanceof HttpResponse) {
         //console.log(this.router.url);
-		this.refreshUpdatedProduct();
+		    this.refreshUpdatedProduct();
         this.getProducts({url: this.currentRequest});
        
         this.currentTime=Date.now();
