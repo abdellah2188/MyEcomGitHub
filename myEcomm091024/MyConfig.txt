@@ -1,3 +1,5 @@
+mvn clean package -DskipTests -Xlint:unchecked
+
 docker exec -it redis_cache redis-cli -a 123
 FLUSHALL
 
