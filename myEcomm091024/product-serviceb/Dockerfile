@@ -1,4 +1,4 @@
-FROM ://redhat.com/ubi9/openjdk-25:1.17
+FROM openjdk:25-ea-21-jdk-slim
 VOLUME /tmp
 COPY target/*.jar  app.jar
 ENTRYPOINT ["java","-jar", "app.jar"]
