@@ -1,3 +1,15 @@
+ctr + , 
+settings.json:
+{
+    "java.configuration.runtimes": [
+  {
+    "name": "JavaSE-25",
+    "path": "C:/Program Files/Java/jdk-25",
+    "default": true
+  }
+]
+}
+
 mvn clean package -DskipTests -Xlint:unchecked
 
 docker exec -it redis_cache redis-cli -a 123
