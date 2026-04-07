@@ -14,8 +14,10 @@
     <name>order-serviceb</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>21</java.version>
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <java.version>25</java.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <lombok.version>1.18.40</lombok.version>
     </properties>
     <dependencies>
         <dependency>
@@ -83,9 +85,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <!-- <version>1.18.38</version> -->
+            <version>1.18.42</version>
             <scope>provided</scope>
-            <!-- <optional>true</optional>  -->
         </dependency>
                 <dependency>
    			<groupId>com.mysql</groupId>
@@ -152,12 +153,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-	                    <image>
-	                        <name>im-${project.name}</name>
-	                    </image>
-	            </configuration>                
+                 <version>3.5.0</version>
+                <configuration>
+                    
+                </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version> <!-- Use latest version -->
+            <configuration>
+                <proc>full</proc> <!-- or 'none', or 'only' -->
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                    <!-- Add other processors like mapstruct or spring-boot-configuration-processor -->
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
     <repositories>
