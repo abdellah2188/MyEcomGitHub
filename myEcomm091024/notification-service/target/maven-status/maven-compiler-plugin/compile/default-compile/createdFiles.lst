@@ -1,2 +1,4 @@
 com\hamch\NotificationServiceApplication.class
+com\hamch\notificationservice\security\JwtAuthConverter.class
 com\hamch\EmailSender.class
+com\hamch\notificationservice\security\SecurityConfig.class
