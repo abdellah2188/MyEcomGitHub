@@ -240,6 +240,9 @@ services:
           - KC_HOST=localhost
           - KC_PORT=7080
           - GATEWAY=apigatewayservice
+          - SPRING_REDIS_HOST=redis_cache
+          - SPRING_REDIS_PORT=6379
+          - SPRING_REDIS_PASSWORD=123
         healthcheck:
           test: [ "CMD", "curl", "-f", "http://localhost:9001/actuator/health" ]
           interval: 10s
@@ -248,9 +251,9 @@ services:
           - ./VOLUME_IMAGE:/products/images
         networks:
           - net-micros
-        depends_on:
-           apigatewayservice:
-             condition: service_healthy
+        # depends_on:
+        #    apigatewayservice:
+        #      condition: service_completed_successfully
 
   inventory-service:
      build: ./inventory-service
@@ -283,9 +286,9 @@ services:
           retries: 4
      networks:
        - net-micros
-     depends_on:
-        product-serviceb:
-            condition: service_healthy
+    #  depends_on:
+    #     product-serviceb:
+    #         condition: service_healthy
 #        
   customer-service:
      build: ./customer-service
@@ -383,9 +386,9 @@ services:
              retries: 4
            networks:
              - net-micros
-           depends_on:
-              apigatewayservice:
-                condition: service_healthy
+          #  depends_on:
+          #     apigatewayservice:
+          #       condition: service_healthy
 
   notification-service:
            build: ./notification-service
@@ -415,9 +418,9 @@ services:
              retries: 4
            networks:
              - net-micros
-           depends_on:
-              apigatewayservice:
-                condition: service_healthy
+          #  depends_on:
+          #     apigatewayservice:
+          #       condition: service_healthy
      
   apigatewayservice:
            build: ./api-gateway-service
@@ -440,7 +443,7 @@ services:
              - RABBITMQ_PW=5672
            healthcheck:
              test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-             interval: 30s
+             interval: 10s
              retries: 4
            networks:
              - net-micros
