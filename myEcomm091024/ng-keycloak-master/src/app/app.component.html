@@ -102,7 +102,7 @@
         <span class="fw-bold" style="font-size: 24px; color: blue">Categories</span>
         @if (categories) {
           <ul class="list-group fw-bold" style="font-size: 20px">
-            @for (c of categories._embedded.categories; track c) {
+            @for (c of categories; track c) {
               <li [ngClass]="currentCategorie==c?'active':''"  (click)="getProductsByCat(c)" class="list-group-item clickable">
                 {{c.name}}
               </li>

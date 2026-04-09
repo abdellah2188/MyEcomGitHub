@@ -101,9 +101,10 @@ export class AppComponent {
   }
 
   private getCategories() {
-    this.catService.getResource( this.catService.host + "/categories")
+    this.catService.getResource( this.catService.host + "/api/product/categories")
       .subscribe(data=>{
         this.categories=data;
+        console.log("HHJJUURRRZZZZ", this.categories);
 
       },err=>{
         console.log(err);
