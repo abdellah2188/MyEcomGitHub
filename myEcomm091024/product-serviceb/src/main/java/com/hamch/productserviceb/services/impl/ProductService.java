@@ -1,25 +1,22 @@
 package com.hamch.productserviceb.services.impl;
 
 
-import com.hamch.productserviceb.repository.ProductRepository;
-import com.hamch.productserviceb.entities.Category;
-import com.hamch.productserviceb.entities.Product;
-import com.hamch.productserviceb.services.ICrudService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hamch.productserviceb.dto.ProductDTO;
+import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.mapper.ProductMapper;
+import com.hamch.productserviceb.repository.ProductRepository;
+import com.hamch.productserviceb.services.ICrudService;
 
 
 @Service
@@ -66,10 +63,8 @@ public  class ProductService implements ICrudService <Product, Long>{
      //@Override
     @Cacheable (value = "selectedProductsCache", key = "'selectedProducts'", unless = "#result.isEmpty()")
     public List<ProductDTO> getSelectedProducts() {
-        //return productRepository.findBySelectedIsTrue();
-
         List<Product> selectedProducts = productRepository.findBySelectedIsTrue();
-    
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbb"+ productMapper.fromListProducts(selectedProducts));
         return productMapper.fromListProducts(selectedProducts);
     }
 

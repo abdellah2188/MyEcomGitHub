@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,10 +28,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hamch.productserviceb.dto.CategoryDTO;
 import com.hamch.productserviceb.dto.ProductDTO;
 import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.ProductRepository;
+import com.hamch.productserviceb.services.impl.CategoryService;
 import com.hamch.productserviceb.services.impl.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +46,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductController  {
 
     @Autowired
+    private  CategoryService categoryService;
+    @Autowired
     private ProductService service;
     @Autowired
     private final ProductRepository productRepository;
 
 
-    public ProductController(ProductService service, ProductRepository productRepository){
+    public ProductController(ProductService service, ProductRepository productRepository, CategoryService categoryService){
         this.service= service;
         this.productRepository= productRepository;
+        this.categoryService = categoryService;
     }
 
 
@@ -70,14 +74,19 @@ public class ProductController  {
         return service.getProductsByCategory(id);
     }
 
+    @GetMapping("/categories")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CategoryDTO> getAll() {
+        List<CategoryDTO> categoriesDTO = categoryService.getAllCategories();
+        System.out.println("oooooooooooooooooooooo"+ categoriesDTO);
+        return categoriesDTO;
+    }
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/products/search/selectedProducts")
     public List<ProductDTO> getSelectedProducts() {
-        System.out.println("TTTTTTTTTTTTTxxxxxxxxxxxxxxxx");
         List<ProductDTO> productsDTO = service.getSelectedProducts();
-        System.out.println("MMMMMMMMMMxxxxxxxxxxxxxxxxx" + productsDTO);
-        
-        return service.getSelectedProducts();
+        System.out.println("ooooooooooooooooooooooo" + productsDTO);
+        return productsDTO;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -274,6 +283,8 @@ public class ProductController  {
         System.out.println("hhhhhhhhhhh");
         return (List<Product>) productRepository.findAll();
     }
+
+
 
     /*@PostMapping
     @ResponseStatus(HttpStatus.CREATED)
