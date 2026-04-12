@@ -1,5 +1,7 @@
 package com.hamch.productserviceb.dto;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hamch.productserviceb.entities.Category;
 
@@ -12,8 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter @Builder @ToString
-public class ProductDTO {
-
+public class ProductDTO implements Serializable {
     private Long id;
     private String name;
     private String description;

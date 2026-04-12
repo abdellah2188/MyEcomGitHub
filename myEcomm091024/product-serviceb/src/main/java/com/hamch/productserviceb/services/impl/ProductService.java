@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,34 @@ public  class ProductService implements ICrudService <Product, Long>{
 
         return productMapper.fromListProducts(products);
     }
+
+    @Cacheable(value = "photoCache", key = "#id", unless = "#result == null")
+    public ProductDTO getPhoto(long id) {
+    
+        System.out.println("QQQQQQQQQQQQQQQQQQQQQ");
+        Product product = productRepository.findById(id).orElse(null);
+        System.out.println("ssssssssssssssssssssssss" + productMapper.fromProduct(product));
+        return productMapper.fromProduct(product);
+    }
+
+    @Cacheable(value = "productByIdCache", key = "#id", unless = "#result == null")
+    public ProductDTO getProductById(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return productMapper.fromProduct(product);
+    }
+
+    @CachePut(value = "updateProductDTOCache", key = "#pDTO.id", unless = "#result == null")
+    public Product upProductDTO(ProductDTO pDTO) {
+        Product p = productMapper.fromProductDTO(pDTO);
+        System.out.println("Updatingggggggggggg product: " + p);
+        return productRepository.save(p);
+    }
+
+    @Override
+    public void upProduct( Product entity) {
+
+    	productRepository.save(entity);
+    }
    /*
     @Override
     public List getAll() {
@@ -108,11 +137,6 @@ public  class ProductService implements ICrudService <Product, Long>{
         paymentRepository.save(entity);
     }*/
 
-    @Override
-    public void upProduct( Product entity) {
-    	
-    	productRepository.save(entity);
-    }
     /*
     @Override
     public void delete(Object o) {
@@ -128,4 +152,5 @@ public  class ProductService implements ICrudService <Product, Long>{
     public void delete(String id) {
 
     }*/
+
 }

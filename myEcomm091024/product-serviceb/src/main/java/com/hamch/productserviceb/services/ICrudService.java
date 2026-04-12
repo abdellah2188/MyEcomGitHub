@@ -11,6 +11,6 @@ public interface ICrudService<T, ID> {
     void addWithFile(Product entity, MultipartFile file) throws IOException;
 
     void delete(ID id);
-	void upProduct( Product entity);
+	void upProduct(Product entity);
 
 }

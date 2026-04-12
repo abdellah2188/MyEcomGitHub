@@ -12,25 +12,17 @@ import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 //@Document(value = "product")
 
-@ToString
-@Setter
-@EqualsAndHashCode
-@Getter
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Data @Builder@ToString @Setter @Getter @Entity @AllArgsConstructor @NoArgsConstructor
 @Table(name="product")
-@Data
-@Builder
+
 public class Product implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +38,13 @@ public class Product implements Serializable {
     private long stock;
     @Transient
     private final int quantity=0;
+    @JsonBackReference
     @ManyToOne
     private Category category;
+    public Product orElse(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElse'");
+    }
 
        
 }

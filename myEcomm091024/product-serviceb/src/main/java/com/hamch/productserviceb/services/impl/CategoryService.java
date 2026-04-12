@@ -4,6 +4,7 @@ package com.hamch.productserviceb.services.impl;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,9 +49,11 @@ public  class CategoryService implements ICrudService <Category, Long>{
 	}
 
     //@Override
+
+    @Cacheable(value = "categories", key = "'allCategories'", unless = "#result == null || #result.isEmpty()")
     public List<CategoryDTO> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbb"+ categoryMapper.fromListCategories(categories));
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbb" + categoryMapper.fromListCategories(categories));
         return categoryMapper.fromListCategories(categories);
     }
 

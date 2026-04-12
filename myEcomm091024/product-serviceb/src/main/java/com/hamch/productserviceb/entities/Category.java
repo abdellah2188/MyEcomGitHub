@@ -15,19 +15,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-@Builder
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@Data @Builder @ToString @Entity @AllArgsConstructor @NoArgsConstructor  @Getter @Setter
 @Table(name="category")
-//@Component
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Category implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
+   // @JsonManagedReference
     private Collection<Product> products;
-    public Category(Map<?, ?> category) {
-    }
+    // public Category(Map<?, ?> category) {
+    // }
 }
