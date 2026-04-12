@@ -123,9 +123,13 @@ export class ProductsComponent implements OnInit {
         console.log(err);
       })
   }
-  private refreshUpdatedProduct() {
-    this.catService.getResource(this.currentProduct._links.self.href)
+  public refreshUpdatedProduct() {
+    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY00000");
+    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYxx", this.currentProduct);
+   // this.catService.getResource(this.currentProduct._links.self.href)
+      this.catService.getResource(this.currentProduct)
       .subscribe(data=>{
+        console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY-1-1-1", data);
         // @ts-ignore
         this.currentProduct.photoName=data['photoName'];
       },err=>{
@@ -147,17 +151,21 @@ export class ProductsComponent implements OnInit {
     this.currentFileUpload = this.selectedFiles?.item(0)
     this.catService.uploadPhotoProduct(this.currentFileUpload, this.currentProduct.id).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
+        console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY1111", this.currentProduct);
          if (event.total) {
-           const total: number = event.total;
-           this.progress = Math.round(100 * event.loaded / total);
-		   this.refreshUpdatedProduct();
+            console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY22222", this.currentProduct);
+            const total: number = event.total;
+            this.progress = Math.round(100 * event.loaded / total);
+
+		        this.refreshUpdatedProduct();
          }
       } else if (event instanceof HttpResponse) {
+        console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY33333", this.currentRequest);
         //console.log(this.router.url);
-		    this.refreshUpdatedProduct();
-        this.getProducts({url: this.currentRequest});
+		     this.refreshUpdatedProduct();
+         this.getProducts({url: this.currentRequest});
        
-        this.currentTime=Date.now();
+         this.currentTime=Date.now();
       }
     },err=>{
       alert("Loading problem ...");
@@ -182,13 +190,16 @@ export class ProductsComponent implements OnInit {
     return this.currentTime;
   }
 
-  onProductDetails(p: Product) {
+  onProductDetails(p:Product) {
     console.log("PPPPPPP", p);
-        let url= btoa(p._links.product.href);
-    console.log(p._links.category,"BBBBBBBBBBBBBBB", p._links.product.href);
+    //    let url= btoa(p._links.product.href);
+    let url=btoa(this.host+"/api/product/products/"+p.id);
+    console.log("ppppppp", url);
+   // console.log(p._links.category,"BBBBBBBBBBBBBBB", p._links.product.href);
 
     this.router.navigateByUrl("/product/"+url);
-	this.refreshUpdatedProduct();
+    //  this.router.navigateByUrl(url);
+	  this.refreshUpdatedProduct();
   }
 
   /*hasRoleUser(){

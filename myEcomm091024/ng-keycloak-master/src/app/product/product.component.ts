@@ -47,14 +47,16 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.host= this.catalService.host;
-    let url=atob(this.route.snapshot.params.url);
+    //let url=atob(this.route.snapshot.params.url);
+    let url=this.route.snapshot.params.url;
+    console.log("WWWWWWWWWWWWWWWW",atob(url));
 
-    let idProduct: string = url.substring(35, 50);
+    /* let idProduct: string = url.substring(35, 50);
 
     console.log("SSSSSSSSSSSSSS",idProduct);
     this.url=this.host+"/products/"+idProduct;
     
-    console.log(url, "UUUUUUUUUUUxx",  this.url);
+    console.log(url, "UUUUUUUUUUUxx",  this.url); */
     let pr = this.route.snapshot.params.url;
     console.log("RRLL", atob(pr));
     
@@ -68,10 +70,10 @@ export class ProductComponent implements OnInit {
     }else {
       console.log("RXXXXXXXXXXXXXXXXX", this.mode);
 
-      this.catalService.getProduct({url: this.url}).subscribe(
+      this.catalService.getProduct({url: url}).subscribe(
         data => {
           this.currentProduct = data;
-              console.log("TTTTTTTTT", data.id);
+              console.log("TTTTTTTTT", data);
         }, err => {
           console.log(err);
         })
@@ -82,7 +84,7 @@ export class ProductComponent implements OnInit {
   }
 
   private getCategories() {
-    this.catalService.getResource(  "http://localhost:8080/product-serviceb/categories")
+    this.catalService.getResource(  "http://localhost:8080/product-serviceb/api/product/categories")
       .subscribe(data=>{
         this.categories=data;
         console.log("CCCCTTT", this.categories)

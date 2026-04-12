@@ -114,7 +114,7 @@
 			@if (selectedCategory) {
 <option  [value]="selectedCategory">{{selectedCategory.name}}</option>
 }
-          @for (category of categories._embedded.categories; track category) {
+          @for (category of categories; track category) {
 <option [ngValue]="category" >{{category.name}}</option>
 }
         </select>
@@ -196,7 +196,7 @@
           <label for="inputCategory" class="control-label">Select category:</label>
 
           <select name="category" id="inputCategory" ngModel  style="width: 100%" required>
-            @for (category of categories._embedded.categories; track category) {
+            @for (category of categories; track category) {
 <option [ngValue]="category">{{category.name}}</option>
 }
           </select>

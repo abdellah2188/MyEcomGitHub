@@ -20,7 +20,7 @@ export class CatalogueService {
   }
   
   public getProduct({url}: { url: any }):Observable<Product> {
-    console.log("MMMMMMMMMMMMMMM", url);
+    console.log("MMMMMMMMMMMMMMMiiiiiiiiiiiiii", atob(url), "eeeeeeeee", this.http.get<Product>(url) );
     return this.http.get<Product>(url);
 
   }
