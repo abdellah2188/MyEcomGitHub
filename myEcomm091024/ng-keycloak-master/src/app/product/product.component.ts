@@ -48,8 +48,8 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.host= this.catalService.host;
     //let url=atob(this.route.snapshot.params.url);
-    let url=this.route.snapshot.params.url;
-    console.log("WWWWWWWWWWWWWWWW",atob(url));
+   // let url=this.route.snapshot.params.url;
+    //console.log("WWWWWWWWWWWWWWWW",atob(url));
 
     /* let idProduct: string = url.substring(35, 50);
 
@@ -58,25 +58,31 @@ export class ProductComponent implements OnInit {
     
     console.log(url, "UUUUUUUUUUUxx",  this.url); */
     let pr = this.route.snapshot.params.url;
-    console.log("RRLL", atob(pr));
-    
+    let cp = this.route.snapshot.params.currentProduct;
+    console.log("RRLL", (pr));
+    console.log("RRLL", cp);
 
 
     if(pr=="product") {
-      this.mode = 2;
+      this.mode=2;
       console.log("YYYYYYYYYYYYYYYYY", this.mode);
       //console.log("LLRRLL", this.mode);
       //this.addProduct();
-    }else {
+    }
+    else  {
+      this.mode=1;
       console.log("RXXXXXXXXXXXXXXXXX", this.mode);
+      console.log("RXXXXXXXXXXXXXXXXX", cp);
 
-      this.catalService.getProduct({url: url}).subscribe(
+      this.currentProduct=JSON.parse(decodeURIComponent(cp));
+      console.log("PPPPPPPPPPPPPPPPP", this.currentProduct); 
+      /* this.catalService.getProduct({url: url}).subscribe(
         data => {
           this.currentProduct = data;
               console.log("TTTTTTTTT", data);
         }, err => {
           console.log(err);
-        })
+        }) */
     }
 
     this.getCategories();

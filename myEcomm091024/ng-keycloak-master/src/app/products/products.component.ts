@@ -193,13 +193,15 @@ export class ProductsComponent implements OnInit {
   onProductDetails(p:Product) {
     console.log("PPPPPPP", p);
     //    let url= btoa(p._links.product.href);
-    let url=btoa(this.host+"/api/product/products/"+p.id);
-    console.log("ppppppp", url);
+    //let url=btoa(this.host+"/api/product/products/"+currentProduct.id);
+    //console.log("ppppppp", url);
    // console.log(p._links.category,"BBBBBBBBBBBBBBB", p._links.product.href);
-
-    this.router.navigateByUrl("/product/"+url);
+    
+    const currentProduct = encodeURIComponent(JSON.stringify(p));
+    console.log("PPPPPPP", currentProduct);
+    this.router.navigateByUrl("/product/"+currentProduct);
     //  this.router.navigateByUrl(url);
-	  this.refreshUpdatedProduct();
+	  //this.refreshUpdatedProduct();
   }
 
   /*hasRoleUser(){

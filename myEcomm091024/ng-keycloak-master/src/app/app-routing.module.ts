@@ -32,7 +32,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
        data: { roles: ["ADMIN"] }
     },
-  {path:'product/:url', component:ProductComponent},
+  {path:'product/:currentProduct', component:ProductComponent},
   {path:'product/product', component:ProductComponent},
   {path:'payment/:orderID', component:PaymentComponent,
     canActivate: [AuthGuard],

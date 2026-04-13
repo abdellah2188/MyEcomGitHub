@@ -60,6 +60,9 @@
               <div class="card-group">
                 <label class="control-label">Stock: {{p.stock}}</label>
               </div>
+              <div class="card-group">
+                <label class="control-label">Categoryyyy: {{p.category}}</label>
+              </div>
             }
             <div *ngIf!="authService.hasRoleIn(['ADMIN'])" class="card-group">
               <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)">

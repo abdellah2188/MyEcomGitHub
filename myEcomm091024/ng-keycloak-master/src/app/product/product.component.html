@@ -88,7 +88,7 @@
       </div>
     </div>
   </div>
-}
+  }
   @if (mode==1) {
 <div>
     <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
@@ -108,9 +108,9 @@
 	  
       @if (categories) {
 <div class="col-sm-10">
-        <label for="inputCategory" class="control-label">Select category:</label>
+        <label for="inputCategoryUP" class="control-label">Select category:</label>
 
-        <select name="category" id="inputCategory"  ngModel  [(ngModel)]="selectedCategory"  style="width: 40%" required>
+        <select name="category" id="inputCategoryUP"  ngModel  [(ngModel)]="selectedCategory"  style="width: 40%" required>
 			@if (selectedCategory) {
 <option  [value]="selectedCategory">{{selectedCategory.name}}</option>
 }
@@ -175,7 +175,7 @@
 	  		
     </form>
   </div>
-}
+  }
 </div>
 } @else {
 
@@ -193,7 +193,7 @@
         <br>
         @if (categories) {
 <div class="col-sm-10">
-          <label for="inputCategory" class="control-label">Select category:</label>
+          <label for="inputCategory" class="control-label">Select a category:</label>
 
           <select name="category" id="inputCategory" ngModel  style="width: 100%" required>
             @for (category of categories; track category) {
