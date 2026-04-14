@@ -3,6 +3,7 @@ package com.hamch.productserviceb.dto;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hamch.productserviceb.entities.Category;
 
 import jakarta.persistence.ManyToOne;
@@ -27,6 +28,7 @@ public class ProductDTO implements Serializable {
     @Transient
     private final int quantity=0;
     @ManyToOne
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnoreProperties("products")
     private Category category;  
 }

@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -31,8 +32,8 @@ public class Category implements Serializable {
     private String name;
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-   // @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnoreProperties("category")
     private Collection<Product> products;
-    // public Category(Map<?, ?> category) {
-    // }
+    
 }

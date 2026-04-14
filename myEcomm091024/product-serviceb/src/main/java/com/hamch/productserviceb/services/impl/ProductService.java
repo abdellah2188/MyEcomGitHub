@@ -65,7 +65,7 @@ public  class ProductService implements ICrudService <Product, Long>{
     @Cacheable (value = "selectedProductsCache", key = "'selectedProducts'", unless = "#result.isEmpty()")
     public List<ProductDTO> getSelectedProducts() {
         List<Product> selectedProducts = productRepository.findBySelectedIsTrue();
-        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbb"+ productMapper.fromListProducts(selectedProducts));
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbb"+ selectedProducts);
         return productMapper.fromListProducts(selectedProducts);
     }
 

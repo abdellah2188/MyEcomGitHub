@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //@Document(value = "product")
 
@@ -38,13 +39,9 @@ public class Product implements Serializable {
     private long stock;
     @Transient
     private final int quantity=0;
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnoreProperties("products")
     @ManyToOne
     private Category category;
-    public Product orElse(Object object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'orElse'");
-    }
-
-       
+           
 }
