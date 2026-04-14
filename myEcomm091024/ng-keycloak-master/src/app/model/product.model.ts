@@ -1,5 +1,3 @@
-import { Category } from "./category.model";
-
 export interface Product{
   id:number;
   name:string;
@@ -11,6 +9,16 @@ export interface Product{
   photoName:string;
   quantity:number;
   stock: number;
-  category:Category
-  
+  _links:{
+    self:{
+      href:string;
+    },
+    product:{
+      href:string;
+    },
+    category:{
+      href:string
+    }
+  }
+
 }
