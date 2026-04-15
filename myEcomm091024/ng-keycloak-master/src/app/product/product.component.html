@@ -108,12 +108,14 @@
 	  
       @if (categories) {
 <div class="col-sm-10">
-        <label for="inputCategoryUP" class="control-label">Select category:</label>
+        <label for="inputCategoryUP" class="control-label">Select a categoryy:</label>
 
-        <select name="category" id="inputCategoryUP"  ngModel  [(ngModel)]="selectedCategory"  style="width: 40%" required>
-			@if (selectedCategory) {
+        <select name="category" id="inputCategoryUP"  ngModel  [(ngModel)]="currentProduct.category"  style="width: 40%" required>
+			<option  [value]="currentProduct.category">{{currentProduct.category.name}}</option>
+
+         <!--  @if (selectedCategory) {
 <option  [value]="selectedCategory">{{selectedCategory.name}}</option>
-}
+} -->
           @for (category of categories; track category) {
 <option [ngValue]="category" >{{category.name}}</option>
 }
@@ -193,7 +195,7 @@
         <br>
         @if (categories) {
 <div class="col-sm-10">
-          <label for="inputCategory" class="control-label">Select a category:</label>
+          <label for="inputCategory" class="control-label">Select a Categoryyyy:</label>
 
           <select name="category" id="inputCategory" ngModel  style="width: 100%" required>
             @for (category of categories; track category) {

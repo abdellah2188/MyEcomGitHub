@@ -17,9 +17,9 @@ import { Category } from '../model/category.model';
 
 export class ProductsComponent implements OnInit {
 
-   public products: any;
+   public products: Product[] | undefined;
    editPhoto: boolean | undefined;
-   currentProduct: any;
+   currentProduct: Product | undefined;
    selectedFiles: { item: (arg0: number) => any; } | undefined;
    progress: number | undefined;
    currentFileUpload: any;
@@ -111,13 +111,13 @@ export class ProductsComponent implements OnInit {
   }
 
   private getProducts({url}: { url: any }) {
-	  console.log("IIIIIIIIIIIIIII", this.catService.host+url);
+    console.log("IIIIIIIIIIIIIII", this.catService.host+url);
 
-	  this.products=null;
+    //this.products=null;
     //this.catService.getResource(this.catService.host+url)
     this.catService.getResource(this.catService.host+url)
-      .subscribe(data=>{
-        this.products=data;
+      .subscribe((data: any) => {
+        this.products = data;
         console.log("PPPPPPPPPPPPPPPPxxxxxxxxxxxxxxxxxxx", this.products);
       },err=>{
         console.log(err);
@@ -127,17 +127,22 @@ export class ProductsComponent implements OnInit {
     console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY00000");
     console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYxx", this.currentProduct);
    // this.catService.getResource(this.currentProduct._links.self.href)
-      this.catService.getResource(this.currentProduct)
+    if (!this.currentProduct || this.currentProduct.id == null) {
+      console.warn("refreshUpdatedProduct: no currentProduct or id to refresh");
+      return;
+    }
+    const url = this.catService.host + '/api/product/products/' + this.currentProduct.id;
+    this.catService.getResource(url)
       .subscribe(data=>{
         console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY-1-1-1", data);
         // @ts-ignore
-        this.currentProduct.photoName=data['photoName'];
+        this.currentProduct!.photoName = data['photoName'];
       },err=>{
         console.log(err);
       })
   }
 
-  onEditPhoto(p: object) {
+  onEditPhoto(p: Product) {
     this.currentProduct=p;
     this.editPhoto=true;
   }
@@ -149,6 +154,17 @@ export class ProductsComponent implements OnInit {
   uploadPhoto() {
     this.progress = 0;
     this.currentFileUpload = this.selectedFiles?.item(0)
+
+    // Guard: ensure a file is selected and a current product with an id exists
+    if (!this.currentFileUpload) {
+      alert("No file selected.");
+      return;
+    }
+    if (!this.currentProduct || this.currentProduct.id == null) {
+      alert("No product selected.");
+      return;
+    }
+
     this.catService.uploadPhotoProduct(this.currentFileUpload, this.currentProduct.id).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY1111", this.currentProduct);
@@ -157,12 +173,12 @@ export class ProductsComponent implements OnInit {
             const total: number = event.total;
             this.progress = Math.round(100 * event.loaded / total);
 
-		        this.refreshUpdatedProduct();
+            this.refreshUpdatedProduct();
          }
       } else if (event instanceof HttpResponse) {
         console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY33333", this.currentRequest);
         //console.log(this.router.url);
-		     this.refreshUpdatedProduct();
+         this.refreshUpdatedProduct();
          this.getProducts({url: this.currentRequest});
        
          this.currentTime=Date.now();
@@ -198,10 +214,10 @@ export class ProductsComponent implements OnInit {
    // console.log(p._links.category,"BBBBBBBBBBBBBBB", p._links.product.href);
     
     const currentProduct = encodeURIComponent(JSON.stringify(p));
-    console.log("PPPPPPP", currentProduct);
+    console.log("PPPPPPPccccccccccccc", currentProduct);
     this.router.navigateByUrl("/product/"+currentProduct);
     //  this.router.navigateByUrl(url);
-	  //this.refreshUpdatedProduct();
+	  this.refreshUpdatedProduct();
   }
 
   /*hasRoleUser(){

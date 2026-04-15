@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
   form?: NgForm;
   //private product = new Product('','','', '', '', '', '', null, null, null);
 
-  public currentProduct?: any;
+  public currentProduct?: Product;
   private selectedFiles: any;
   progress: number | undefined;
   currentFileUpload: any;
@@ -247,7 +247,7 @@ export class ProductComponent implements OnInit {
   }
 
   onUpdateProduct( product: Product ) {
-    console.log("ppppmmmm",product);
+    /* console.log("ppppmmmm",product);
     // this.product= data;
      let url=this.currentProduct?._links.self.href;
     // console.log("uuuuu", url);
@@ -260,15 +260,15 @@ export class ProductComponent implements OnInit {
      console.log(product, "OOOOOOOOOOOOOOOOOOO",  this.url);
 
     this.productService.upProduct( product)
-      .subscribe(d=>{
-        this.currentProduct=d;
+      .subscribe((d: any) => {
+        this.currentProduct = d as Product;
         console.log("hhhhhhhhhh",this.currentProduct);
         this.mode=1;
       },err=>{
         console.log(err);
-      })
+      }) */
   }
-  onUpdateProductB( p: Product ) {
+  /* onUpdateProductB( p: Product ) {
     //console.log("ppppmmmm",data);
     this.product= p;
     let url=this.currentProduct?._links.self.href;
@@ -282,14 +282,14 @@ export class ProductComponent implements OnInit {
     console.log(this.product, "OOOOOOOOOOOOOOOOOOO",  this.url);
 
     this.catalService.patchResource(this.url,   this.product)
-      .subscribe(d=>{
-        this.currentProduct=d;
+      .subscribe((d: any) => {
+        this.currentProduct = d as Product;
         console.log("hhhhhhhhhh",this.currentProduct);
         this.mode=0;
       },err=>{
         console.log(err);
       })
-  }
+  } */
   isAdmin() {
     console.log("ZZZZZZZZa", this.authService.hasRoleIn(['ADMIN']));
     return  this.authService.hasRoleIn(['ADMIN']);
