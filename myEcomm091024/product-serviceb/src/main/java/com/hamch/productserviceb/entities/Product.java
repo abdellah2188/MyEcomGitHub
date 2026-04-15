@@ -17,13 +17,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 //@Document(value = "product")
 
 @Data @Builder@ToString @Setter @Getter @Entity @AllArgsConstructor @NoArgsConstructor
 @Table(name="product")
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +41,7 @@ public class Product implements Serializable {
     private long stock;
     @Transient
     private final int quantity=0;
-    //@JsonBackReference
+    @JsonBackReference
     @JsonIgnoreProperties("products")
     @ManyToOne
     private Category category;

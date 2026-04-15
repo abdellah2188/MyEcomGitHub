@@ -20,14 +20,13 @@ import lombok.ToString;
 
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter @Builder @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CategoryDTO implements Serializable {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-    @JsonManagedReference
+    //@JsonManagedReference
     @JsonIgnoreProperties("category") 
     private Collection<Product> products;
 }

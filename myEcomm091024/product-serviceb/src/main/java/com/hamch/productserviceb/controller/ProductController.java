@@ -72,7 +72,8 @@ public class ProductController {
 
         System.out.println("EEEEEEEEEEEEEEEEEEnnnnnnnnnnnnnnn" + productsDTO);
 
-        return service.getProductsByCategory(id);
+        //return service.getProductsByCategory(id);
+        return productsDTO;
     }
 
     @GetMapping("/categories")

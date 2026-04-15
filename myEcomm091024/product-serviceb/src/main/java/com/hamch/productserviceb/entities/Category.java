@@ -32,7 +32,7 @@ public class Category implements Serializable {
     private String name;
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-    //@JsonManagedReference
+    @JsonManagedReference
     @JsonIgnoreProperties("category")
     private Collection<Product> products;
     
