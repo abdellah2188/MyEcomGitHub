@@ -290,7 +290,7 @@ spring.datasource.password=
 
 npm install keycloak-angular keycloak-js
 
-./kc.sh start-dev --http-port=8180
+kc start-dev --http-port=8180
 
 kc.bat start-dev --http-port=8180
 
