@@ -13,6 +13,10 @@ export class CatalogueService {
 
   constructor(private http:HttpClient) { }
 
+  public getCategoryByProductID(id: any){
+    return this.http.get(this.host+'/api/product/getCategoryByProductID/'+id);
+  }
+
   public getResource(url: string){
      console.log("nnnnnnnnnnnnnnnn", url);
 

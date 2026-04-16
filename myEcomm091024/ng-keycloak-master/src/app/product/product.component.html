@@ -111,7 +111,7 @@
         <label for="inputCategoryUP" class="control-label">Select a categoryy:</label>
 
         <select name="category" id="inputCategoryUP"  ngModel  [(ngModel)]="currentProduct.category"  style="width: 40%" required>
-			<option  [value]="currentProduct.category">{{currentProduct.category.name}}</option>
+			<option  [value]="currentProduct.category">{{currentProduct.category.id}}</option>
 
          <!--  @if (selectedCategory) {
 <option  [value]="selectedCategory">{{selectedCategory.name}}</option>

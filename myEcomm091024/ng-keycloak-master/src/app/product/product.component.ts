@@ -36,6 +36,8 @@ export class ProductComponent implements OnInit {
   public host!: string;
   public url: any;
   public selectedCategory!: Category;
+  category: any;
+  categoryName: any;
 
   constructor(private router:Router, private route:ActivatedRoute,
               public catalService:CatalogueService,
@@ -75,14 +77,14 @@ export class ProductComponent implements OnInit {
       console.log("RXXXXXXXXXXXXXXXXX", cp);
 
       this.currentProduct=JSON.parse(decodeURIComponent(cp));
-      console.log("PPPPPPPPPPPPPPPPP", this.currentProduct); 
-      /* this.catalService.getProduct({url: url}).subscribe(
+      console.log("PPPPPPPPPPPPPPPPP", this.currentProduct?.id); 
+      this.catalService.getCategoryByProductID(this.currentProduct?.id).subscribe(
         data => {
-          this.currentProduct = data;
-              console.log("TTTTTTTTT", data);
+          this.categoryName = data;
+              console.log("cccaatttnnnaaammmmeee", this.categoryName);
         }, err => {
           console.log(err);
-        }) */
+        }) 
     }
 
     this.getCategories();
@@ -90,7 +92,7 @@ export class ProductComponent implements OnInit {
   }
 
   private getCategories() {
-    this.catalService.getResource(  "http://localhost:8080/product-serviceb/api/product/categories")
+    this.catalService.getResource("http://localhost:8080/product-serviceb/api/product/categories")
       .subscribe(data=>{
         this.categories=data;
         console.log("CCCCTTT", this.categories)
