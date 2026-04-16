@@ -137,6 +137,12 @@ public  class ProductService implements ICrudService <Product, Long>{
         paymentRepository.save(entity);
     }*/
 
+    public String getCategoryByProductID(Long id) {
+        return productRepository.findById(id)
+                .map(product -> product.getCategory().getName())
+                .orElse(null);
+    }
+
     /*
     @Override
     public void delete(Object o) {

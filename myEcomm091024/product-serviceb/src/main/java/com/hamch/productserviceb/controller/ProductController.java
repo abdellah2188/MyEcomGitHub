@@ -75,6 +75,16 @@ public class ProductController {
         //return service.getProductsByCategory(id);
         return productsDTO;
     }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/getCategoryByProductID/{id}")
+    public String getCategoryByProductID(@PathVariable Long id) {
+            System.out.println("cccaaatttnnnaaammmeee" + id);
+            String categoryName = service.getCategoryByProductID(id);
+            System.out.println("cccaaatttnnnaaammmeee" + categoryName); 
+        return service.getCategoryByProductID(id);
+    }
+    
 
     @GetMapping("/categories")
     @ResponseStatus(HttpStatus.OK)
