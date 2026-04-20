@@ -1,3 +1,9 @@
+
+Depuis Docker exec console
+/ # consul kv export  | Out-File -FilePath "D:\Java091024\consul_kv.json"
+Ds le dossier de destination
+consul kv import @kvConsul 
+
 Paramètre > système > avancé > espace développeurs
 
 <dependency>
