@@ -5,14 +5,12 @@ import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.repository.CategoryRepository;
 import com.hamch.productserviceb.repository.ProductRepository; */
 //import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,11 +26,13 @@ import java.util.Random;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.Type; */
 
-@SpringBootApplication
+//@SpringBootApplication
 @EnableDiscoveryClient
 @Configurable
 @EnableJpaRepositories
 @EnableCaching
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
+
 public class ProductServicebApplication implements CommandLineRunner {
 	//@Autowired
 	//private ProductRepository productRepository;

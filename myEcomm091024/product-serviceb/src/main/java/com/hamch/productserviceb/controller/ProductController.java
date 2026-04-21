@@ -3,6 +3,7 @@ package com.hamch.productserviceb.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +32,7 @@ import com.hamch.productserviceb.dto.CategoryDTO;
 import com.hamch.productserviceb.dto.ProductDTO;
 import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
-import com.hamch.productserviceb.mapper.ProductMapper;
+//import com.hamch.productserviceb.mapper.ProductMapper;
 import com.hamch.productserviceb.repository.ProductRepository;
 import com.hamch.productserviceb.services.impl.CategoryService;
 import com.hamch.productserviceb.services.impl.ProductService;
@@ -46,20 +47,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductController {
 
     // @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
     // @Autowired
-    private ProductService service;
+    private final ProductService service;
     // @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
     // @Autowired
-    private ProductMapper productMapper;
 
     public ProductController(ProductService service, ProductRepository productRepository,
             CategoryService categoryService) {
         this.service = service;
         this.productRepository = productRepository;
         this.categoryService = categoryService;
-        this.productMapper = productMapper;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -75,16 +74,16 @@ public class ProductController {
         //return service.getProductsByCategory(id);
         return productsDTO;
     }
-    
+
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/getCategoryByProductID/{id}")
-    public String getCategoryByProductID(@PathVariable Long id) {
-            System.out.println("cccaaatttnnnaaammmeee" + id);
-            String categoryName = service.getCategoryByProductID(id);
-            System.out.println("cccaaatttnnnaaammmeee" + categoryName); 
-        return service.getCategoryByProductID(id);
+    @GetMapping("/X/Y/Z")
+    public CategoryDTO getCategoryByProductID() {
+            System.out.println("cccaaatttnnnaaammmeee" );
+            //CategoryDTO categoryDTO = service.getCategoryByProductID(id);
+            //System.out.println("cccaaatttnnnaaammmeee" + categoryDTO);
+        //return categoryDTO;
+        return null;
     }
-    
 
     @GetMapping("/categories")
     @ResponseStatus(HttpStatus.OK)
@@ -156,7 +155,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    Product isInStock(@PathVariable Long id) {
+    public Product isInStock(@PathVariable Long id) {
         System.out.println("TTTTTTTTTTTTT");
         log.info("Checking stock for product with id - " + id);
         Product product = productRepository.findById(id)
@@ -166,8 +165,8 @@ public class ProductController {
         // return inventory;
     }
 
-    @GetMapping("/products/{id2})")
-    Object fincCategory(@PathVariable("id2") Long id2) throws ParseException {
+    @GetMapping("/products/{id2}")
+    public Object findCategory(@PathVariable("id2") Long id2) throws ParseException {
         System.out.println("GGGGGGGGGGG" + id2);
         // int ID =(id);
         // Optional<Product> p = productRepository.findById(id);
@@ -175,7 +174,7 @@ public class ProductController {
 
         System.out.println(p + "JJJJJJJJJJJJJJ" + p.get().getCategory().getName());
 
-        JSONParser jsonP = new JSONParser();
+        //JSONParser jsonP = new JSONParser();
 
         Category cat = p.get().getCategory();
 
@@ -199,7 +198,7 @@ public class ProductController {
             @RequestParam("file") MultipartFile file)
             throws IOException, org.apache.tomcat.util.json.ParseException, ParseException {
 
-        System.out.println(prod + "RRRRRRRRR" + file.getBytes());
+        System.out.println(prod + "RRRRRRRRR" + Arrays.toString(file.getBytes()));
         Product product = new Product();
 
         JSONParser jsonP = new JSONParser();
@@ -210,7 +209,8 @@ public class ProductController {
         JSONObject categ = (JSONObject) pro.get("category");
         System.out.println("GGGG" + categ.get("id"));
 
-        JSONObject cat = new JSONObject((Map) categ);
+        //JSONObject cat = new JSONObject((Map) categ);
+        JSONObject cat = new JSONObject((Map<?, ?>) categ);
         System.out.println("JJJJJ" + cat);
 
         Category category = new Category();

@@ -37,4 +37,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @RestResource
     public List<Product> findByCategoryId(Long id);
 
+    //public Category findCategoryByProductId(Long id);
+
 }

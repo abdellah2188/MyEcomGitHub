@@ -13,9 +13,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hamch.productserviceb.dto.CategoryDTO;
 import com.hamch.productserviceb.dto.ProductDTO;
+import com.hamch.productserviceb.entities.Category;
 import com.hamch.productserviceb.entities.Product;
 import com.hamch.productserviceb.mapper.ProductMapper;
+import com.hamch.productserviceb.mapper.CategoryMapper;
+import com.hamch.productserviceb.repository.CategoryRepository;
 import com.hamch.productserviceb.repository.ProductRepository;
 import com.hamch.productserviceb.services.ICrudService;
 
@@ -24,17 +28,18 @@ import com.hamch.productserviceb.services.ICrudService;
 @Primary
 public  class ProductService implements ICrudService <Product, Long>{
 
-    public ProductService(ProductMapper productMapper) {
-        this.productMapper = productMapper;
-    }
+   
     @Autowired
     private ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    private final ProductMapper productMapper;    
-          
-    @Override
-    public void add(Product entity) {
+    private final ProductMapper productMapper;  
+    private final CategoryMapper categoryMapper;  
 
+    public ProductService(ProductMapper productMapper, CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
+        this.productMapper = productMapper;
+        this.categoryMapper = categoryMapper;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -110,6 +115,8 @@ public  class ProductService implements ICrudService <Product, Long>{
         return productMapper.fromProduct(product);
     }
 
+    
+
     @CachePut(value = "updateProductDTOCache", key = "#pDTO.id", unless = "#result == null")
     public Product upProductDTO(ProductDTO pDTO) {
         Product p = productMapper.fromProductDTO(pDTO);
@@ -137,12 +144,13 @@ public  class ProductService implements ICrudService <Product, Long>{
         paymentRepository.save(entity);
     }*/
 
-    public String getCategoryByProductID(Long id) {
-        return productRepository.findById(id)
-                .map(product -> product.getCategory().getName())
-                .orElse(null);
+    @Override
+    public void add(Product entity) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 
+    
     /*
     @Override
     public void delete(Object o) {

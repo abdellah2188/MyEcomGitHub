@@ -27,6 +27,11 @@ public  class CategoryService implements ICrudService <Category, Long>{
     //@Autowired
     private final CategoryRepository categoryRepository;
 
+    public CategoryDTO getCategoryByProductID(Long id) {
+        Category category = categoryRepository.findCategoryByProductId(id);
+        return categoryMapper.fromCategory(category);
+    }
+
     @Override
     public void add(Category category) {
          categoryRepository.save(category);
