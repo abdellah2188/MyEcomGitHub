@@ -38,6 +38,7 @@ export class ProductComponent implements OnInit {
   public selectedCategory!: Category;
   category: any;
   categoryName: any;
+  categoryPr!: Category;
 
   constructor(private router:Router, private route:ActivatedRoute,
               public catalService:CatalogueService,
@@ -80,8 +81,8 @@ export class ProductComponent implements OnInit {
       console.log("PPPPPPPPPPPPPPPPP", this.currentProduct?.id); 
       this.catalService.getCategoryByProductID(this.currentProduct?.id).subscribe(
         data => {
-          this.categoryName = data;
-              console.log("cccaatttnnnaaammmmeee", this.categoryName);
+          this.categoryPr = data;
+              console.log("cccaatttnnnaaammmmeee", this.categoryPr);
         }, err => {
           console.log(err);
         }) 
@@ -249,17 +250,17 @@ export class ProductComponent implements OnInit {
   }
 
   onUpdateProduct( product: Product ) {
-    /* console.log("ppppmmmm",product);
+    console.log("ppppmmmm",product);
     // this.product= data;
-     let url=this.currentProduct?._links.self.href;
+    // let url=this.currentProduct?._links.self.href;
     // console.log("uuuuu", url);
 
-     let idProduct: string = url.substring(35, 50);
+    // let idProduct: string = url.substring(35, 50);
 
     // console.log("GGGGGGGGGGGG",this.product);
-     this.url=this.host+"/products/"+idProduct;
+     //this.url=this.host+"/products/"+idProduct;
     
-     console.log(product, "OOOOOOOOOOOOOOOOOOO",  this.url);
+     //console.log(product, "OOOOOOOOOOOOOOOOOOO",  this.url);
 
     this.productService.upProduct( product)
       .subscribe((d: any) => {
@@ -268,7 +269,7 @@ export class ProductComponent implements OnInit {
         this.mode=1;
       },err=>{
         console.log(err);
-      }) */
+      })
   }
   /* onUpdateProductB( p: Product ) {
     //console.log("ppppmmmm",data);

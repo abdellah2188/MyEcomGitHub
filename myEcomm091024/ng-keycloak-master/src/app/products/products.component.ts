@@ -31,10 +31,13 @@ export class ProductsComponent implements OnInit {
   //private roles: string[];
  // private keycloak: any;
   private cat!: any;
-  private cat2!: any;
+  public cat2!: any;
   public host: any;
   public size=1;
   public category: Category | undefined;
+  public categoryL: Category | undefined;
+  public categoryName: any;
+
   constructor(
     public productService: ProductService,
     public catService:CatalogueService,
@@ -119,10 +122,30 @@ export class ProductsComponent implements OnInit {
       .subscribe((data: any) => {
         this.products = data;
         console.log("PPPPPPPPPPPPPPPPxxxxxxxxxxxxxxxxxxx", this.products);
+        this.products!.forEach(p => {
+            // load and assign category asynchronously
+            this.loadCategory(p.id, p);
+       });
       },err=>{
         console.log(err);
       })
   }
+
+  public loadCategory(id: any, product?: Product): void {
+
+    this.categoryName = "";
+    console.log("IIIIIIIIvvvvvvvvvvvvIIIIIII", id);
+    this.catService.getCategoryByProductID(id).subscribe(
+      data => {
+        this.category = data;
+        if (product) {
+          product.category = data;
+        }
+        console.log("cccaatttnnnaaammmeeexxxxx", this.category.name);
+      }
+    );
+  }
+
   public refreshUpdatedProduct() {
     console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY00000");
     console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYxx", this.currentProduct);
@@ -217,7 +240,7 @@ export class ProductsComponent implements OnInit {
     console.log("PPPPPPPccccccccccccc", currentProduct);
     this.router.navigateByUrl("/product/"+currentProduct);
     //  this.router.navigateByUrl(url);
-	  this.refreshUpdatedProduct();
+	  //this.refreshUpdatedProduct();
   }
 
   /*hasRoleUser(){

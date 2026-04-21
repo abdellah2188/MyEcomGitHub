@@ -102,8 +102,8 @@
       </div>
 	  
 	  <div class="form-group">
-		  <img name="photoName" [(ngModel)]="currentProduct.photoName" class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
-	 	 <input type="file" name="photoName" ngModel [(ngModel)]="currentProduct.photoName" class="form-control" >
+		  <img name="photoName" [(ngModel)]="currentProduct!.photoName" class="img-thumbnail" [src]="this.host+'/api/product/photoProduct/'+currentProduct.id+'?ts='+getTS()"/>
+	 	 <input type="file" name="photoName" ngModel [(ngModel)]="currentProduct!.photoName" class="form-control" >
 	  </div>
 	  
       @if (categories) {
@@ -111,14 +111,14 @@
         <label for="inputCategoryUP" class="control-label">Select a categoryy:</label>
 
         <select name="category" id="inputCategoryUP"  ngModel  [(ngModel)]="currentProduct.category"  style="width: 40%" required>
-			<option  [value]="currentProduct.category">{{currentProduct.category.id}}</option>
+			  <option  [value]="currentProduct.category">{{currentProduct.category.name}}</option>
 
          <!--  @if (selectedCategory) {
 <option  [value]="selectedCategory">{{selectedCategory.name}}</option>
 } -->
-          @for (category of categories; track category) {
-<option [ngValue]="category" >{{category.name}}</option>
-}
+      @for (category of categories; track category) {
+        <option [ngValue]="category" >{{category.name}}</option>
+      }
         </select>
 		<br>
 <!--		Selected value is {{selectedCategory.id}}-->

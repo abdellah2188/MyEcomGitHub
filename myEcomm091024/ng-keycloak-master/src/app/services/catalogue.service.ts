@@ -3,6 +3,7 @@ import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import {observable, Observable} from 'rxjs';
 import {Order} from '../model/Order.model';
 import {Product} from "../model/product.model";
+import { Category } from '../model/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,11 @@ export class CatalogueService {
 
   constructor(private http:HttpClient) { }
 
-  public getCategoryByProductID(id: any){
-    return this.http.get(this.host+'/api/product/getCategoryByProductID/'+id);
+  public getCategoryByProductID(id: any):Observable<Category> {
+    let url = this.host+'/api/category/categoryByProductID/'+id;
+    //let url = this.host+'/api/product/X/Y/Z';
+    console.log("RRRRRRRRRRR", url);
+    return this.http.get<Category>(url);
   }
 
   public getResource(url: string){
