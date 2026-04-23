@@ -1,3 +1,5 @@
+javaAutoConfig.enabled
+
 
 Depuis Docker exec console
 / # consul kv export  | Out-File -FilePath "D:\Java091024\consul_kv.json"
