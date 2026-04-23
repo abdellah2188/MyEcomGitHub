@@ -1,21 +1,32 @@
 package com.hamch.apigatewayservice;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-@SpringBootApplication
+import reactor.netty.Connection;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+import reactor.netty.udp.UdpServer;
+
+import java.sql.SQLOutput;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+//@SpringBootApplication
 @EnableDiscoveryClient
+@SpringBootApplication(scanBasePackages = "org.springframework.security.oauth2.jwt")
 public class ApiGatewayServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayServiceApplication.class, args);
