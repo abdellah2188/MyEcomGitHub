@@ -1,5 +1,6 @@
 javaAutoConfig.enabled
 
+docker run -d --name mon-rabbit -p 5673:5672 -p 15673:15672 rabbitmq:management
 
 Depuis Docker exec console
 / # consul kv export  | Out-File -FilePath "D:\Java091024\consul_kv.json"
