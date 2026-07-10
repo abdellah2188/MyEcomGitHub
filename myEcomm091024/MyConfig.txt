@@ -1,4 +1,5 @@
 
+
 Cette erreur signifie que votre terminal de commande (rabbitmqctl) n'arrive pas à s'authentifier auprès du serveur RabbitMQ car ils n'utilisent pas le même Erlang Cookie (une clé de sécurité secrète).Sous Windows, le serveur RabbitMQ (qui tourne en tant que service système SYSTEM) et votre utilisateur actuel (A.HAMCH) possèdent deux fichiers de cookies différents. Ils doivent être strictement identiques.Voici comment synchroniser vos cookies pour débloquer les commandes sous Windows :Étape 1 : Copier le cookie du serveurLe cookie officiel et valide est celui utilisé par le service Windows. Vous devez le récupérer :Ouvrez votre explorateur de fichiers et allez dans : C:\Windows\System32\config\systemprofile (Windows va vous demander une autorisation d'administrateur, validez).Repérez le fichier nommé .erlang.cookie.Copiez ce fichier.Étape 2 : Écraser le cookie de votre utilisateurIl faut maintenant coller ce fichier dans votre répertoire utilisateur pour que le terminal l'utilise :Allez dans votre dossier utilisateur : C:\Users\A.HAMCH (comme indiqué dans vos logs : effective user's home directory).Collez le fichier .erlang.cookie ici pour remplacer celui qui s'y trouve.Étape 3 : Exécuter la réparation du VhostFermez votre invite de commande actuelle, réouvrez un nouveau terminal en mode Administrateur, puis relancez les commandes de réparation :
 cmd 
 rabbitmqctl delete_vhost /
@@ -416,6 +417,7 @@ SSO google?
 routes dynamiques
 kubernates
 Prometheus 
+Swagger
 
 
 GitHup cred:
