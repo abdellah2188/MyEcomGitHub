@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.hamch.orderserviceb.model.Product;
 import com.hamch.orderserviceb.security.SecurityConfig;
 
-@FeignClient(name = "product-serviceb", url = "${product-serviceb.url}",configuration = {SecurityConfig.class})
+@FeignClient(name = "product-serviceb", url = "${product-serviceb.url}", configuration = { SecurityConfig.class })
 public interface ProductRestClientService {
     @GetMapping("/products/{id}?projection=fullProduct")
     public Product productById(@PathVariable Long id);
 
-    @GetMapping("/products/{id}")
-    public Product isInStock(@PathVariable Long id);
+    @GetMapping("/api/product/products/{id}/{quantity}")
+    public Product isInStock(@PathVariable Long id, @PathVariable int quantity);
 
     @PutMapping("/products/{id}/{stock}")
     public Product productUpStock(@PathVariable Long id, int stock);

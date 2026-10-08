@@ -1,11 +1,22 @@
 package com.hamch.orderserviceb.entities;
 
-import com.hamch.orderserviceb.model.Customer;
-import lombok.*;
-
-import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+
+import com.hamch.orderserviceb.model.Customer;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 //@Table(name = "t_orders")
@@ -22,6 +33,7 @@ public class Order {
     private Long id;
     private Date date;
     @OneToMany(mappedBy = "order")
+    @ToString.Exclude
     private Collection<OrderItem> orderItems;
     //@Column(name = "customerId")
     private Long customerId;

@@ -1,23 +1,23 @@
 package com.hamch.orderserviceb;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-/////////////////import org.springframework.cloud.sleuth.instrument.async.TraceableExecutorService;
-import org.springframework.context.annotation.Bean;
-//import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.concurrent.ExecutorService;
+import lombok.RequiredArgsConstructor;
+import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 
-import java.util.concurrent.Executors;
-
+@EnableCaching
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
 @RequiredArgsConstructor
+@EnableScheduling
+@EnableSchedulerLock(defaultLockAtMostFor = "10m")
 public class OrderServicebApplication {
     private final BeanFactory beanFactory;
     public static void main(String[] args) {

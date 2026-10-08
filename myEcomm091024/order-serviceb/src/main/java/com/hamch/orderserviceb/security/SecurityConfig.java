@@ -9,12 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +27,7 @@ public class SecurityConfig {
     	 System.out.println("TTTTTTTTTTTTTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         return http
                 .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(ar->ar.requestMatchers( "/actuator/**").permitAll())
                 .authorizeHttpRequests(ar->ar.requestMatchers( "/api/order/**").hasAuthority("USER"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
